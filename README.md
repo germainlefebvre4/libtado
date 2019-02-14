@@ -18,9 +18,22 @@ Please check out https://libtado.readthedocs.io for more documentation.
 
 ## Preparation
 
-Retrieve your `CLIENT_SECRET` before running the script otherwise you will get a `401 Unauthorized Access`.
+Retrieve the `CLIENT_SECRET` before running the script otherwise you will get a `401 Unauthorized Access`.
 
-To get your `CLIENT_SECRET` enable the Developper Mode when logging in and catch the Headers. You will find the form data like this :
+The latest `CLIENT_SECRET` can be found at [https://my.tado.com/webapp/env.js](https://my.tado.com/webapp/env.js).  It will look something like this:
+
+```
+var TD = {
+	config: {
+		version: 'v588',
+		oauth: {
+			clientSecret: 'wZaRN7rpjn3FoNyF5IFuxg9uMzYJcvOoQ8QWiIqS3hfk6gLhVlG57j5YNoZL2Rtc'
+		}
+	}
+};
+```
+
+An alternative way to get your `CLIENT_SECRET` is to enable the Developper Mode when logging in and catch the Headers. You will find the form data like this :
 ```
 client_id: tado-web-app
 client_secret: fndskjnjzkefjNFRNkfKJRNFKRENkjnrek
@@ -31,8 +44,6 @@ username: email@example.com
 ```
 
 Then you just have to get the value in the attribute `client_secret`. You will need it to connect to your account through Tado APIs. The `client_secret` never dies so you can base your script on it.
-
-*Your `CLIENT_SECRET` must be kept secret.*
 
 ## Usage
 
