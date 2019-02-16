@@ -662,3 +662,17 @@ class Tado:
   def end_manual_control(self, zone):
     """End the manual control of a zone."""
     data = self._api_call('homes/%i/zones/%i/overlay' % (self.id, zone), method='DELETE')
+
+    
+  def get_report(self, zone, date):
+    """
+    Args:
+      zone (int): The zone ID.
+      date (str): The date in ISO8601 format. e.g. "2019-02-14"
+
+    Returns:
+      dict: The daily report.
+
+    """
+    data = self._api_call('homes/%i/zones/%i/dayReport?date=%s' % (self.id, zone, date))
+    return data
