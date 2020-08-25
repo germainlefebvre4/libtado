@@ -15,12 +15,30 @@ pull requests.
 
 .. toctree::
    :maxdepth: 2
+   :titlesonly:
+   :caption: Getting started
 
-   api
-   cli
+   installation
+   usage
+
+.. toctree::
+   :maxdepth: 2
+   :titlesonly:
+   :caption: Class methods
+
+   api-usage
+   api-methods
+   api-examples
+
+.. toctree::
+   :maxdepth: 2
+   :titlesonly:
+   :caption: Command Line Client
+
+   cli-usage
+   cli-examples
 
 
-************
 Installation
 ************
 
@@ -29,12 +47,10 @@ Installation
   pip install libtado
 
 
-*****
 Usage
 *****
 
 After you installed libtado you can easily test it by using the included
-:ref:`command line client <cli>` like this:
 
 .. code-block:: bash
 
@@ -48,15 +64,15 @@ To use the library in your own code you can start with this:
   t = tado.api('Username', 'Password')
   print(t.get_me())
 
-Check out :ref:`all available API methods <api>` to learn what you can to with
+Check out `all available API methods <api>` to learn what you can to with
 libtado.
 
-*******
+
 License
 *******
 
 
-  Copyright (C) 2017  Max Rosin
+  Copyright (C) 2020  Germain Lefebvre, Max Rosin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -72,10 +88,9 @@ License
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-**********
 References
 **********
 
 .. target-notes::
 .. _`tado GmbH`: https://www.tado.com
-.. _GitHub: https://github.com/ekeih/libtado
+.. _GitHub: https://github.com/germainlefebvre4/libtado

@@ -1,10 +1,7 @@
-.. _cli:
-
-=======================
-The Command Line Client
+Command Line Client
 =======================
 
-::
+.. code-blocks::
 
   Usage: tado [OPTIONS] COMMAND [ARGS]...
 
