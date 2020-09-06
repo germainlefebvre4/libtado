@@ -1,0 +1,39 @@
+name: Release master branch
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Semantic Release Config
+        run: |
+          echo '{
+                   "tagFormat":"v${version}",
+                   "plugins": [
+                      "@semantic-release/commit-analyzer",
+                      "@semantic-release/release-notes-generator",
+                      "@semantic-release/changelog",
+                      "@semantic-release/github"
+                   ]
+                }
+          '> .releaserc
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v2
+        id: semantic
+        with:
+          branches: 'master'
+          semantic_version: 17.1.1
+          extra_plugins: |
+            @semantic-release/commit-analyzer@8.0.1
+            @semantic-release/release-notes-generator@9.0.0
+            @semantic-release/changelog@5.0.0
+            @semantic-release/github@7.0.7
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
