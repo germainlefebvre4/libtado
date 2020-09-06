@@ -39,6 +39,7 @@ class Tado:
   headers        = { 'Referer' : 'https://my.tado.com/' }
   access_headers = headers
   api            = 'https://my.tado.com/api/v2'
+  api_acme       = 'https://acme.tado.com/v1'
 
   def __init__(self, username, password, secret):
     self.username = username
@@ -75,6 +76,23 @@ class Tado:
       return self.session.get(url, headers=self.access_headers)
 
     url = '%s/%s' % (self.api, cmd)
+    if method == 'DELETE':
+      return call_delete(url)
+    elif method == 'PUT' and data:
+      return call_put(url, data).json()
+    elif method == 'GET':
+      return call_get(url).json()
+
+  def _api_acme_call(self, cmd, data=False, method='GET'):
+    """Perform an API call."""
+    def call_delete(url):
+      return self.session.delete(url, headers=self.access_headers)
+    def call_put(url, data):
+      return self.session.put(url, headers=self.access_headers, data=json.dumps(data))
+    def call_get(url):
+      return self.session.get(url, headers=self.access_headers)
+
+    url = '%s/%s' % (self.api_acme, cmd)
     if method == 'DELETE':
       return call_delete(url)
     elif method == 'PUT' and data:
@@ -676,3 +694,214 @@ class Tado:
     """
     data = self._api_call('homes/%i/zones/%i/dayReport?date=%s' % (self.id, zone, date))
     return data
+
+  def get_air_comfort(self):
+    """
+    Get all zones of your home.
+
+    Returns:
+      list: A list of dictionaries with all your zones.
+
+    Example
+    =======
+    ::
+
+      {
+          "freshness":{
+              "value":"FAIR",
+              "lastOpenWindow":"2020-09-04T10:38:57Z"
+          },
+          "comfort":[
+              {
+                  "roomId":1,
+                  "temperatureLevel":"COMFY",
+                  "humidityLevel":"COMFY",
+                  "coordinate":{
+                      "radial":0.36,
+                      "angular":323
+                  }
+              },
+              {
+                  "roomId":4,
+                  "temperatureLevel":"COMFY",
+                  "humidityLevel":"COMFY",
+                  "coordinate":{
+                      "radial":0.43,
+                      "angular":324
+                  }
+              }
+          ]
+      }
+    """
+    data = self._api_call('homes/%i/airComfort' % self.id)
+    return data
+
+  def get_air_comfort_geoloc(self, latitude, longitude):
+    """
+    Get all zones of your home.
+
+    Args:
+          latitude (float): The latitude of the home.
+          longitude (float): The longitude of the home.
+
+    Returns:
+      list: A dict of lists of dictionaries with all your rooms.
+
+    Example
+    =======
+    ::
+      {
+          "roomMessages":[
+              {
+                  "roomId":4,
+                  "message":"Bravo\u00a0! L\u2019air de cette pi\u00e8ce est proche de la perfection.",
+                  "visual":"success",
+                  "link":null
+              },
+              {
+                  "roomId":1,
+                  "message":"Continuez \u00e0 faire ce que vous faites\u00a0! L'air de cette pi\u00e8ce est parfait.",
+                  "visual":"success",
+                  "link":null
+              }
+          ],
+          "outdoorQuality":{
+              "aqi":{
+                  "value":81,
+                  "level":"EXCELLENT"
+              },
+              "pollens":{
+                  "dominant":{
+                      "level":"LOW"
+                  },
+                  "types":[
+                      {
+                          "localizedName":"Gramin\u00e9es",
+                          "type":"GRASS",
+                          "localizedDescription":"Poaceae",
+                          "forecast":[
+                              {
+                                  "localizedDay":"Auj.",
+                                  "date":"2020-09-06",
+                                  "level":"NONE"
+                              },
+                              {
+                                  "localizedDay":"Lun",
+                                  "date":"2020-09-07",
+                                  "level":"NONE"
+                              },
+                              {
+                                  "localizedDay":"Mar",
+                                  "date":"2020-09-08",
+                                  "level":"NONE"
+                              }
+                          ]
+                      },
+                      {
+                          "localizedName":"Herbac\u00e9es",
+                          "type":"WEED",
+                          "localizedDescription":"Armoise, Ambroisie, Pari\u00e9taire",
+                          "forecast":[
+                              {
+                                  "localizedDay":"Auj.",
+                                  "date":"2020-09-06",
+                                  "level":"NONE"
+                              },
+                              {
+                                  "localizedDay":"Lun",
+                                  "date":"2020-09-07",
+                                  "level":"NONE"
+                              },
+                              {
+                                  "localizedDay":"Mar",
+                                  "date":"2020-09-08",
+                                  "level":"NONE"
+                              }
+                          ]
+                      },
+                      {
+                          "localizedName":"Arbres",
+                          "type":"TREE",
+                          "localizedDescription":"Aulne, Fr\u00eane, Bouleau, Noisetier, Cypr\u00e8s, Olivier",
+                          "forecast":[
+                              {
+                                  "localizedDay":"Auj.",
+                                  "date":"2020-09-06",
+                                  "level":"NONE"
+                              },
+                              {
+                                  "localizedDay":"Lun",
+                                  "date":"2020-09-07",
+                                  "level":"NONE"
+                              },
+                              {
+                                  "localizedDay":"Mar",
+                                  "date":"2020-09-08",
+                                  "level":"NONE"
+                              }
+                          ]
+                      }
+                  ]
+              },
+              "pollutants":[
+                  {
+                      "localizedName":"Mati\u00e8re particulaire",
+                      "scientificName":"PM<sub>10</sub>",
+                      "level":"EXCELLENT",
+                      "concentration":{
+                          "value":8.75,
+                          "units":"\u03bcg/m<sup>3</sup>"
+                      }
+                  },
+                  {
+                      "localizedName":"Mati\u00e8re particulaire",
+                      "scientificName":"PM<sub>2.5</sub>",
+                      "level":"EXCELLENT",
+                      "concentration":{
+                          "value":5.04,
+                          "units":"\u03bcg/m<sup>3</sup>"
+                      }
+                  },
+                  {
+                      "localizedName":"Ozone",
+                      "scientificName":"O<sub>3</sub>",
+                      "level":"EXCELLENT",
+                      "concentration":{
+                          "value":23.86,
+                          "units":"ppb"
+                      }
+                  },
+                  {
+                      "localizedName":"Dioxyde de soufre",
+                      "scientificName":"SO<sub>2</sub>",
+                      "level":"EXCELLENT",
+                      "concentration":{
+                          "value":1.19,
+                          "units":"ppb"
+                      }
+                  },
+                  {
+                      "localizedName":"Monoxyde de carbone",
+                      "scientificName":"CO",
+                      "level":"EXCELLENT",
+                      "concentration":{
+                          "value":266.8,
+                          "units":"ppb"
+                      }
+                  },
+                  {
+                      "localizedName":"Dioxyde d'azote",
+                      "scientificName":"NO<sub>2</sub>",
+                      "level":"EXCELLENT",
+                      "concentration":{
+                          "value":5.76,
+                          "units":"ppb"
+                      }
+                  }
+              ]
+          }
+      }
+    """
+    data = self._api_acme_call('homes/%i/airComfort?latitude=%f&longitude=%f' % (self.id, latitude, longitude))
+    return data
+
