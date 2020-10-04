@@ -11,6 +11,10 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: Pytest
+        run:
+          pytest tests/test_*.py -v
+
       - name: Semantic Release Config
         run: |
           echo '{
