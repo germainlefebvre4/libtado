@@ -90,5 +90,9 @@ ENV/
 .ropeproject
 
 # Custom
+.vscode
+.pytest_cache
 test.py
 gitchangelog.py
+.test.env
+.env

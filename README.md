@@ -67,3 +67,26 @@ print(t.get_state(1))
 An example script is provided in the repository as `example.py`.
 It shows you how to use the library and expose some structured responses. A more detailed example is available in `libtado/__main__.py`.
 
+
+## Development
+
+### Environment setup
+Setup your local develoopment environment.
+```bash
+pipenv update --dev
+```
+
+### Run unit tests
+Prepare your dotenv file called `.test.env` as following:
+```ini
+TADO_USERNAME="myUserName"
+TADO_PASSWORD="myPassword"
+TADO_SECRET="tadoClientSecret"
+```
+*An example is given in `.tpl.test.env` file.*
+
+
+Run the unit tests through your interpreter (mine is Pipenv):
+```bash
+pipenv run pytest tests/test_* -v
+```
