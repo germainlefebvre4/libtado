@@ -2,6 +2,8 @@
 
 import click
 import libtado.api
+import requests
+import re
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
@@ -18,7 +20,9 @@ def main(ctx, username, password):
 
   Call 'tado COMMAND --help' to see available options for subcommands.
   """
-  ctx.obj = libtado.api.Tado(username, password)
+
+  secret = get_secret()
+  ctx.obj = libtado.api.Tado(username, password, secret)
 
 
 @main.command()
@@ -158,3 +162,19 @@ def set_temperature(tado, zone, temperature, termination):
 def end_manual_control(tado, zone):
   """End manual control of a zone."""
   tado.end_manual_control(zone)
+
+
+def get_secret():
+  url = "https://my.tado.com/webapp/env.js"
+
+  r = requests.get(url, stream=True)
+  for line in r.iter_lines():
+    if "clientSecret: " in line:
+      m = re.search("'(.+?)'", line)
+      if m:
+        secret = m.group(1)
+        return secret
+
+  return None
+       
+ 
