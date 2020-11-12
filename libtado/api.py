@@ -38,6 +38,7 @@ import requests
 class Tado:
   headers        = { 'Referer' : 'https://my.tado.com/' }
   access_headers = headers
+  json_content   = { 'Content-Type': 'application/json'}
   api            = 'https://my.tado.com/api/v2'
   api_acme       = 'https://acme.tado.com/v1'
 
@@ -71,7 +72,7 @@ class Tado:
     def call_delete(url):
       return self.session.delete(url, headers=self.access_headers)
     def call_put(url, data):
-      return self.session.put(url, headers=self.access_headers, data=json.dumps(data))
+      return self.session.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data))
     def call_get(url):
       return self.session.get(url, headers=self.access_headers)
 
@@ -88,7 +89,7 @@ class Tado:
     def call_delete(url):
       return self.session.delete(url, headers=self.access_headers)
     def call_put(url, data):
-      return self.session.put(url, headers=self.access_headers, data=json.dumps(data))
+      return self.session.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data))
     def call_get(url):
       return self.session.get(url, headers=self.access_headers)
 
