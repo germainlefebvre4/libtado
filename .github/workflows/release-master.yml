@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - chore/release-pypi
 
 jobs:
   release:
@@ -28,7 +27,7 @@ jobs:
         uses: cycjimmy/semantic-release-action@v2
         id: semantic
         with:
-          branches: 'main'
+          branches: 'master'
           semantic_version: 17.2.2
           extra_plugins: |
             @semantic-release/commit-analyzer@8.0.1
