@@ -32,9 +32,9 @@ jobs:
           dry_run: true
           branches: |
             [
-              'chore/release-pypi',
+              'chore/release-pypi'
             ]
-          semantic_version: 17.1.1
+          semantic_version: 17.2.2
           extra_plugins: |
             @semantic-release/commit-analyzer@8.0.1
             @semantic-release/release-notes-generator@9.0.0
@@ -52,6 +52,10 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: '3.7'
+    - name: echo
+      run: |
+        echo ${{ steps.semantic.outputs.new_release_version }}
+        sed "s/^\( *version=\).*/\1'${{ steps.semantic.outputs.new_release_version }}',/g" setup.py
     - name: Update package version
       run: |
         sed -i "s/^\( *version=\).*/\1'${{ steps.semantic.outputs.new_release_version }}',/g" setup.py
