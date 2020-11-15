@@ -54,11 +54,11 @@ jobs:
         python-version: '3.7'
     - name: echo
       run: |
-        echo ${{ steps.semantic.outputs.new_release_version }}
-        sed "s/^\( *version=\).*/\1'${{ steps.semantic.outputs.new_release_version }}',/g" setup.py
+        echo ${{ jobs.release.steps.semantic.outputs.new_release_version }}
+        sed "s/^\( *version=\).*/\1'${{ jobs.release.steps.semantic.outputs.new_release_version }}',/g" setup.py
     - name: Update package version
       run: |
-        sed -i "s/^\( *version=\).*/\1'${{ steps.semantic.outputs.new_release_version }}',/g" setup.py
+        sed -i "s/^\( *version=\).*/\1'${{ jobs.release.steps.semantic.outputs.new_release_version }}',/g" setup.py
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
