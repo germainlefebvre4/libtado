@@ -43,30 +43,47 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: set release_version
+        id: set_release_version
+        uses: noobly314/share-data@v1
+        with:
+          share-id: release_version
+          mode: set
+          key: version
+          value: ${{ steps.semantic.outputs.new_release_version }}
+
+
   deploy:
     needs: release
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Set up Python
-      uses: actions/setup-python@v1
-      with:
-        python-version: '3.7'
-    - name: echo
-      run: |
-        echo ${{ jobs.release.steps.semantic.outputs.new_release_version }}
-        sed "s/^\( *version=\).*/\1'${{ jobs.release.steps.semantic.outputs.new_release_version }}',/g" setup.py
-    - name: Update package version
-      run: |
-        sed -i "s/^\( *version=\).*/\1'${{ jobs.release.steps.semantic.outputs.new_release_version }}',/g" setup.py
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install setuptools wheel twine
-    - name: Build and publish
-      env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: |
-        python setup.py sdist bdist_wheel
-        twine upload dist/*
+      - uses: actions/checkout@v1
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.7'
+      - name: get release_version
+        id: release_version
+        uses: noobly314/share-data@v1
+        with:
+          share-id: release_version
+          mode: get
+          key: version
+      - name: echo
+        run: |
+          echo ${{ steps.release_version.outputs.data }}
+          sed "s/^\( *version=\).*/\1'${{ steps.release_version.outputs.data }}',/g" setup.py
+      - name: Update package version
+        run: |
+          sed -i "s/^\( *version=\).*/\1'${{ steps.release_version.outputs.data }}',/g" setup.py
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install setuptools wheel twine
+      - name: Build and publish
+        env:
+          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        run: |
+          python setup.py sdist bdist_wheel
+          twine upload dist/*
