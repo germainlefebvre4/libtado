@@ -6,6 +6,7 @@ on:
     - feat/*
     - fix/*
     - chore/*
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -31,9 +32,7 @@ jobs:
           dry_run: true
           branches: |
             [
-              'feat/*',
-              'fix/*',
-              'chore/*',
+              'chore/release-pypi',
             ]
           semantic_version: 17.1.1
           extra_plugins: |
