@@ -7,7 +7,7 @@ your smart thermostats.
 
 Example:
   import tado.api
-  t = tado.api('Username', 'Password')
+  t = tado.api('Username', 'Password', 'ClientSecret')
   print(t.get_me())
 
 Disclaimer:

@@ -1,0 +1,21 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+libtado = {editable = true, path = "."}
+sphinx = "*"
+sphinx-rtd-theme = "*"
+sphinx-notfound-page = "*"
+python-dotenv = "*"
+pytest = "*"
+pytest-dotenv = "*"
+
+
+[packages]
+click = "*"
+requests = "*"
+
+[requires]
+python_version = "3"

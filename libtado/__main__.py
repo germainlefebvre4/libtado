@@ -8,17 +8,18 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 @click.group(context_settings=CONTEXT_SETTINGS)
 @click.option('--username', '-u', required=True, envvar='TADO_USERNAME', help='Tado username')
 @click.option('--password', '-p', required=True, envvar='TADO_PASSWORD', help='Tado password')
+@click.option('--client-secret', '-c', required=True, envvar='TADO_CLIENT_SECRET', help='Tado client secret')
 @click.pass_context
-def main(ctx, username, password):
+def main(ctx, username, password, client_secret):
   """
   This script provides a command line client for the Tado API.
 
-  You can use the environment variables TADO_USERNAME and TADO_PASSWORD
-  instead of the command line options.
+  You can use the environment variables TADO_USERNAME, TADO_PASSWORD and
+  TADO_CLIENT_SECRET instead of the command line options.
 
   Call 'tado COMMAND --help' to see available options for subcommands.
   """
-  ctx.obj = libtado.api.Tado(username, password)
+  ctx.obj = libtado.api.Tado(username, password, client_secret)
 
 
 @main.command()
