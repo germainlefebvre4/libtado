@@ -83,6 +83,10 @@ jobs:
           share-id: release_published
           mode: get
           key: version
+      - name:
+        run: |
+          echo ${{ steps.release_version.outputs.data }}
+          echo ${{ steps.release_published.outputs.data }}
       - name: Update package version
         run: |
           echo ${{ steps.release_version.outputs.data }}
