@@ -31,7 +31,7 @@ jobs:
         with:
           branches: |
             [
-              'chore/release-pypi'
+              'chore/pytest'
             ]
           semantic_version: 17.2.2
           extra_plugins: |
