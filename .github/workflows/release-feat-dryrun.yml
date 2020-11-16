@@ -88,12 +88,12 @@ jobs:
           echo ${{ steps.release_version.outputs.data }}
           sed "s/^\( *version=\).*/\1'${{ steps.release_version.outputs.data }}',/g" setup.py
           sed -i "s/^\( *version=\).*/\1'${{ steps.release_version.outputs.data }}',/g" setup.py
-        when: ${{ steps.release_published.outputs.data }}
+        if: ${{ steps.release_published.outputs.data }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install setuptools wheel twine
-        when: ${{ steps.release_published.outputs.data }}
+        if: ${{ steps.release_published.outputs.data }}
       - name: Build and publish
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
@@ -101,4 +101,4 @@ jobs:
         run: |
           python setup.py sdist bdist_wheel
           twine upload --repository testpypi dist/*
-        when: ${{ steps.release_published.outputs.data }}
+        if: ${{ steps.release_published.outputs.data }}
