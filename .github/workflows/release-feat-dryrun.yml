@@ -56,7 +56,7 @@ jobs:
         with:
           share-id: release_published
           mode: set
-          key: version
+          key: is_published
           value: ${{ steps.semantic.outputs.new_release_published }}
 
 
@@ -83,7 +83,11 @@ jobs:
         with:
           share-id: release_published
           mode: get
-          key: version
+          key: is_published
+      - name: echo passing variables
+        run: |
+          echo release_version=${{ steps.release_version.outputs.data }}
+          echo release_published=${{ steps.release_published.outputs.data }}
 
       - name: Update package version
         run: |
