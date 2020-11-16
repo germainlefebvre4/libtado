@@ -1,0 +1,3 @@
+
+class TestTado:
+    pass

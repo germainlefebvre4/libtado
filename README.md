@@ -67,3 +67,20 @@ print(t.get_state(1))
 An example script is provided in the repository as `example.py`.
 It shows you how to use the library and expose some structured responses. A more detailed example is available in `libtado/__main__.py`.
 
+## Development
+
+### Setup
+```bash
+sudo apt update
+sudo apt install python3.7 python3.7-pip
+sudo pip install pipenv
+pipenv update --dev
+```
+
+### Run application
+Follow the indications in sectio [Usage](#usage).
+
+### Run tests
+```bash
+pipenv run pytest tests/
+```
