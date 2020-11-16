@@ -50,6 +50,14 @@ jobs:
           mode: set
           key: version
           value: ${{ steps.semantic.outputs.new_release_version }}
+      - name: set release_published
+        id: set_release_published
+        uses: noobly314/share-data@v1
+        with:
+          share-id: release_published
+          mode: set
+          key: version
+          value: ${{ steps.semantic.outputs.new_release_published }}
 
 
   deploy:
@@ -68,17 +76,24 @@ jobs:
           share-id: release_version
           mode: get
           key: version
-      - name: echo
+      - name: get release_published
+        id: release_published
+        uses: noobly314/share-data@v1
+        with:
+          share-id: release_published
+          mode: get
+          key: version
+      - name: Update package version
         run: |
           echo ${{ steps.release_version.outputs.data }}
           sed "s/^\( *version=\).*/\1'${{ steps.release_version.outputs.data }}',/g" setup.py
-      - name: Update package version
-        run: |
           sed -i "s/^\( *version=\).*/\1'${{ steps.release_version.outputs.data }}',/g" setup.py
+        when: ${{ steps.release_published.outputs.data }}
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install setuptools wheel twine
+        when: ${{ steps.release_published.outputs.data }}
       - name: Build and publish
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
@@ -86,3 +101,4 @@ jobs:
         run: |
           python setup.py sdist bdist_wheel
           twine upload --repository testpypi dist/*
+        when: ${{ steps.release_published.outputs.data }}
