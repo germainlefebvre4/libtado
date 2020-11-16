@@ -69,6 +69,7 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: '3.7'
+          
       - name: get release_version
         id: release_version
         uses: noobly314/share-data@v1
@@ -83,21 +84,18 @@ jobs:
           share-id: release_published
           mode: get
           key: version
-      - name:
-        run: |
-          echo ${{ steps.release_version.outputs.data }}
-          echo ${{ steps.release_published.outputs.data }}
+
       - name: Update package version
         run: |
           echo ${{ steps.release_version.outputs.data }}
           sed "s/^\( *version=\).*/\1'${{ steps.release_version.outputs.data }}',/g" setup.py
           sed -i "s/^\( *version=\).*/\1'${{ steps.release_version.outputs.data }}',/g" setup.py
-        if: ${{ steps.release_published.outputs.data }}
+        if: ${{ steps.release_published.outputs.data }} == 'true'
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install setuptools wheel twine
-        if: ${{ steps.release_published.outputs.data }}
+        if: ${{ steps.release_published.outputs.data }} == 'true'
       - name: Build and publish
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
@@ -105,4 +103,4 @@ jobs:
         run: |
           python setup.py sdist bdist_wheel
           twine upload --repository testpypi dist/*
-        if: ${{ steps.release_published.outputs.data }}
+        if: ${{ steps.release_published.outputs.data }} == 'true'
