@@ -1,6 +1,7 @@
 #! /usr/bin/env python3
 
 import click
+import requests
 import libtado.api
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
@@ -8,7 +9,7 @@ CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 @click.group(context_settings=CONTEXT_SETTINGS)
 @click.option('--username', '-u', required=True, envvar='TADO_USERNAME', help='Tado username')
 @click.option('--password', '-p', required=True, envvar='TADO_PASSWORD', help='Tado password')
-@click.option('--client-secret', '-c', required=True, envvar='TADO_CLIENT_SECRET', help='Tado client secret')
+@click.option('--client-secret', '-c', required=False, envvar='TADO_CLIENT_SECRET', help='Tado client secret')
 @click.pass_context
 def main(ctx, username, password, client_secret):
   """
@@ -19,6 +20,8 @@ def main(ctx, username, password, client_secret):
 
   Call 'tado COMMAND --help' to see available options for subcommands.
   """
+  if not client_secret:
+    client_secret = get_secret()
   ctx.obj = libtado.api.Tado(username, password, client_secret)
 
 
@@ -159,3 +162,19 @@ def set_temperature(tado, zone, temperature, termination):
 def end_manual_control(tado, zone):
   """End manual control of a zone."""
   tado.end_manual_control(zone)
+
+
+def get_secret():
+  url = "https://my.tado.com/webapp/env.js"
+
+  try:
+    r = requests.get(url)
+    res = r.text.splitlines()
+    res2 = [x.strip() for x in res[1:-1] if "clientSecret" in x]
+    res3 = res2[0].split(" ")
+    client_secret = res3[1][1:-1]
+  except Exception as e:
+    print("Error on retrieving client_secret.")
+    return None
+
+  return client_secret
