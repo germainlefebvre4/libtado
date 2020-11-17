@@ -14,20 +14,22 @@ jobs:
       - name: Semantic Release Config
         run: |
           echo '{
-                   "tagFormat":"${version}",
-                   "plugins": [
-                      "@semantic-release/commit-analyzer",
-                      "@semantic-release/release-notes-generator",
-                      "@semantic-release/changelog",
-                      "@semantic-release/github"
-                   ]
-                }
-          '> .releaserc
+            "tagFormat":"${version}",
+            "plugins": [
+              "@semantic-release/commit-analyzer",
+              "@semantic-release/release-notes-generator",
+              "@semantic-release/changelog",
+              "@semantic-release/github"
+            ]
+          }'> .releaserc
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v2
         id: semantic
         with:
-          branches: 'master'
+          branches: |
+            [
+              "master"
+            ]
           semantic_version: 17.2.2
           extra_plugins: |
             @semantic-release/commit-analyzer@8.0.1
