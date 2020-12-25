@@ -512,9 +512,9 @@ class Tado:
       zone (int): The zone ID.
       schedule (int): The schedule to activate.
                       The supported zones are currently
-                       0: ONE_DAY
-                       1: THREE_DAY
-                       2: SEVEN_DAY
+                        * 0: ONE_DAY
+                        * 1: THREE_DAY
+                        * 2: SEVEN_DAY
                       But the actual mapping should be retrieved via get_schedule_timetables.
 
     Returns:
@@ -643,6 +643,7 @@ class Tado:
     Example
     =======
     ::
+
       {
          "terminationCondition": {
            "type": "TADO_MODE"
@@ -959,6 +960,7 @@ class Tado:
     Example
     =======
     ::
+    
       {
            "celsius": 0.0,
            "fahrenheit": 0.0
@@ -1030,8 +1032,8 @@ class Tado:
     Get all zones of your home.
 
     Args:
-          latitude (float): The latitude of the home.
-          longitude (float): The longitude of the home.
+      latitude (float): The latitude of the home.
+      longitude (float): The longitude of the home.
 
     Returns:
       list: A dict of lists of dictionaries with all your rooms.
@@ -1039,6 +1041,7 @@ class Tado:
     Example
     =======
     ::
+    
       {
           "roomMessages":[
               {

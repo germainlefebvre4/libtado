@@ -14,49 +14,25 @@ pull requests.
 
 
 .. toctree::
-   :maxdepth: 2
+    :caption: Getting-started
 
-   api
-   cli
+    usage
+    installation
 
+.. toctree::
+    :caption: Documentation
 
-************
-Installation
-************
-
-.. code-block:: bash
-
-  pip install libtado
+    cli
+    api
 
 
-*****
-Usage
-*****
 
-After you installed libtado you can easily test it by using the included
-:ref:`command line client <cli>` like this:
-
-.. code-block:: bash
-
-   tado --username USERNAME --password PASSWORD whoami
-
-To use the library in your own code you can start with this:
-
-.. code-block:: python
-
-  import tado.api
-  t = tado.api('Username', 'Password')
-  print(t.get_me())
-
-Check out :ref:`all available API methods <api>` to learn what you can to with
-libtado.
 
 *******
 License
 *******
 
-
-  Copyright (C) 2017  Max Rosin
+  Copyright (C) 2021  Germain Lefebvre, Max Rosin
 
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -78,4 +54,4 @@ References
 
 .. target-notes::
 .. _`tado GmbH`: https://www.tado.com
-.. _GitHub: https://github.com/ekeih/libtado
+.. _GitHub: https://github.com/germainlefebvre4/libtado

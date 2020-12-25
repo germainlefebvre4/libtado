@@ -1,7 +1,7 @@
 .. _cli:
 
 =======================
-The Command Line Client
+Command Line Client
 =======================
 
 ::
@@ -16,9 +16,10 @@ The Command Line Client
     Call 'tado COMMAND --help' to see available options for subcommands.
 
   Options:
-    -u, --username TEXT  Tado username  [required]
-    -p, --password TEXT  Tado password  [required]
-    -h, --help           Show this message and exit.
+    -u, --username TEXT       Tado username  [required]
+    -p, --password TEXT       Tado password  [required]
+    -c, --client-secret TEXT  Tado password  [optional]
+    -h, --help                Show this message and exit.
 
   Commands:
     capabilities        Display the capabilities of a zone.
