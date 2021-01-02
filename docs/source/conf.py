@@ -52,7 +52,7 @@ author = 'Germain Lefebvre, Max Rosin'
 # built documents.
 #
 # The short X.Y version.
-version = 'develop'
+version = 'latest'
 # The full version, including alpha/beta/rc tags.
 # release = version
 
