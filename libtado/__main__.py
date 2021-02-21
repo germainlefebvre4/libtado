@@ -272,7 +272,7 @@ def status(tado):
     st = tado.get_state(i['id'])
     if i['type'] == 'HEATING':
       show_heating(st)
-    elif i['type'] == "HOT_WATER":
+    elif i['type'] == 'HOT_WATER':
       show_hot_water(st)
 
 
