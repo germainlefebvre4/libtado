@@ -181,19 +181,14 @@ def status(tado):
     else:
       return given_time.strftime('%Y-%-m-%-d') # Date
 
-
-  zone_info = tado.get_zones()
-
-  for i in zone_info:
-    st = tado.get_state(i['id'])
-
+  def show_heating(st):
     zone = i['id']
 
     cur_temp = st['sensorDataPoints']['insideTemperature']['celsius']
-    cur_hum =  st['sensorDataPoints']['humidity']['percentage']
+    cur_hum = st['sensorDataPoints']['humidity']['percentage']
 
     if st['link']['state'] != 'ONLINE':
-      setting = '-x-' # Disconnected in tado-style
+      setting = '-x-'  # Disconnected in tado-style
     elif st['setting']['power'] != 'ON':
       setting = st['setting']['power']
     else:
@@ -206,7 +201,6 @@ def status(tado):
       type_s = st['tadoMode'];
 
     next_s = ''
-
     if st['tadoMode'] != 'AWAY':
       if st['overlay'] != None:
         if 'termination' in st['overlay'] and st['overlay']['termination']['type'] == 'MANUAL':
@@ -219,7 +213,6 @@ def status(tado):
         next_s = '-' + ('%s' % time_str(st['nextScheduleChange']['start']))
 
     extra = ''
-
     if st['openWindow'] != None:
       extra += ' Window open'
     for d in i['devices']:
@@ -227,13 +220,61 @@ def status(tado):
         extra += ' Battery %s' % d['batteryState']
 
     heat_s = int(st['activityDataPoints']['heatingPower']['percentage'])
-
     if heat_s == 0:
       heat_s = ''
     else:
       heat_s = '%i%%' % heat_s
 
-    click.echo('%-14s %2d %3s %5s %-8s %6s  %3.2fC %3.1f%%%s' % (i['name'], zone, heat_s, setting, next_s, type_s, cur_temp, cur_hum, extra))
+    click.echo('%-14s %2d %3s %5s %-8s %6s  %3.2fC %3.1f%%%s' % (
+      i['name'], zone, heat_s, setting, next_s, type_s, cur_temp, cur_hum, extra))
+
+  def show_hot_water(st):
+    zone = i['id']
+
+    if st['link']['state'] != 'ONLINE':
+      setting = '-x-'  # Disconnected in tado-style
+    elif st['setting']['power'] != 'ON':
+      setting = st['setting']['power']
+    else:
+      setting = '%4.1fC' % (st['setting']['temperature']['celsius'])
+
+    type_s = ''
+    if st['overlayType'] and st['tadoMode'] != 'AWAY':
+      type_s = st['overlayType']
+    elif st['tadoMode'] != 'HOME':
+      type_s = st['tadoMode'];
+
+    next_s = ''
+    if st['tadoMode'] != 'AWAY':
+      if st['overlay'] != None:
+        if 'termination' in st['overlay'] and st['overlay']['termination']['type'] == 'MANUAL':
+          next_s = '-+-'
+        elif st['overlay']['termination']['projectedExpiry'] != None:
+          next_s = '-' + ('%s' % time_str(st['overlay']['termination']['projectedExpiry']))
+        else:
+          next_s = '-+-'
+      elif st['nextScheduleChange'] != None:
+        next_s = '-' + ('%s' % time_str(st['nextScheduleChange']['start']))
+
+    extra = ''
+    if st['openWindow'] != None:
+      extra += ' Window open'
+    for d in i['devices']:
+      if d['batteryState'] != 'NORMAL':
+        extra += ' Battery %s' % d['batteryState']
+
+    click.echo('%-14s %2d %3s %5s %-8s %6s  %6s %5s%s' % (
+      i['name'], zone, '', setting, next_s, type_s, '', '', extra))
+
+  zone_info = tado.get_zones()
+
+  for i in zone_info:
+    st = tado.get_state(i['id'])
+    if i['type'] == 'HEATING':
+      show_heating(st)
+    elif i['type'] == "HOT_WATER":
+      show_hot_water(st)
+
 
 @main.command(short_help='Get configuration information about all zones.')
 @click.pass_obj
@@ -265,3 +306,7 @@ def set_temperature(tado, zone, temperature, termination):
 def end_manual_control(tado, zone):
   """End manual control of a zone."""
   tado.end_manual_control(zone)
+
+
+if __name__ == "__main__":
+  main()
