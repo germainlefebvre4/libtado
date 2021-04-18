@@ -34,14 +34,14 @@ License:
 
 import json
 import requests
+import time
 
 class Tado:
-  headers        = { 'Referer' : 'https://my.tado.com/' }
-  access_headers = headers
   json_content   = { 'Content-Type': 'application/json'}
   api            = 'https://my.tado.com/api/v2'
   api_acme       = 'https://acme.tado.com/v1'
   api_minder     = 'https://minder.tado.com/v1'
+  timeout        = 15
 
   def __init__(self, username, password, secret):
     self.username = username
@@ -52,7 +52,6 @@ class Tado:
 
   def _login(self):
     """Login and setup the HTTP session."""
-    self.session = requests.Session()
     url='https://auth.tado.com/oauth/token'
     data = { 'client_id'     : 'tado-web-app',
              'client_secret' : self.secret,
@@ -60,30 +59,30 @@ class Tado:
              'password'      : self.password,
              'scope'         : 'home.user',
              'username'      : self.username }
-    request = self.session.post(url, data=data, headers=self.access_headers)
+    request = requests.post(url, data=data, timeout=self.timeout)
     request.raise_for_status()
     response = request.json()
     self.access_token = response['access_token']
+    self.token_expiry = time.time() + float(response['expires_in'])
     self.refresh_token = response['refresh_token']
-    self.access_headers['Authorization'] = 'Bearer ' + response['access_token']
-    # We need to talk to api v1 to get a JSESSIONID cookie
-    self.session.get('https://my.tado.com/api/v1/me', headers=self.access_headers)
+    self.access_headers = {'Authorization': 'Bearer ' + response['access_token']}
 
   def _api_call(self, cmd, data=False, method='GET'):
     """Perform an API call."""
     def call_delete(url):
-      r = self.session.delete(url, headers=self.access_headers)
+      r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
       return r
     def call_put(url, data):
-      r = self.session.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data))
+      r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
       r.raise_for_status()
       return r
     def call_get(url):
-      r = self.session.get(url, headers=self.access_headers)
+      r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
       return r
 
+    self.refresh_auth()
     url = '%s/%s' % (self.api, cmd)
     if method == 'DELETE':
       return call_delete(url)
@@ -95,18 +94,19 @@ class Tado:
   def _api_acme_call(self, cmd, data=False, method='GET'):
     """Perform an API call."""
     def call_delete(url):
-      r = self.session.delete(url, headers=self.access_headers)
+      r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
       return r
     def call_put(url, data):
-      r = self.session.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data))
+      r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
       r.raise_for_status()
       return r
     def call_get(url):
-      r = self.session.get(url, headers=self.access_headers)
+      r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
       return r
 
+    self.refresh_auth()
     url = '%s/%s' % (self.api_acme, cmd)
     if method == 'DELETE':
       return call_delete(url)
@@ -118,18 +118,19 @@ class Tado:
   def _api_minder_call(self, cmd, data=False, method='GET'):
     """Perform an API call."""
     def call_delete(url):
-      r = self.session.delete(url, headers=self.access_headers)
+      r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
       return r
     def call_put(url, data):
-      r = self.session.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data))
+      r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
       r.raise_for_status()
       return r
     def call_get(url):
-      r = self.session.get(url, headers=self.access_headers)
+      r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
       return r
 
+    self.refresh_auth()
     url = '%s/%s' % (self.api_minder, cmd)
     if method == 'DELETE':
       return call_delete(url)
@@ -139,16 +140,25 @@ class Tado:
       return call_get(url).json()
 
   def refresh_auth(self):
-    """Refresh an active session."""
-    url='https://my.tado.com/oauth/token'
-    data = { 'client_id'     : 'tado-webapp',
+    """Refresh the access token."""
+    if time.time() < self.token_expiry - 30:
+      return
+    url='https://auth.tado.com/oauth/token'
+    data = { 'client_id'     : 'tado-web-app',
+             'client_secret' : self.secret,
              'grant_type'    : 'refresh_token',
              'refresh_token' : self.refresh_token,
              'scope'         : 'home.user'
            }
-    request = self.session.post(url, data=data, headers=self.headers)
+    try:
+      request = requests.post(url, data=data, timeout=self.timeout)
+      request.raise_for_status()
+    except:
+      self._login()
+      return
     response = request.json()
     self.access_token = response['access_token']
+    self.token_expiry = time.time() + float(response['expires_in'])
     self.refresh_token = response['refresh_token']
     self.access_headers['Authorization'] = 'Bearer ' + self.access_token
 
@@ -960,7 +970,7 @@ class Tado:
     Example
     =======
     ::
-    
+
       {
            "celsius": 0.0,
            "fahrenheit": 0.0
@@ -1041,7 +1051,7 @@ class Tado:
     Example
     =======
     ::
-    
+
       {
           "roomMessages":[
               {
@@ -1196,4 +1206,3 @@ class Tado:
     """
     data = self._api_acme_call('homes/%i/airComfort?latitude=%f&longitude=%f' % (self.id, latitude, longitude))
     return data
-
