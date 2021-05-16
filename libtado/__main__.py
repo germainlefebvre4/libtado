@@ -79,6 +79,19 @@ def devices(tado):
       click.echo('Firmware: %s' % d['currentFwVersion'])
       click.echo('Connection: %s (%s)' % (d['connectionState']['value'], d['connectionState']['timestamp']))
       click.echo('Battery State: %s' % d['batteryState'])
+    elif d['deviceType'] == 'SU02':
+      # Wireless Temperature Sensor
+      click.echo('Serial: %s' % d['serialNo'])
+      click.echo('Type: %s' % d['deviceType'])
+      click.echo('Firmware: %s' % d['currentFwVersion'])
+      click.echo('Connection: %s (%s)' % (d['connectionState']['value'], d['connectionState']['timestamp']))
+      click.echo('Battery State: %s' % d['batteryState'])
+    elif d['deviceType'] == 'BR02':
+      # Wireless Receiver
+      click.echo('Serial: %s' % d['serialNo'])
+      click.echo('Type: %s' % d['deviceType'])
+      click.echo('Firmware: %s' % d['currentFwVersion'])
+      click.echo('Connection: %s (%s)' % (d['connectionState']['value'], d['connectionState']['timestamp']))
     else:
       click.secho('Device type %s not supported. Please report a bug with the following output.' % d['deviceType'], fg='black', bg='red')
       d['serialNo'] = 'XXX'
