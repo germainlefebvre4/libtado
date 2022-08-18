@@ -1206,3 +1206,224 @@ class Tado:
     """
     data = self._api_acme_call('homes/%i/airComfort?latitude=%f&longitude=%f' % (self.id, latitude, longitude))
     return data
+
+
+  def get_heating_system(self):
+    """
+    Get all heating systems of your home.
+
+    Args:
+      None.
+    
+    Returns:
+      list: A dict of your heating systems.
+    
+    Example
+    =======
+    ::
+
+    {
+        "boiler":{
+            "present":true,
+            "id":17830,
+            "found":true
+        },
+        "underfloorHeating":{
+            "present":false
+        }
+    }
+    
+    """
+    data = self._api_call('homes/%i/heatingSystem' % (self.id))
+    return data
+
+
+  def get_running_times(self, from_date):
+    """
+    Get all running times of your home.
+    
+    Args:
+      None.
+    
+    Returns:
+      list: A dict of your running times.
+    
+    Example
+    =======
+    ::
+    
+    {
+        "runningTimes":[
+            {
+                "runningTimeInSeconds":0,
+                "startTime":"2022-08-18 00:00:00",
+                "endTime":"2022-08-19 00:00:00",
+                "zones":[
+                    {
+                        "id":1,
+                        "runningTimeInSeconds":0
+                    },
+                    {
+                        "id":6,
+                        "runningTimeInSeconds":0
+                    },
+                    {
+                        "id":11,
+                        "runningTimeInSeconds":0
+                    },
+                    {
+                        "id":12,
+                        "runningTimeInSeconds":0
+                    }
+                ]
+            }
+        ],
+        "summary":{
+            "startTime":"2022-08-18 00:00:00",
+            "endTime":"2022-08-19 00:00:00",
+            "totalRunningTimeInSeconds":0
+        },
+        "lastUpdated":"2022-08-18T05:07:44Z"
+    }
+    """
+    data = self._api_minder_call('homes/%i/runningTimes?from=%s' % (self.id, from_date))
+    return data
+
+
+  def get_zone_states(self ):
+    """
+    Get all zone states of your home.
+    
+    Args:
+      None.
+    
+    Returns:
+      list: A dict of your zone states.
+    
+    Example
+    =======
+    ::
+    
+    {
+        "zoneStates":{
+            "1":{
+                "tadoMode":"HOME",
+                "geolocationOverride":false,
+                "geolocationOverrideDisableTime":"None",
+                "preparation":"None",
+                "setting":{
+                    "type":"HEATING",
+                    "power":"ON",
+                    "temperature":{
+                        "celsius":19.0,
+                        "fahrenheit":66.2
+                    }
+                },
+                "overlayType":"None",
+                "overlay":"None",
+                "openWindow":"None",
+                "nextScheduleChange":{
+                    "start":"2022-08-18T16:00:00Z",
+                    "setting":{
+                        "type":"HEATING",
+                        "power":"ON",
+                        "temperature":{
+                            "celsius":20.0,
+                            "fahrenheit":68.0
+                        }
+                    }
+                },
+                "nextTimeBlock":{
+                    "start":"2022-08-18T16:00:00.000Z"
+                },
+                "link":{
+                    "state":"ONLINE"
+                },
+                "activityDataPoints":{
+                    "heatingPower":{
+                        "type":"PERCENTAGE",
+                        "percentage":0.0,
+                        "timestamp":"2022-08-18T05:34:32.127Z"
+                    }
+                },
+                "sensorDataPoints":{
+                    "insideTemperature":{
+                        "celsius":24.13,
+                        "fahrenheit":75.43,
+                        "timestamp":"2022-08-18T05:36:21.241Z",
+                        "type":"TEMPERATURE",
+                        "precision":{
+                            "celsius":0.1,
+                            "fahrenheit":0.1
+                        }
+                    },
+                    "humidity":{
+                        "type":"PERCENTAGE",
+                        "percentage":62.2,
+                        "timestamp":"2022-08-18T05:36:21.241Z"
+                    }
+                }
+            },
+            "6":{
+                "tadoMode":"HOME",
+                "geolocationOverride":false,
+                "geolocationOverrideDisableTime":"None",
+                "preparation":"None",
+                "setting":{
+                    "type":"HEATING",
+                    "power":"ON",
+                    "temperature":{
+                        "celsius":19.5,
+                        "fahrenheit":67.1
+                    }
+                },
+                "overlayType":"None",
+                "overlay":"None",
+                "openWindow":"None",
+                "nextScheduleChange":{
+                    "start":"2022-08-18T07:00:00Z",
+                    "setting":{
+                        "type":"HEATING",
+                        "power":"ON",
+                        "temperature":{
+                            "celsius":18.0,
+                            "fahrenheit":64.4
+                        }
+                    }
+                },
+                "nextTimeBlock":{
+                    "start":"2022-08-18T07:00:00.000Z"
+                },
+                "link":{
+                    "state":"ONLINE"
+                },
+                "activityDataPoints":{
+                    "heatingPower":{
+                        "type":"PERCENTAGE",
+                        "percentage":0.0,
+                        "timestamp":"2022-08-18T05:47:58.505Z"
+                    }
+                },
+                "sensorDataPoints":{
+                    "insideTemperature":{
+                        "celsius":24.2,
+                        "fahrenheit":75.56,
+                        "timestamp":"2022-08-18T05:46:09.620Z",
+                        "type":"TEMPERATURE",
+                        "precision":{
+                            "celsius":0.1,
+                            "fahrenheit":0.1
+                        }
+                    },
+                    "humidity":{
+                        "type":"PERCENTAGE",
+                        "percentage":64.8,
+                        "timestamp":"2022-08-18T05:46:09.620Z"
+                    }
+                }
+            } 
+        }
+    }
+    """
+    data = self._api_call('homes/%i/zoneStates' % (self.id))
+    return data
