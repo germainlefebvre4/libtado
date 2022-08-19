@@ -2,6 +2,7 @@
 
 import click
 import datetime
+import time
 from dateutil.parser import parse
 from dateutil import tz
 import libtado.api
@@ -319,6 +320,67 @@ def set_temperature(tado, zone, temperature, termination):
 def end_manual_control(tado, zone):
   """End manual control of a zone."""
   tado.end_manual_control(zone)
+
+
+@main.command()
+@click.pass_obj
+def heating_system(tado):
+  """Display heating systems status of your home.."""
+  heating_system = tado.get_heating_system()
+  if heating_system['boiler']['present']:
+    click.echo('Boiler: Present')
+    click.echo('  Found: %s' % heating_system['boiler']['found'])
+    click.echo('  ID: %s' % heating_system['boiler']['id'])
+  else:
+    click.echo('Boiler: Absent')
+  if heating_system['underfloorHeating']['present']:
+    click.echo('Underfloor Heating: Present')
+    click.echo('  Found: %s' % heating_system['underfloorHeating']['found'])
+    click.echo('  ID: %s' % heating_system['underfloorHeating']['id'])
+  else:
+    click.echo('Underfloor Heating: Absent')
+
+
+@main.command()
+@click.pass_obj
+@click.option('--from-date', '-d', required=False, type=str, help='From date')
+def heating_running_times(tado, from_date):
+  """Display heating system running times of your home."""
+  if not from_date:
+    from_date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+  running_times = tado.get_running_times(from_date)
+
+  click.echo('Heating running times from %s' % from_date)
+
+  click.echo('Summary:')
+  click.echo('  Total Running Time (seconds): %s' % running_times['summary']['totalRunningTimeInSeconds'])
+  click.echo('')
+  
+  click.echo('Running time from date to date (seconds)')
+  for rt in running_times['runningTimes']:
+    click.echo('From %s to %s' % (rt['startTime'][:-9], rt['endTime'][:-9]))
+    click.echo('  Global: %s' % rt["runningTimeInSeconds"])
+    click.echo('  By zone:')
+    for zone in rt['zones']:
+      click.echo('    %s: %s' % (zone['id'], zone['runningTimeInSeconds']))
+
+
+@main.command()
+@click.pass_obj
+def zone_states(tado):
+  """Get the states of a zone."""
+  zone_states = tado.get_zone_states()
+  # print(zone_states)
+
+  for zone,state in zone_states['zoneStates'].items():
+    # print(zone)
+    # print(state)
+    click.echo('Zone %s:' % (zone))
+    click.echo('  Mode: %s' % (state['tadoMode']))
+    click.echo('  Heating:')
+    click.echo('    Power: %s' % (state['setting']['power']))
+    click.echo('    Temperature (celsius): %s' % (state['setting']['temperature']['celsius']))
+    click.echo('  Humidity (percent): %s' % (state['sensorDataPoints']['humidity']['percentage']))
 
 
 if __name__ == "__main__":
