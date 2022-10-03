@@ -27,7 +27,7 @@ jobs:
         uses: cycjimmy/semantic-release-action@v2
         id: semantic
         with:
-          branches: 'main'
+          branches: 'master'
           semantic_version: 19.0.2
           extra_plugins: |
             @semantic-release/commit-analyzer@9.0.2
