@@ -383,5 +383,33 @@ def zone_states(tado):
     click.echo('  Humidity (percent): %s' % (state['sensorDataPoints']['humidity']['percentage']))
 
 
+@main.command()
+@click.pass_obj
+@click.option('--from-date', '-df', required=True, type=str, help='From date')
+@click.option('--to-date', '-dt', required=True, type=str, help='To date')
+@click.option('--country', '-c', required=True, type=str, help='Country code')
+@click.option('--ngsw-bypass', '-ng', required=False, type=bool, help='NGSW Bypass')
+def energy_consumption(tado, from_date, to_date, country, ngsw_bypass=True):
+  """Get the energy consumption of your home."""
+  # if not from_date:
+  #   from_date = time.strftime('%Y-%m-%d', time.localtime(time.time()))
+
+  energy_consumption = tado.get_energy_consumption(from_date, to_date, country, ngsw_bypass)
+
+  click.echo('Energy consumption from %s to %s' % (from_date, to_date))
+  click.echo('')
+
+  click.echo('Summary:')
+  click.echo('  Total Consumption (%s): %s' % (energy_consumption['tariffInfo']['consumptionUnit'], energy_consumption['details']['totalConsumption']))
+  click.echo('  Total Cost (%s): %s' % (energy_consumption['currency'], energy_consumption['details']['totalCostInCents']))
+  click.echo('')
+
+  click.echo('Consumption from day to day:')
+  for rt in energy_consumption['details']['perDay']:
+    click.echo('  Day %s ' % (rt['date']))
+    click.echo('    Consumption: %s' % rt["consumption"])
+    click.echo('    Cost (%s): %s' % (energy_consumption['currency'], rt["costInCents"]))
+
+
 if __name__ == "__main__":
   main()
