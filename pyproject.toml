@@ -1,0 +1,20 @@
+[project]
+name = "libtado"
+version = "3.2.1"
+authors = [
+  { name="Germain Lefebvre", email="germainlefebvre4@gmail.com" },
+]
+description = "A library (and a command line client) to control your Tado Smart Thermostat."
+readme = "README.md"
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Development Status :: 2 - Beta",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+
+]
+
+[project.urls]
+"Homepage" = "https://github.com/germainlefebvre4/libtado"
+"Bug Tracker" = "https://github.com/germainlefebvre4/libtado/issues"

@@ -83,6 +83,7 @@ jobs:
       - name: Update package version
         run: |
           sed -i "s/^\( *version=\).*/\1'${{ steps.release_version.outputs.data }}',/g" setup.py
+          sed -i 's/^\(^version = \).*/\1"${{ steps.release_version.outputs.data }}",/g' pyproject.toml
         if: steps.release_published.outputs.data == 'true'
       - name: Install dependencies
         run: |
