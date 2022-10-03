@@ -58,6 +58,12 @@ Early start
 
 .. autoclass:: libtado.api.Tado.get_early_start
 
+-----------
+Energy consumption
+-----------
+
+.. autoclass:: libtado.api.Tado.get_energy_consumption
+
 ----------------
 Heating circuits
 ----------------

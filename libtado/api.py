@@ -41,6 +41,7 @@ class Tado:
   api            = 'https://my.tado.com/api/v2'
   api_acme       = 'https://acme.tado.com/v1'
   api_minder     = 'https://minder.tado.com/v1'
+  api_energy     = 'https://energy-insights.tado.com/api'
   timeout        = 15
 
   def __init__(self, username, password, secret):
@@ -138,6 +139,32 @@ class Tado:
       return call_put(url, data).json()
     elif method == 'GET':
       return call_get(url).json()
+
+
+  def _api_energy_call(self, cmd, data=False, method='GET'):
+    """Perform an API call."""
+    def call_delete(url):
+      r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
+      r.raise_for_status()
+      return r
+    def call_put(url, data):
+      r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
+      r.raise_for_status()
+      return r
+    def call_get(url):
+      r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
+      r.raise_for_status()
+      return r
+
+    self.refresh_auth()
+    url = '%s/%s' % (self.api_energy, cmd)
+    if method == 'DELETE':
+      return call_delete(url)
+    elif method == 'PUT' and data:
+      return call_put(url, data).json()
+    elif method == 'GET':
+      return call_get(url).json()
+
 
   def refresh_auth(self):
     """Refresh the access token."""
@@ -1290,7 +1317,7 @@ class Tado:
     return data
 
 
-  def get_zone_states(self ):
+  def get_zone_states(self):
     """
     Get all zone states of your home.
     
@@ -1426,4 +1453,53 @@ class Tado:
     }
     """
     data = self._api_call('homes/%i/zoneStates' % (self.id))
+    return data
+
+  def get_energy_consumption(self, startDate, endDate, country, ngsw_bypass):
+    """
+    Get enery consumption of your home by range date
+      
+    Args:
+      None.
+    
+    Returns:
+      list: A dict of your energy consumption.
+    
+    Example
+    =======
+    ::
+    
+    {
+        "tariff": "0.104 €/kWh",
+        "unit": "m3",
+        "consumptionInputState": "full",
+        "customTariff": false,
+        "currency": "EUR",
+        "tariffInfo":{
+            "consumptionUnit": "kWh",
+            "customTariff": false,
+            "tariffInCents": 10.36,
+            "currencySign": "€",
+        "details":{
+            "totalCostInCents": 1762.98,
+            "totalConsumption": 16.13,
+            "perDay": [
+                {
+                    "date": "2022-09-01",
+                    "consumption": 0,
+                    "costInCents": 0
+                },{
+                    "date": "2022-09-02",
+                    "consumption": 0,
+                    "costInCents": 0
+                },{
+                    "date": "2022-09-03",
+                    "consumption": 0.04,
+                    "costInCents": 0.4144
+                }
+            ],
+        }
+    }
+    """
+    data = self._api_energy_call('homes/%i/consumption?startDate=%s&endDate=%s&country=%s&ngsw-bypass=%s' % (self.id, startDate, endDate, country, ngsw_bypass))
     return data
