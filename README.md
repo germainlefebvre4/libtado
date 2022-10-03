@@ -85,3 +85,7 @@ Follow the indications in sectio [Usage](#usage).
 pipenv run pytest tests/
 ```
 
+## Links
+
+* ReadTheDoc: [https://libtado.readthedocs.io/](https://libtado.readthedocs.io/)
+* Pypi: [https://pypi.org/project/libtado/](https://pypi.org/project/libtado/)
