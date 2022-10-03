@@ -84,5 +84,3 @@ Follow the indications in sectio [Usage](#usage).
 ```bash
 pipenv run pytest tests/
 ```
-
-
