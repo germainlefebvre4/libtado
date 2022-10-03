@@ -201,6 +201,12 @@ Schedule
 
 .. autoclass:: libtado.api.Tado.set_schedule
 
+--------
+Running times
+--------
+
+.. autoclass:: libtado.api.Tado.get_running_times
+
 ---------------
 Schedule blocks
 ---------------
@@ -224,3 +230,9 @@ Zone name
 ---------
 
 .. autoclass:: libtado.api.Tado.set_zone_name
+
+---------
+Zone states
+---------
+
+.. autoclass:: libtado.api.Tado.get_zone_states
