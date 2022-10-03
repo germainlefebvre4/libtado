@@ -29,18 +29,11 @@ jobs:
         uses: cycjimmy/semantic-release-action@v2
         id: semantic
         with:
-          branches: |
-            [
-              'develop',
-              'feat/*',
-              'fix/*'
-            ]
-          semantic_version: 17.2.2
+          branches: 'main'
+          semantic_version: 19.0.2
           extra_plugins: |
-            @semantic-release/commit-analyzer@8.0.1
-            @semantic-release/release-notes-generator@9.0.0
-            @semantic-release/changelog@5.0.0
-            @semantic-release/github@7.0.7
+            @semantic-release/commit-analyzer@9.0.2
+            @semantic-release/github@8.0.2
           dry_run: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
