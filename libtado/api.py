@@ -37,11 +37,12 @@ import requests
 import time
 
 class Tado:
-  json_content   = { 'Content-Type': 'application/json'}
-  api            = 'https://my.tado.com/api/v2'
-  api_acme       = 'https://acme.tado.com/v1'
-  api_minder     = 'https://minder.tado.com/v1'
-  api_energy     = 'https://energy-insights.tado.com/api'
+  json_content        = { 'Content-Type': 'application/json'}
+  api                 = 'https://my.tado.com/api/v2'
+  api_acme            = 'https://acme.tado.com/v1'
+  api_minder          = 'https://minder.tado.com/v1'
+  api_energy_insights = 'https://energy-insights.tado.com/api'
+  api_energy_bob      = 'https://energy-bob.tado.com'
   timeout        = 15
 
   def __init__(self, username, password, secret):
@@ -141,7 +142,7 @@ class Tado:
       return call_get(url).json()
 
 
-  def _api_energy_call(self, cmd, data=False, method='GET'):
+  def _api_energy_insights_call(self, cmd, data=False, method='GET'):
     """Perform an API call."""
     def call_delete(url):
       r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
@@ -157,7 +158,32 @@ class Tado:
       return r
 
     self.refresh_auth()
-    url = '%s/%s' % (self.api_energy, cmd)
+    url = '%s/%s' % (self.api_energy_insights, cmd)
+    if method == 'DELETE':
+      return call_delete(url)
+    elif method == 'PUT' and data:
+      return call_put(url, data).json()
+    elif method == 'GET':
+      return call_get(url).json()
+
+
+  def _api_energy_bob_call(self, cmd, data=False, method='GET'):
+    """Perform an API call."""
+    def call_delete(url):
+      r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
+      r.raise_for_status()
+      return r
+    def call_put(url, data):
+      r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
+      r.raise_for_status()
+      return r
+    def call_get(url):
+      r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
+      r.raise_for_status()
+      return r
+
+    self.refresh_auth()
+    url = '%s/%s' % (self.api_energy_bob, cmd)
     if method == 'DELETE':
       return call_delete(url)
     elif method == 'PUT' and data:
@@ -1455,7 +1481,7 @@ class Tado:
     data = self._api_call('homes/%i/zoneStates' % (self.id))
     return data
 
-  def get_energy_consumption(self, startDate, endDate, country, ngsw_bypass):
+  def get_energy_consumption(self, startDate, endDate, country, ngsw_bypass=True):
     """
     Get enery consumption of your home by range date
       
@@ -1501,5 +1527,101 @@ class Tado:
         }
     }
     """
-    data = self._api_energy_call('homes/%i/consumption?startDate=%s&endDate=%s&country=%s&ngsw-bypass=%s' % (self.id, startDate, endDate, country, ngsw_bypass))
+    data = self._api_energy_insights_call('homes/%i/consumption?startDate=%s&endDate=%s&country=%s&ngsw-bypass=%s' % (self.id, startDate, endDate, country, ngsw_bypass))
     return data
+
+  def get_energy_savings(self, monthYear, country, ngsw_bypass=True):
+    """
+    Get energy savings of your home by month and year
+      
+    Args:
+      None.
+    
+    Returns:
+      list: A dict of your energy savings.
+    
+    Example
+    =======
+    ::
+    
+    {
+        "coveredInterval":{
+            "start":"2022-08-31T23:48:02.675000Z",
+            "end":"2022-09-29T13:10:23.035000Z"
+        },
+        "totalSavingsAvailable":true,
+        "withAutoAssist":{
+            "detectedAwayDuration":{
+                "value":56,
+                "unit":"HOURS"
+            },
+            "openWindowDetectionTimes":9
+        },
+        "totalSavingsInThermostaticMode":{
+            "value":0,
+            "unit":"HOURS"
+        },
+        "manualControlSaving":{
+            "value":0,
+            "unit":"PERCENTAGE"
+        },
+        "totalSavings":{
+            "value":6.5,
+            "unit":"PERCENTAGE"
+        },
+        "hideSunshineDuration":false,
+        "awayDuration":{
+            "value":56,
+            "unit":"HOURS"
+        },
+        "showSavingsInThermostaticMode":false,
+        "communityNews":{
+            "type":"HOME_COMFORT_STATES",
+            "states":[
+                {
+                    "name":"humid",
+                    "value":47.3,
+                    "unit":"PERCENTAGE"
+                },
+                {
+                    "name":"ideal",
+                    "value":43.1,
+                    "unit":"PERCENTAGE"
+                },
+                {
+                    "name":"cold",
+                    "value":9.5,
+                    "unit":"PERCENTAGE"
+                },
+                {
+                    "name":"warm",
+                    "value":0.1,
+                    "unit":"PERCENTAGE"
+                },
+                {
+                    "name":"dry",
+                    "value":0,
+                    "unit":"PERCENTAGE"
+                }
+            ]
+        },
+        "sunshineDuration":{
+            "value":112,
+            "unit":"HOURS"
+        },
+        "hasAutoAssist":true,
+        "openWindowDetectionTimes":5,
+        "setbackScheduleDurationPerDay":{
+            "value":9.100000381469727,
+            "unit":"HOURS"
+        },
+        "totalSavingsInThermostaticModeAvailable":false,
+        "yearMonth":"2022-09",
+        "hideOpenWindowDetection":false,
+        "home":283787,
+        "hideCommunityNews":false
+    }
+    """
+    data = self._api_energy_bob_call('%i/%s?country=%s&ngsw-bypass=%s' % (self.id, monthYear, country, ngsw_bypass))
+    return data
+
