@@ -24,12 +24,12 @@ The latest `CLIENT_SECRET` can be found at [https://my.tado.com/webapp/env.js](h
 
 ```
 var TD = {
-	config: {
-		version: 'v588',
-		oauth: {
-			clientSecret: 'wZaRN7rpjn3FoNyF5IFuxg9uMzYJcvOoQ8QWiIqS3hfk6gLhVlG57j5YNoZL2Rtc'
-		}
-	}
+    config: {
+        version: 'v588',
+        oauth: {
+          clientSecret: 'wZaRN7rpjn3FoNyF5IFuxg9uMzYJcvOoQ8QWiIqS3hfk6gLhVlG57j5YNoZL2Rtc'
+        }
+    }
 };
 ```
 
