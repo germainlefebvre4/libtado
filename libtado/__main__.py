@@ -355,7 +355,7 @@ def heating_running_times(tado, from_date):
   click.echo('Summary:')
   click.echo('  Total Running Time (seconds): %s' % running_times['summary']['totalRunningTimeInSeconds'])
   click.echo('')
-  
+
   click.echo('Running time from date to date (seconds)')
   for rt in running_times['runningTimes']:
     click.echo('From %s to %s' % (rt['startTime'][:-9], rt['endTime'][:-9]))
@@ -409,6 +409,36 @@ def energy_consumption(tado, from_date, to_date, country, ngsw_bypass=True):
     click.echo('  Day %s ' % (rt['date']))
     click.echo('    Consumption: %s' % rt["consumption"])
     click.echo('    Cost (%s): %s' % (energy_consumption['currency'], rt["costInCents"]))
+
+
+@main.command()
+@click.pass_obj
+@click.option('--month-date', '-d', required=True, type=str, help='Month year (i.e. 2022-09)')
+@click.option('--country', '-c', required=True, type=str, help='Country code')
+@click.option('--ngsw-bypass', '-ng', required=False, type=bool, help='NGSW Bypass')
+def energy_savings(tado, month_date, country, ngsw_bypass=True):
+  """Get the energy savings of your home."""
+
+  energy_savings = tado.get_energy_savings(month_date, country, ngsw_bypass)
+
+  click.echo('Energy savings for %s' % (energy_savings['yearMonth']))
+  click.echo('')
+
+  click.echo('Total savings (%s): %s' % (energy_savings['totalSavings']['unit'].lower(), energy_savings['totalSavings']['value']))
+  click.echo('')
+
+  click.echo('Sunshine duration (%s): %s' % (energy_savings['sunshineDuration']['unit'].lower(), energy_savings['sunshineDuration']['value']))
+  click.echo('Manual control saving (%s): %s' % (energy_savings['manualControlSaving']['unit'].lower(), energy_savings['manualControlSaving']['value']))
+  click.echo('Away duration (%s): %s' % (energy_savings['awayDuration']['unit'].lower(), energy_savings['awayDuration']['value']))
+  click.echo('Setback schedule duration per day (%s): %s' % (energy_savings['setbackScheduleDurationPerDay']['unit'].lower(), energy_savings['setbackScheduleDurationPerDay']['value']))
+  click.echo('Total savings in thermostatic mode (%s): %s' % (energy_savings['totalSavingsInThermostaticMode']['unit'].lower(), energy_savings['totalSavingsInThermostaticMode']['value']))
+  click.echo('')
+
+  click.echo('Auto-assit:')
+  click.echo('  Auto-assist enabled: %s' % (energy_savings['hasAutoAssist']))
+  click.echo('  Open window detection times: %s' % (energy_savings['withAutoAssist']['openWindowDetectionTimes']))
+  click.echo('  Detected duration (%s): %s' % (energy_savings['withAutoAssist']['detectedAwayDuration']['unit'].lower(), energy_savings['withAutoAssist']['detectedAwayDuration']['value']))
+  click.echo('')
 
 
 if __name__ == "__main__":
