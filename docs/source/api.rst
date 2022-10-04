@@ -64,6 +64,12 @@ Energy consumption
 
 .. autoclass:: libtado.api.Tado.get_energy_consumption
 
+-----------
+Energy savings
+-----------
+
+.. autoclass:: libtado.api.Tado.get_energy_savings
+
 ----------------
 Heating circuits
 ----------------
