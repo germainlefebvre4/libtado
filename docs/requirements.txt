@@ -1,0 +1,10 @@
+requests
+click
+mkdocs
+mkdocs-autorefs
+mkdocs-click
+mkdocs-material
+mkdocs-material-extensions
+mkdocstrings
+mkdocstrings-python
+typing-extensions
