@@ -1,12 +1,15 @@
-.. _cli:
+# CLI Usage
 
-=======================
-Command Line Client
-=======================
+Usage:
 
-::
+``` {.bash .select .copy}
+tado --help
+```
 
-  Usage: tado [OPTIONS] COMMAND [ARGS]...
+Output:
+
+``` raw
+Usage: tado [OPTIONS] COMMAND [ARGS]...
 
     This script provides a command line client for the Tado API.
 
@@ -15,13 +18,13 @@ Command Line Client
 
     Call 'tado COMMAND --help' to see available options for subcommands.
 
-  Options:
+Options:
     -u, --username TEXT       Tado username  [required]
     -p, --password TEXT       Tado password  [required]
     -c, --client-secret TEXT  Tado password  [optional]
     -h, --help                Show this message and exit.
 
-  Commands:
+Commands:
     capabilities        Display the capabilities of a zone.
     devices             Display all devices.
     early_start         Display or change the early start feature of a zone.
@@ -33,3 +36,4 @@ Command Line Client
     whoami              Tell me who the Tado API thinks I am.
     zone                Get the current state of a zone.
     zones               Get configuration information about all zones.
+```
