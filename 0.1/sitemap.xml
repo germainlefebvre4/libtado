@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>None</loc>
+         <loc>https://libtado.readthedocs.io/0.1/</loc>
          <lastmod>2023-04-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>None</loc>
+         <loc>https://libtado.readthedocs.io/0.1/contributing/</loc>
          <lastmod>2023-04-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>None</loc>
+         <loc>https://libtado.readthedocs.io/0.1/faq/</loc>
          <lastmod>2023-04-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>None</loc>
+         <loc>https://libtado.readthedocs.io/0.1/api/reference/</loc>
          <lastmod>2023-04-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>None</loc>
+         <loc>https://libtado.readthedocs.io/0.1/cli/configuration/</loc>
          <lastmod>2023-04-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>None</loc>
+         <loc>https://libtado.readthedocs.io/0.1/cli/reference/</loc>
          <lastmod>2023-04-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>None</loc>
+         <loc>https://libtado.readthedocs.io/0.1/cli/usage/</loc>
          <lastmod>2023-04-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>None</loc>
+         <loc>https://libtado.readthedocs.io/0.1/getting-started/installation/</loc>
          <lastmod>2023-04-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>None</loc>
+         <loc>https://libtado.readthedocs.io/0.1/getting-started/usage/</loc>
          <lastmod>2023-04-05</lastmod>
          <changefreq>daily</changefreq>
     </url>
