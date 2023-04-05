@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>API Class Methods &mdash; libtado  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Step-by-Step Guide" href="development.html" />
+    <link rel="prev" title="Command Line Client" href="cli.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> libtado
+          </a>
+              <div class="version">
+                latest
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting-started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Client</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Class Methods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#getter">Getter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#air-comfort">Air comfort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#air-comfort-geoloc">Air comfort geoloc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#away-configuration">Away configuration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#capabilities">Capabilities</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#default-overlay">Default overlay</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#device-usage">Device usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#devices">Devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#early-start">Early start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#heating-circuits">Heating circuits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#home">Home</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#home-state">Home state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#incidents">Incidents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#installations">Installations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#invitations">Invitations</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#me">Me</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#measuring-device">Measuring device</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mobile-devices">Mobile devices</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#open-window-detection">Open window detection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#report">Report</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#schedule-timetables">Schedule Timetables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#schedule">Schedule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#schedule-blocks">Schedule blocks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#state">State</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#temperature-offset">Temperature offset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#users">Users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#weather">Weather</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zones">Zones</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#setter">Setter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Early start</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#end-manual-control">End manual control</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Home state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">Schedule</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">Schedule blocks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#temperature">Temperature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">Temperature offset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#zone-name">Zone name</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Development</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Step-by-Step Guide</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">libtado</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>API Class Methods</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="api-class-methods">
+<span id="api"></span><h1>API Class Methods<a class="headerlink" href="#api-class-methods" title="Permalink to this heading"></a></h1>
+<p>Most of the functions receive JSON from the API and translate it to a Python dictionary or a list of Python dictionaries. So the return value will depend on the behaviour of the API.</p>
+<section id="getter">
+<h2>Getter<a class="headerlink" href="#getter" title="Permalink to this heading"></a></h2>
+<section id="air-comfort">
+<h3>Air comfort<a class="headerlink" href="#air-comfort" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_air_comfort">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_air_comfort</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_air_comfort" title="Permalink to this definition"></a></dt>
+<dd><p>Get all zones of your home.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of dictionaries with all your zones.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;freshness&quot;</span><span class="p">:{</span>
+        <span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="s2">&quot;FAIR&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;lastOpenWindow&quot;</span><span class="p">:</span><span class="s2">&quot;2020-09-04T10:38:57Z&quot;</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;comfort&quot;</span><span class="p">:[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;roomId&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;temperatureLevel&quot;</span><span class="p">:</span><span class="s2">&quot;COMFY&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;humidityLevel&quot;</span><span class="p">:</span><span class="s2">&quot;COMFY&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;coordinate&quot;</span><span class="p">:{</span>
+                <span class="s2">&quot;radial&quot;</span><span class="p">:</span><span class="mf">0.36</span><span class="p">,</span>
+                <span class="s2">&quot;angular&quot;</span><span class="p">:</span><span class="mi">323</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;roomId&quot;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span>
+            <span class="s2">&quot;temperatureLevel&quot;</span><span class="p">:</span><span class="s2">&quot;COMFY&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;humidityLevel&quot;</span><span class="p">:</span><span class="s2">&quot;COMFY&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;coordinate&quot;</span><span class="p">:{</span>
+                <span class="s2">&quot;radial&quot;</span><span class="p">:</span><span class="mf">0.43</span><span class="p">,</span>
+                <span class="s2">&quot;angular&quot;</span><span class="p">:</span><span class="mi">324</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="air-comfort-geoloc">
+<h3>Air comfort geoloc<a class="headerlink" href="#air-comfort-geoloc" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_air_comfort_geoloc">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_air_comfort_geoloc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">latitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">longitude</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_air_comfort_geoloc" title="Permalink to this definition"></a></dt>
+<dd><p>Get all zones of your home.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>latitude</strong> (<em>float</em>) – The latitude of the home.</p></li>
+<li><p><strong>longitude</strong> (<em>float</em>) – The longitude of the home.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dict of lists of dictionaries with all your rooms.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;roomMessages&quot;</span><span class="p">:[</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;roomId&quot;</span><span class="p">:</span><span class="mi">4</span><span class="p">,</span>
+            <span class="s2">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;Bravo ! L’air de cette pièce est proche de la perfection.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;visual&quot;</span><span class="p">:</span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;link&quot;</span><span class="p">:</span><span class="n">null</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;roomId&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;message&quot;</span><span class="p">:</span><span class="s2">&quot;Continuez à faire ce que vous faites ! L&#39;air de cette pièce est parfait.&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;visual&quot;</span><span class="p">:</span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;link&quot;</span><span class="p">:</span><span class="n">null</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s2">&quot;outdoorQuality&quot;</span><span class="p">:{</span>
+        <span class="s2">&quot;aqi&quot;</span><span class="p">:{</span>
+            <span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="mi">81</span><span class="p">,</span>
+            <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;EXCELLENT&quot;</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;pollens&quot;</span><span class="p">:{</span>
+            <span class="s2">&quot;dominant&quot;</span><span class="p">:{</span>
+                <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;LOW&quot;</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;types&quot;</span><span class="p">:[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;localizedName&quot;</span><span class="p">:</span><span class="s2">&quot;Graminées&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;GRASS&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;localizedDescription&quot;</span><span class="p">:</span><span class="s2">&quot;Poaceae&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;forecast&quot;</span><span class="p">:[</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;localizedDay&quot;</span><span class="p">:</span><span class="s2">&quot;Auj.&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2020-09-06&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;NONE&quot;</span>
+                        <span class="p">},</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;localizedDay&quot;</span><span class="p">:</span><span class="s2">&quot;Lun&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2020-09-07&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;NONE&quot;</span>
+                        <span class="p">},</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;localizedDay&quot;</span><span class="p">:</span><span class="s2">&quot;Mar&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2020-09-08&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;NONE&quot;</span>
+                        <span class="p">}</span>
+                    <span class="p">]</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;localizedName&quot;</span><span class="p">:</span><span class="s2">&quot;Herbacées&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;WEED&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;localizedDescription&quot;</span><span class="p">:</span><span class="s2">&quot;Armoise, Ambroisie, Pariétaire&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;forecast&quot;</span><span class="p">:[</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;localizedDay&quot;</span><span class="p">:</span><span class="s2">&quot;Auj.&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2020-09-06&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;NONE&quot;</span>
+                        <span class="p">},</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;localizedDay&quot;</span><span class="p">:</span><span class="s2">&quot;Lun&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2020-09-07&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;NONE&quot;</span>
+                        <span class="p">},</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;localizedDay&quot;</span><span class="p">:</span><span class="s2">&quot;Mar&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2020-09-08&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;NONE&quot;</span>
+                        <span class="p">}</span>
+                    <span class="p">]</span>
+                <span class="p">},</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;localizedName&quot;</span><span class="p">:</span><span class="s2">&quot;Arbres&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;TREE&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;localizedDescription&quot;</span><span class="p">:</span><span class="s2">&quot;Aulne, Frêne, Bouleau, Noisetier, Cyprès, Olivier&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;forecast&quot;</span><span class="p">:[</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;localizedDay&quot;</span><span class="p">:</span><span class="s2">&quot;Auj.&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2020-09-06&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;NONE&quot;</span>
+                        <span class="p">},</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;localizedDay&quot;</span><span class="p">:</span><span class="s2">&quot;Lun&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2020-09-07&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;NONE&quot;</span>
+                        <span class="p">},</span>
+                        <span class="p">{</span>
+                            <span class="s2">&quot;localizedDay&quot;</span><span class="p">:</span><span class="s2">&quot;Mar&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;date&quot;</span><span class="p">:</span><span class="s2">&quot;2020-09-08&quot;</span><span class="p">,</span>
+                            <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;NONE&quot;</span>
+                        <span class="p">}</span>
+                    <span class="p">]</span>
+                <span class="p">}</span>
+            <span class="p">]</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;pollutants&quot;</span><span class="p">:[</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;localizedName&quot;</span><span class="p">:</span><span class="s2">&quot;Matière particulaire&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;scientificName&quot;</span><span class="p">:</span><span class="s2">&quot;PM&lt;sub&gt;10&lt;/sub&gt;&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;EXCELLENT&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;concentration&quot;</span><span class="p">:{</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="mf">8.75</span><span class="p">,</span>
+                    <span class="s2">&quot;units&quot;</span><span class="p">:</span><span class="s2">&quot;μg/m&lt;sup&gt;3&lt;/sup&gt;&quot;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;localizedName&quot;</span><span class="p">:</span><span class="s2">&quot;Matière particulaire&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;scientificName&quot;</span><span class="p">:</span><span class="s2">&quot;PM&lt;sub&gt;2.5&lt;/sub&gt;&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;EXCELLENT&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;concentration&quot;</span><span class="p">:{</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="mf">5.04</span><span class="p">,</span>
+                    <span class="s2">&quot;units&quot;</span><span class="p">:</span><span class="s2">&quot;μg/m&lt;sup&gt;3&lt;/sup&gt;&quot;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;localizedName&quot;</span><span class="p">:</span><span class="s2">&quot;Ozone&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;scientificName&quot;</span><span class="p">:</span><span class="s2">&quot;O&lt;sub&gt;3&lt;/sub&gt;&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;EXCELLENT&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;concentration&quot;</span><span class="p">:{</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="mf">23.86</span><span class="p">,</span>
+                    <span class="s2">&quot;units&quot;</span><span class="p">:</span><span class="s2">&quot;ppb&quot;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;localizedName&quot;</span><span class="p">:</span><span class="s2">&quot;Dioxyde de soufre&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;scientificName&quot;</span><span class="p">:</span><span class="s2">&quot;SO&lt;sub&gt;2&lt;/sub&gt;&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;EXCELLENT&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;concentration&quot;</span><span class="p">:{</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="mf">1.19</span><span class="p">,</span>
+                    <span class="s2">&quot;units&quot;</span><span class="p">:</span><span class="s2">&quot;ppb&quot;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;localizedName&quot;</span><span class="p">:</span><span class="s2">&quot;Monoxyde de carbone&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;scientificName&quot;</span><span class="p">:</span><span class="s2">&quot;CO&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;EXCELLENT&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;concentration&quot;</span><span class="p">:{</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="mf">266.8</span><span class="p">,</span>
+                    <span class="s2">&quot;units&quot;</span><span class="p">:</span><span class="s2">&quot;ppb&quot;</span>
+                <span class="p">}</span>
+            <span class="p">},</span>
+            <span class="p">{</span>
+                <span class="s2">&quot;localizedName&quot;</span><span class="p">:</span><span class="s2">&quot;Dioxyde d&#39;azote&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;scientificName&quot;</span><span class="p">:</span><span class="s2">&quot;NO&lt;sub&gt;2&lt;/sub&gt;&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;level&quot;</span><span class="p">:</span><span class="s2">&quot;EXCELLENT&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;concentration&quot;</span><span class="p">:{</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span><span class="mf">5.76</span><span class="p">,</span>
+                    <span class="s2">&quot;units&quot;</span><span class="p">:</span><span class="s2">&quot;ppb&quot;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="away-configuration">
+<h3>Away configuration<a class="headerlink" href="#away-configuration" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_away_configuration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_away_configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_away_configuration" title="Permalink to this definition"></a></dt>
+<dd><p>Get the away configuration for a zone</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="capabilities">
+<h3>Capabilities<a class="headerlink" href="#capabilities" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_capabilities">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_capabilities</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_capabilities" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The capabilities of a tado zone as dictionary.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s1">&#39;temperatures&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;celsius&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">},</span>
+    <span class="s1">&#39;fahrenheit&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;max&#39;</span><span class="p">:</span> <span class="mi">77</span><span class="p">,</span> <span class="s1">&#39;min&#39;</span><span class="p">:</span> <span class="mi">41</span><span class="p">,</span> <span class="s1">&#39;step&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;HEATING&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="default-overlay">
+<h3>Default overlay<a class="headerlink" href="#default-overlay" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_default_overlay">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_default_overlay</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_default_overlay" title="Permalink to this definition"></a></dt>
+<dd><p>Get the default overlay settings of a zone</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+   <span class="s2">&quot;terminationCondition&quot;</span><span class="p">:</span> <span class="p">{</span>
+     <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;TADO_MODE&quot;</span>
+   <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="device-usage">
+<h3>Device usage<a class="headerlink" href="#device-usage" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_device_usage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_device_usage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_device_usage" title="Permalink to this definition"></a></dt>
+<dd><p>Get all devices of your home with how they are used</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>All devices of home as list of dictionaries</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="devices">
+<h3>Devices<a class="headerlink" href="#devices" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_devices">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_devices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_devices" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>All devices of the home as a list of dictionaries.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s1">&#39;characteristics&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="s1">&#39;capabilities&#39;</span><span class="p">:</span> <span class="p">[]</span> <span class="p">},</span>
+    <span class="s1">&#39;connectionState&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-02-20T18:51:47.362Z&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="kc">True</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;currentFwVersion&#39;</span><span class="p">:</span> <span class="s1">&#39;25.15&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;deviceType&#39;</span><span class="p">:</span> <span class="s1">&#39;GW03&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;gatewayOperation&#39;</span><span class="p">:</span> <span class="s1">&#39;NORMAL&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;serialNo&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_SERIAL&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;shortSerialNo&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_SERIAL&#39;</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s1">&#39;characteristics&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;capabilities&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="s1">&#39;INSIDE_TEMPERATURE_MEASUREMENT&#39;</span><span class="p">,</span> <span class="s1">&#39;IDENTIFY&#39;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;connectionState&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-01-22T16:03:00.773Z&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="kc">False</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;currentFwVersion&#39;</span><span class="p">:</span> <span class="s1">&#39;36.15&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;deviceType&#39;</span><span class="p">:</span> <span class="s1">&#39;VA01&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;mountingState&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-01-22T15:12:45.360Z&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;UNMOUNTED&#39;</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;serialNo&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_SERIAL&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;shortSerialNo&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_SERIAL&#39;</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s1">&#39;characteristics&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;capabilities&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="s1">&#39;INSIDE_TEMPERATURE_MEASUREMENT&#39;</span><span class="p">,</span> <span class="s1">&#39;IDENTIFY&#39;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;connectionState&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-02-20T18:33:49.092Z&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="kc">True</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;currentFwVersion&#39;</span><span class="p">:</span> <span class="s1">&#39;36.15&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;deviceType&#39;</span><span class="p">:</span> <span class="s1">&#39;VA01&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;mountingState&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-02-12T13:34:35.288Z&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;CALIBRATED&#39;</span><span class="p">},</span>
+    <span class="s1">&#39;serialNo&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_SERIAL&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;shortSerialNo&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_SERIAL&#39;</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s1">&#39;characteristics&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;capabilities&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="s1">&#39;INSIDE_TEMPERATURE_MEASUREMENT&#39;</span><span class="p">,</span> <span class="s1">&#39;IDENTIFY&#39;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;connectionState&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-02-20T18:51:28.779Z&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="kc">True</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;currentFwVersion&#39;</span><span class="p">:</span> <span class="s1">&#39;36.15&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;deviceType&#39;</span><span class="p">:</span> <span class="s1">&#39;VA01&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;mountingState&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-01-12T13:22:11.618Z&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;CALIBRATED&#39;</span>
+     <span class="p">},</span>
+    <span class="s1">&#39;serialNo&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_SERIAL&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;shortSerialNo&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_SERIAL&#39;</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="early-start">
+<h3>Early start<a class="headerlink" href="#early-start" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_early_start">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_early_start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_early_start" title="Permalink to this definition"></a></dt>
+<dd><p>Get the early start configuration of a zone.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with the early start setting of the zone. (True or False)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span> <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span> <span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="heating-circuits">
+<h3>Heating circuits<a class="headerlink" href="#heating-circuits" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_heating_circuits">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_heating_circuits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_heating_circuits" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the heating circuits in the current home</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>list of all dictionaries for all heating circuits</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="home">
+<h3>Home<a class="headerlink" href="#home" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_home">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_home</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_home" title="Permalink to this definition"></a></dt>
+<dd><p>Get information about the home.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary with information about your home.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;addressLine1&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_STREET&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;addressLine2&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">&#39;city&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_CITY&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_COUNTRY&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">&#39;zipCode&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_ZIP_CODE&#39;</span>
+  <span class="p">},</span>
+  <span class="s1">&#39;contactDetails&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_EMAIL&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_NAME&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;phone&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_PHONE&#39;</span>
+  <span class="p">},</span>
+  <span class="s1">&#39;dateTimeZone&#39;</span><span class="p">:</span> <span class="s1">&#39;Europe/Berlin&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;geolocation&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;latitude&#39;</span><span class="p">:</span> <span class="n">SOME_LAT</span><span class="p">,</span>
+    <span class="s1">&#39;longitude&#39;</span><span class="p">:</span> <span class="n">SOME_LONG</span>
+  <span class="p">},</span>
+  <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">SOME_ID</span><span class="p">,</span>
+  <span class="s1">&#39;installationCompleted&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+  <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_NAME&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;partner&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+  <span class="s1">&#39;simpleSmartScheduleEnabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+  <span class="s1">&#39;temperatureUnit&#39;</span><span class="p">:</span> <span class="s1">&#39;CELSIUS&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="home-state">
+<h3>Home state<a class="headerlink" href="#home-state" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_home_state">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_home_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_home_state" title="Permalink to this definition"></a></dt>
+<dd><p>Get information about the status of the home.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary with the status of the home.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="incidents">
+<h3>Incidents<a class="headerlink" href="#incidents" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_incidents">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_incidents</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_incidents" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the ongoing incidents in the current home</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Incident information</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="installations">
+<h3>Installations<a class="headerlink" href="#installations" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_installations">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_installations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_installations" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the ongoing installations in the current home</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>list of all current installations</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="invitations">
+<h3>Invitations<a class="headerlink" href="#invitations" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_invitations">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_invitations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_invitations" title="Permalink to this definition"></a></dt>
+<dd><p>Get active invitations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of active invitations to your home.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_INVITED_EMAIL&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;firstSent&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-02-20T21:01:44.450Z&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;home&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;addressLine1&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_STREET&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;addressLine2&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s1">&#39;city&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_CITY&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;country&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_COUNTRY&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="s1">&#39;zipCode&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_ZIP_CODE&#39;</span>
+      <span class="p">},</span>
+      <span class="s1">&#39;contactDetails&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_EMAIL&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_NAME&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;phone&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_PHONE&#39;</span>
+      <span class="p">},</span>
+      <span class="s1">&#39;dateTimeZone&#39;</span><span class="p">:</span> <span class="s1">&#39;Europe/Berlin&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;geolocation&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;latitude&#39;</span><span class="p">:</span> <span class="n">SOME_LAT</span><span class="p">,</span>
+        <span class="s1">&#39;longitude&#39;</span><span class="p">:</span> <span class="n">SOME_LONG</span>
+      <span class="p">},</span>
+      <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">SOME_ID</span><span class="p">,</span>
+      <span class="s1">&#39;installationCompleted&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+      <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_NAME&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;partner&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+      <span class="s1">&#39;simpleSmartScheduleEnabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+      <span class="s1">&#39;temperatureUnit&#39;</span><span class="p">:</span> <span class="s1">&#39;CELSIUS&#39;</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;inviter&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_INVITER_EMAIL&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+      <span class="s1">&#39;homeId&#39;</span><span class="p">:</span> <span class="n">SOME_ID</span><span class="p">,</span>
+      <span class="s1">&#39;locale&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_LOCALE&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_NAME&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;WEB_USER&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;username&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_USERNAME&#39;</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;lastSent&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-02-20T21:01:44.450Z&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;token&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_TOKEN&#39;</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="me">
+<h3>Me<a class="headerlink" href="#me" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_me">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_me</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_me" title="Permalink to this definition"></a></dt>
+<dd><p>Get information about the current user.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary with information about the current user.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s1">&#39;email&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_EMAIL&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;homes&#39;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">SOME_ID</span><span class="p">,</span>
+      <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_NAME&#39;</span>
+    <span class="p">}</span>
+  <span class="p">],</span>
+  <span class="s1">&#39;locale&#39;</span><span class="p">:</span> <span class="s1">&#39;en_US&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;mobileDevices&#39;</span><span class="p">:</span> <span class="p">[],</span>
+  <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_NAME&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;username&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_USERNAME&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;secret&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_CLIENT_SECRET&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="measuring-device">
+<h3>Measuring device<a class="headerlink" href="#measuring-device" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_measuring_device">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_measuring_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_measuring_device" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the active measuring device of a zone</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with the current measuring informations.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="mobile-devices">
+<h3>Mobile devices<a class="headerlink" href="#mobile-devices" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_mobile_devices">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_mobile_devices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_mobile_devices" title="Permalink to this definition"></a></dt>
+<dd><p>Get all mobile devices.</p>
+</dd></dl>
+
+</section>
+<section id="open-window-detection">
+<h3>Open window detection<a class="headerlink" href="#open-window-detection" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.set_open_window_detection">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">set_open_window_detection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enabled</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seconds</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.set_open_window_detection" title="Permalink to this definition"></a></dt>
+<dd><p>Get the open window detection for a zone</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p></li>
+<li><p><strong>enabled</strong> (<em>bool</em>) – If open window detection is enabled</p></li>
+<li><p><strong>seconds</strong> (<em>int</em>) – timeout in seconds</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="report">
+<h3>Report<a class="headerlink" href="#report" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_report">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_report</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_report" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p></li>
+<li><p><strong>date</strong> (<em>str</em>) – The date in ISO8601 format. e.g. “2019-02-14”</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The daily report.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="schedule-timetables">
+<h3>Schedule Timetables<a class="headerlink" href="#schedule-timetables" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_schedule_timetables">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_schedule_timetables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_schedule_timetables" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the schedule timetables supported by the zone</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The schedule types</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="schedule">
+<h3>Schedule<a class="headerlink" href="#schedule" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_schedule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_schedule" title="Permalink to this definition"></a></dt>
+<dd><p>Get the type of the currently configured schedule of a zone.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with the ID and type of the schedule of the zone.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p>Tado allows three different types of a schedule for a zone:</p>
+<ul class="simple">
+<li><p>The same schedule for all seven days of a week.</p></li>
+<li><p>One schedule for weekdays, one for saturday and one for sunday.</p></li>
+<li><p>Seven different schedules - one for every day of the week.</p></li>
+</ul>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;THREE_DAY&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="schedule-blocks">
+<h3>Schedule blocks<a class="headerlink" href="#schedule-blocks" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_schedule_blocks">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_schedule_blocks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schedule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_schedule_blocks" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the blocks for the current schedule on a zone</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p></li>
+<li><p><strong>schedule</strong> (<em>int</em>) – The schedule ID to fetch</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The blocks for the requested schedule</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="state">
+<h3>State<a class="headerlink" href="#state" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_state">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_state" title="Permalink to this definition"></a></dt>
+<dd><p>Get the current state of a zone including its desired and current temperature. Check out the example output for more.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with the current settings and sensor measurements of the zone.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s1">&#39;activityDataPoints&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;heatingPower&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;percentage&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+      <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-02-21T11:56:52.204Z&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;PERCENTAGE&#39;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s1">&#39;geolocationOverride&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+  <span class="s1">&#39;geolocationOverrideDisableTime&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+  <span class="s1">&#39;link&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="s1">&#39;ONLINE&#39;</span><span class="p">},</span>
+  <span class="s1">&#39;overlay&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+  <span class="s1">&#39;overlayType&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+  <span class="s1">&#39;preparation&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+  <span class="s1">&#39;sensorDataPoints&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;humidity&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;percentage&#39;</span><span class="p">:</span> <span class="mf">44.0</span><span class="p">,</span>
+      <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-02-21T11:56:45.369Z&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;PERCENTAGE&#39;</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;insideTemperature&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;celsius&#39;</span><span class="p">:</span> <span class="mf">18.11</span><span class="p">,</span>
+      <span class="s1">&#39;fahrenheit&#39;</span><span class="p">:</span> <span class="mf">64.6</span><span class="p">,</span>
+      <span class="s1">&#39;precision&#39;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s1">&#39;celsius&#39;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+        <span class="s1">&#39;fahrenheit&#39;</span><span class="p">:</span> <span class="mf">1.0</span>
+      <span class="p">},</span>
+      <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-02-21T11:56:45.369Z&#39;</span><span class="p">,</span>
+      <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;TEMPERATURE&#39;</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="s1">&#39;setting&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;power&#39;</span><span class="p">:</span> <span class="s1">&#39;ON&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;celsius&#39;</span><span class="p">:</span> <span class="mf">20.0</span><span class="p">,</span>
+      <span class="s1">&#39;fahrenheit&#39;</span><span class="p">:</span> <span class="mf">68.0</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;HEATING&#39;</span>
+  <span class="p">},</span>
+  <span class="s1">&#39;tadoMode&#39;</span><span class="p">:</span> <span class="s1">&#39;HOME&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="temperature-offset">
+<h3>Temperature offset<a class="headerlink" href="#temperature-offset" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_temperature_offset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_temperature_offset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_serial</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_temperature_offset" title="Permalink to this definition"></a></dt>
+<dd><p>Gets the temperature offset of a device</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary that returns the offset in ‘celsius’ and ‘fahrenheit’</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+     <span class="s2">&quot;celsius&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+     <span class="s2">&quot;fahrenheit&quot;</span><span class="p">:</span> <span class="mf">0.0</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="users">
+<h3>Users<a class="headerlink" href="#users" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_users">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_users</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_users" title="Permalink to this definition"></a></dt>
+<dd><p>Get all users of your home.</p>
+</dd></dl>
+
+</section>
+<section id="weather">
+<h3>Weather<a class="headerlink" href="#weather" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_weather">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_weather</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_weather" title="Permalink to this definition"></a></dt>
+<dd><p>Get the current weather of the location of your home.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary with weather information for your home.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s1">&#39;outsideTemperature&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;celsius&#39;</span><span class="p">:</span> <span class="mf">8.49</span><span class="p">,</span>
+    <span class="s1">&#39;fahrenheit&#39;</span><span class="p">:</span> <span class="mf">47.28</span><span class="p">,</span>
+    <span class="s1">&#39;precision&#39;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s1">&#39;celsius&#39;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+      <span class="s1">&#39;fahrenheit&#39;</span><span class="p">:</span> <span class="mf">0.01</span>
+    <span class="p">},</span>
+    <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-02-21T12:06:11.296Z&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;TEMPERATURE&#39;</span>
+  <span class="p">},</span>
+  <span class="s1">&#39;solarIntensity&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;percentage&#39;</span><span class="p">:</span> <span class="mf">58.4</span><span class="p">,</span>
+    <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-02-21T12:06:11.296Z&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;PERCENTAGE&#39;</span>
+  <span class="p">},</span>
+  <span class="s1">&#39;weatherState&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-02-21T12:06:11.296Z&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;WEATHER_STATE&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;CLOUDY_PARTLY&#39;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="zones">
+<h3>Zones<a class="headerlink" href="#zones" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.get_zones">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">get_zones</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.get_zones" title="Permalink to this definition"></a></dt>
+<dd><p>Get all zones of your home.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A list of dictionaries with all your zones.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>list</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>
+  <span class="p">{</span> <span class="s1">&#39;dateCreated&#39;</span><span class="p">:</span> <span class="s1">&#39;2016-12-23T15:53:43.615Z&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dazzleEnabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;deviceTypes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;VA01&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;devices&#39;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="s1">&#39;characteristics&#39;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s1">&#39;capabilities&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="s1">&#39;INSIDE_TEMPERATURE_MEASUREMENT&#39;</span><span class="p">,</span> <span class="s1">&#39;IDENTIFY&#39;</span><span class="p">]</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;connectionState&#39;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-02-21T14:22:45.913Z&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="kc">True</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;currentFwVersion&#39;</span><span class="p">:</span> <span class="s1">&#39;36.15&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;deviceType&#39;</span><span class="p">:</span> <span class="s1">&#39;VA01&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;duties&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ZONE_UI&#39;</span><span class="p">,</span> <span class="s1">&#39;ZONE_DRIVER&#39;</span><span class="p">,</span> <span class="s1">&#39;ZONE_LEADER&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;mountingState&#39;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-02-12T13:34:35.288Z&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;CALIBRATED&#39;</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;serialNo&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_SERIAL&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;shortSerialNo&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_SERIAL&#39;</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_NAME&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;reportAvailable&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s1">&#39;supportsDazzle&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;HEATING&#39;</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="s1">&#39;dateCreated&#39;</span><span class="p">:</span> <span class="s1">&#39;2016-12-23T16:16:11.390Z&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dazzleEnabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;deviceTypes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;VA01&#39;</span><span class="p">],</span>
+    <span class="s1">&#39;devices&#39;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="s1">&#39;characteristics&#39;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s1">&#39;capabilities&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="s1">&#39;INSIDE_TEMPERATURE_MEASUREMENT&#39;</span><span class="p">,</span> <span class="s1">&#39;IDENTIFY&#39;</span><span class="p">]</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;connectionState&#39;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-02-21T14:19:40.215Z&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="kc">True</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;currentFwVersion&#39;</span><span class="p">:</span> <span class="s1">&#39;36.15&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;deviceType&#39;</span><span class="p">:</span> <span class="s1">&#39;VA01&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;duties&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;ZONE_UI&#39;</span><span class="p">,</span> <span class="s1">&#39;ZONE_DRIVER&#39;</span><span class="p">,</span> <span class="s1">&#39;ZONE_LEADER&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;mountingState&#39;</span><span class="p">:</span> <span class="p">{</span>
+          <span class="s1">&#39;timestamp&#39;</span><span class="p">:</span> <span class="s1">&#39;2017-01-12T13:22:11.618Z&#39;</span><span class="p">,</span>
+          <span class="s1">&#39;value&#39;</span><span class="p">:</span> <span class="s1">&#39;CALIBRATED&#39;</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;serialNo&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_SERIAL&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;shortSerialNo&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_SERIAL&#39;</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+    <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="s1">&#39;SOME_NAME &#39;</span><span class="p">,</span>
+    <span class="s1">&#39;reportAvailable&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s1">&#39;supportsDazzle&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;HEATING&#39;</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+</section>
+<section id="setter">
+<h2>Setter<a class="headerlink" href="#setter" title="Permalink to this heading"></a></h2>
+<section id="id1">
+<h3>Early start<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.set_early_start">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">set_early_start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enabled</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.set_early_start" title="Permalink to this definition"></a></dt>
+<dd><p>Enable or disable the early start feature of a zone.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p></li>
+<li><p><strong>enabled</strong> (<em>bool</em>) – Enable (True) or disable (False) the early start feature of the zone.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new configuration of the early start feature.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="s1">&#39;enabled&#39;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="end-manual-control">
+<h3>End manual control<a class="headerlink" href="#end-manual-control" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.end_manual_control">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">end_manual_control</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.end_manual_control" title="Permalink to this definition"></a></dt>
+<dd><p>End the manual control of a zone.</p>
+</dd></dl>
+
+</section>
+<section id="id2">
+<h3>Home state<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.set_home_state">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">set_home_state</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">at_home</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.set_home_state" title="Permalink to this definition"></a></dt>
+<dd><p>Set at-home/away state</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>at_home</strong> (<em>bool</em>) – True for at HOME, false for AWAY.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="id3">
+<h3>Schedule<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.set_schedule">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">set_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schedule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.set_schedule" title="Permalink to this definition"></a></dt>
+<dd><p>Set the type of the currently configured schedule of a zone.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p></li>
+<li><p><strong>schedule</strong> (<em>int</em>) – <p>The schedule to activate.
+The supported zones are currently</p>
+<blockquote>
+<div><ul>
+<li><p>0: ONE_DAY</p></li>
+<li><p>1: THREE_DAY</p></li>
+<li><p>2: SEVEN_DAY</p></li>
+</ul>
+</div></blockquote>
+<p>But the actual mapping should be retrieved via get_schedule_timetables.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new configuration</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="id4">
+<h3>Schedule blocks<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.set_schedule_blocks">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">set_schedule_blocks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schedule</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blocks</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.set_schedule_blocks" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the blocks for the current schedule on a zone</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p></li>
+<li><p><strong>schedule</strong> (<em>int</em>) – The schedule ID.</p></li>
+<li><p><strong>blocks</strong> (<em>list</em>) – The new blocks</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The new configuration</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="temperature">
+<h3>Temperature<a class="headerlink" href="#temperature" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.set_temperature">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">set_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">termination</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MANUAL'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.set_temperature" title="Permalink to this definition"></a></dt>
+<dd><p>Set the desired temperature of a zone.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – The desired temperature in celsius.</p></li>
+<li><p><strong>termination</strong> (<em>str/int</em>) – The termination mode for the zone.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary with the new zone settings.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+<p>If you set a desired temperature less than 5 celsius it will turn of the zone!</p>
+<p>The termination supports three different mode:</p>
+<ul class="simple">
+<li><p>“MANUAL”: The zone will be set on the desired temperature until you change it manually.</p></li>
+<li><p>“AUTO”: The zone will be set on the desired temperature until the next automatic change.</p></li>
+<li><p>INTEGER: The zone will be set on the desired temperature for INTEGER seconds.</p></li>
+</ul>
+<p class="rubric">Example</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+  <span class="s1">&#39;setting&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;power&#39;</span><span class="p">:</span> <span class="s1">&#39;ON&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;temperature&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;celsius&#39;</span><span class="p">:</span> <span class="mf">12.0</span><span class="p">,</span> <span class="s1">&#39;fahrenheit&#39;</span><span class="p">:</span> <span class="mf">53.6</span><span class="p">},</span>
+    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;HEATING&#39;</span>
+  <span class="p">},</span>
+  <span class="s1">&#39;termination&#39;</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s1">&#39;projectedExpiry&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;MANUAL&#39;</span>
+  <span class="p">},</span>
+  <span class="s1">&#39;type&#39;</span><span class="p">:</span> <span class="s1">&#39;MANUAL&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+<section id="id5">
+<h3>Temperature offset<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.set_temperature_offset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">set_temperature_offset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_serial</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">offset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.set_temperature_offset" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the temperature offset of a device</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device_serial</strong> (<em>Str</em>) – The serial number of the device</p></li>
+<li><p><strong>offset</strong> (<em>float</em>) – the temperature offset to apply in celsius</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A dictionary that returns the offset in ‘celsius’ and ‘fahrenheit’</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="zone-name">
+<h3>Zone name<a class="headerlink" href="#zone-name" title="Permalink to this heading"></a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="libtado.api.Tado.set_zone_name">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">libtado.api.Tado.</span></span><span class="sig-name descname"><span class="pre">set_zone_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zone</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#libtado.api.Tado.set_zone_name" title="Permalink to this definition"></a></dt>
+<dd><p>Sets the name of the zone</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>zone</strong> (<em>int</em>) – The zone ID.</p></li>
+<li><p><strong>new_name</strong> (<em>str</em>) – The new name of the zone</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="cli.html" class="btn btn-neutral float-left" title="Command Line Client" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="development.html" class="btn btn-neutral float-right" title="Step-by-Step Guide" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Germain LEFEBVRE, Max Rosin.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
