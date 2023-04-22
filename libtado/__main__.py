@@ -73,6 +73,14 @@ def devices(tado):
       click.echo('Connection: %s (%s)' % (d['connectionState']['value'], d['connectionState']['timestamp']))
       click.echo('Mounted: %s (%s)' % (d['mountingState']['value'], d['mountingState']['timestamp']))
       click.echo('Battery State: %s' % d['batteryState'])
+    elif d['deviceType'] == 'VA02E':
+      # V2 smart radiator thermostat Basic
+      click.echo('Serial: %s' % d['serialNo'])
+      click.echo('Type: %s' % d['deviceType'])
+      click.echo('Firmware: %s' % d['currentFwVersion'])
+      click.echo('Connection: %s (%s)' % (d['connectionState']['value'], d['connectionState']['timestamp']))
+      click.echo('Mounted: %s (%s)' % (d['mountingState']['value'], d['mountingState']['timestamp']))
+      click.echo('Battery State: %s' % d['batteryState'])
     elif d['deviceType'] == 'RU02':
       # V2 smart wall theromstat
       click.echo('Serial: %s' % d['serialNo'])
