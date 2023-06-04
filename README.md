@@ -1,5 +1,9 @@
 # Tado python library
 
+<img src="docs/logo.png" alt="Libtado Logo" width="200px" align="center"/>
+
+---
+
 A library to control your Tado Smart Thermostat. This repository contains an actual library in `libtado/api.py` and a proof of concept command line client in `libtado/__main__.py`.
 
 **The tested version of APIs is Tado v2.**
