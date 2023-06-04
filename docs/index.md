@@ -1,5 +1,7 @@
 # Homepage
 
+![Image title](./logo.png){: .center width=600 }
+
 **libtado** is a simple Python library that provides methods to control the smart heating devices from the German company [tado GmbH](https://www.tado.com)[^1]. It uses the undocumented REST API of their website.
 
 The library is in NO way connected to tado GmbH and is not officially supported by them!
