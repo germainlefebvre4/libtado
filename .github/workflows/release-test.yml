@@ -25,12 +25,10 @@ jobs:
         run: |
           sed -i "s/^\( *version=\).*/\13.6.0-alpha.0,/g" setup.py
           sed -i 's/^\(^version = \).*/\13.6.0-alpha.0,/g' pyproject.toml
-        if: steps.release_published.outputs.data == 'true'
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install setuptools wheel twine
-        if: steps.release_published.outputs.data == 'true'
       - name: Build and publish
         env:
           TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
@@ -38,4 +36,3 @@ jobs:
         run: |
           python setup.py sdist bdist_wheel
           twine upload dist/*
-        if: steps.release_published.outputs.data == 'true'
