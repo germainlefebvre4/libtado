@@ -1260,10 +1260,10 @@ class Tado:
   def get_heating_system(self):
     """
     Get all heating systems of your home.
-    
+
     Returns:
       (list): A dict of your heating systems.
-    
+
     Example:
       ```json
       {
@@ -1285,10 +1285,10 @@ class Tado:
   def get_running_times(self, from_date):
     """
     Get all running times of your home.
-    
+
     Returns:
       (list): A dict of your running times.
-    
+
     Example:
       ```json
       {
@@ -1333,10 +1333,10 @@ class Tado:
   def get_zone_states(self):
     """
     Get all zone states of your home.
-    
+
     Returns:
       (list): A dict of your zone states.
-    
+
     Example:
       ```json
       {
@@ -1456,7 +1456,7 @@ class Tado:
                           "timestamp":"2022-08-18T05:46:09.620Z"
                       }
                   }
-              } 
+              }
           }
       }
       ```
@@ -1467,16 +1467,16 @@ class Tado:
   def get_energy_consumption(self, startDate, endDate, country, ngsw_bypass=True):
     """
     Get enery consumption of your home by range date
-      
+
     Parameters:
       startDate (str): Start date of the range date.
       endDate (str): End date of the range date.
       country (str): Country code.
       ngsw_bypass (bool): Bypass the ngsw cache.
-    
+
     Returns:
       (list): A dict of your energy consumption.
-    
+
     Example:
       ```json
       {
@@ -1510,7 +1510,7 @@ class Tado:
               ],
           }
       }
-      `` 
+      ``
     """
     data = self._api_energy_insights_call('homes/%i/consumption?startDate=%s&endDate=%s&country=%s&ngsw-bypass=%s' % (self.id, startDate, endDate, country, ngsw_bypass))
     return data
@@ -1518,15 +1518,15 @@ class Tado:
   def get_energy_savings(self, monthYear, country, ngsw_bypass=True):
     """
     Get energy savings of your home by month and year
-      
+
     Parameters:
       monthYear (str): Month and year of the range date.
       country (str): Country code.
       ngsw_bypass (bool): Bypass the ngsw cache.
-    
+
     Returns:
       (list): A dict of your energy savings.
-    
+
     Example:
       ```json
       {
@@ -1610,4 +1610,3 @@ class Tado:
     """
     data = self._api_energy_bob_call('%i/%s?country=%s&ngsw-bypass=%s' % (self.id, monthYear, country, ngsw_bypass))
     return data
-

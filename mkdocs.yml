@@ -30,24 +30,20 @@ plugins:
         python:
           options:
             show_source: false
-            # show_root_heading: false
-
-  # - markdownextradata:
-  #     data: data
 
 nav:
   - Homepage: index.md
   - "Getting started":
-    - Installation: getting-started/installation.md
-    - Usage: getting-started/usage.md
-    - References: getting-started/references.md
+      - Installation: getting-started/installation.md
+      - Usage: getting-started/usage.md
+      - References: getting-started/references.md
   - "Command line":
-    - Usage: cli/usage.md
-    - Configuration: cli/configuration.md
-    - "CLI Reference": cli/reference.md
+      - Usage: cli/usage.md
+      - Configuration: cli/configuration.md
+      - "CLI Reference": cli/reference.md
   - API:
-    - Usage: api/usage.md
-    - "API Reference": api/reference.md
+      - Usage: api/usage.md
+      - "API Reference": api/reference.md
   - Contributing: contributing.md
   - FAQ: faq.md
 
@@ -74,9 +70,9 @@ markdown_extensions:
   - pymdownx.snippets
   - pymdownx.superfences:
       custom_fences:
-      - name: mermaid
-        class: mermaid
-        format: !!python/name:pymdownx.superfences.fence_code_format ''
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format ''
   - pymdownx.tabbed:
       alternate_style: true
 
