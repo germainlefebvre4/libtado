@@ -18,6 +18,9 @@ classifiers = [
 python = ">=3.8.1,<4.0"
 click = "*"
 requests = "*"
+tox = "^4.6.0"
+flake8 = "^6.0.0"
+ruff = "^0.0.272"
 
 [tool.poetry.group.dev.dependencies]
 mkdocs = "*"
