@@ -12,6 +12,7 @@ python-dotenv = "*"
 pytest = "*"
 pytest-dotenv = "*"
 python-dateutil = "*"
+mkdocs-material = "*"
 
 [packages]
 click = "*"

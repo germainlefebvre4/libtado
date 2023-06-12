@@ -93,3 +93,6 @@ ENV/
 test.py
 gitchangelog.py
 .pytest_cache
+
+# Mkdocs
+output/

@@ -1,0 +1,94 @@
+---
+site_name: Libtado
+site_description: Tado python library to automate your home thermostat.
+site_url: https://libtado.readthedocs.io/
+
+repo_name: germainlefebvre4/libtado
+repo_url: https://github.com/germainlefebvre4/libtado
+
+theme:
+  name: material
+  language: en
+  logo: assets/logo.png
+  favicon: assets/favicon.png
+  features:
+    - navigation.tabs
+    # - navigation.expand
+    - navigation.path
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - navigation.footer
+
+plugins:
+  - search:
+      lang: en
+  - autorefs
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          options:
+            show_source: false
+            # show_root_heading: false
+
+  # - markdownextradata:
+  #     data: data
+
+nav:
+  - Homepage: index.md
+  - "Getting started":
+    - Installation: getting-started/installation.md
+    - Usage: getting-started/usage.md
+    - References: getting-started/references.md
+  - "Command line":
+    - Usage: cli/usage.md
+    - Configuration: cli/configuration.md
+    - "CLI Reference": cli/reference.md
+  - API:
+    - Usage: api/usage.md
+    - "API Reference": api/reference.md
+  - Contributing: contributing.md
+  - FAQ: faq.md
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - admonition
+  - codehilite
+  - tables
+  - footnotes
+  - extra
+  - mkdocs-click
+  - toc:
+      permalink: true
+  - markdown.extensions.codehilite:
+      guess_lang: false
+  # - mdx_include:
+  #     base_path: docs
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+      - name: mermaid
+        class: mermaid
+        format: !!python/name:pymdownx.superfences.fence_code_format ''
+  - pymdownx.tabbed:
+      alternate_style: true
+
+watch:
+  - libtado/
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/germainlefebvre4/libtado
+    - icon: fontawesome/brands/docker
+      link: https://hub.docker.com/r/germainlefebvre4/libtado
+
+copyright: Copyright &copy; 2023 Germain Lefebvre, Max Rosin, and contributors

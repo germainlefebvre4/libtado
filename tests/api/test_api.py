@@ -91,7 +91,7 @@ class TestApi:
         response = tado.get_home()
 
         assert isinstance(response, dict)
-        KEYS = ["id", "name", "dateTimeZone", "dateCreated", "temperatureUnit", "partner", "simpleSmartScheduleEnabled", "awayRadiusInMeters", "installationCompleted", "incidentDetection", "autoAssistFreeTrialEnabled", "usePreSkillsApps", "skills", "christmasModeEnabled", "showAutoAssistReminders", "contactDetails", "address", "geolocation", "consentGrantSkippable"]
+        KEYS = ['id', 'name', 'dateTimeZone', 'dateCreated', 'temperatureUnit', 'partner', 'simpleSmartScheduleEnabled', 'awayRadiusInMeters', 'installationCompleted', 'incidentDetection', 'generation', 'zonesCount', 'usePreSkillsApps', 'skills', 'christmasModeEnabled', 'showAutoAssistReminders', 'contactDetails', 'address', 'geolocation', 'consentGrantSkippable', 'enabledFeatures', 'isAirComfortEligible', 'isBalanceAcEligible', 'isEnergyIqEligible']
         assert all(name in response for name in KEYS)
         KEYS = ["name", "email", "phone"]
         assert all(name in response["contactDetails"] for name in KEYS)
@@ -111,7 +111,7 @@ class TestApi:
         assert isinstance(response, list)
         KEYS = ["token", "email", "firstSent", "lastSent", "inviter", "home"]
         assert all(name in response[0] for name in KEYS)
-        KEYS = ["id", "name", "dateTimeZone", "dateCreated", "temperatureUnit", "partner", "simpleSmartScheduleEnabled", "awayRadiusInMeters", "installationCompleted", "incidentDetection", "autoAssistFreeTrialEnabled", "usePreSkillsApps", "skills", "christmasModeEnabled", "showAutoAssistReminders", "contactDetails", "address", "geolocation", "consentGrantSkippable"]
+        KEYS = ["id", "name", "dateTimeZone", "dateCreated", "temperatureUnit", "partner", "simpleSmartScheduleEnabled", "awayRadiusInMeters", "installationCompleted", "incidentDetection", "generation", "zonesCount", "usePreSkillsApps", "skills", "christmasModeEnabled", "showAutoAssistReminders", "contactDetails", "address", "geolocation", "consentGrantSkippable", "enabledFeatures", "isAirComfortEligible", "isBalanceAcEligible", "isEnergyIqEligible"]
         assert all(name in response[0]["home"] for name in KEYS)
         KEYS = ["supported", "enabled"]
         assert all(name in response[0]["home"]["incidentDetection"] for name in KEYS)
