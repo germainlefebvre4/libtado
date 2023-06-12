@@ -1,11 +1,12 @@
+---
 name: Release development branches
 
 on:
   push:
     branches:
-    - develop
-    - feat/*
-    - fix/*
+      - develop
+      - feat/*
+      - fix/*
 
 jobs:
   release:
@@ -63,7 +64,7 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: '3.7'
-          
+
       - name: get release_version
         id: release_version
         uses: noobly314/share-data@v1

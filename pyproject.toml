@@ -1,12 +1,11 @@
-[project]
+[tool.poetry]
 name = "libtado"
-version = "3.2.1"
-authors = [
-  { name="Germain Lefebvre", email="germainlefebvre4@gmail.com" },
-]
+version = "3.5.1"
 description = "A library (and a command line client) to control your Tado Smart Thermostat."
+authors = ["Germain Lefebvre <germain.lefebvre4@gmail.com>"]
+license = "GNU GPL v3.0"
 readme = "README.md"
-requires-python = ">=3.7"
+
 classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
@@ -15,6 +14,24 @@ classifiers = [
 
 ]
 
-[project.urls]
-"Homepage" = "https://github.com/germainlefebvre4/libtado"
-"Bug Tracker" = "https://github.com/germainlefebvre4/libtado/issues"
+[tool.poetry.dependencies]
+python = ">=3.8.1,<4.0"
+click = "*"
+requests = "*"
+
+[tool.poetry.group.dev.dependencies]
+mkdocs = "*"
+mkdocs-material = "*"
+mkdocstrings = {extras = ["python"], version = "*"}
+mkdocs-click = "*"
+poetry-plugin-dotenv = "^0.5.0"
+pytest = "*"
+pytest-dotenv = "*"
+python-dateutil = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+tado = "libtado.__main__:main"

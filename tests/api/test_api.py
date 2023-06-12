@@ -22,7 +22,7 @@ class TestApi:
         assert all(name in response[0] for name in KEYS)
         KEYS = ["deviceType", "serialNo", "shortSerialNo", "currentFwVersion", "connectionState", "characteristics", "batteryState", "duties"]
         assert all(name in response[0]["devices"][0] for name in KEYS)
-        
+
         assert response[0]["id"] == 1
 
     def test_get_capabilities(self):
@@ -30,7 +30,7 @@ class TestApi:
         response = tado.get_capabilities(ZONE_ID)
 
         assert isinstance(response, dict)
-        
+
         KEYS = ["type", "temperatures"]
         assert all(name in response for name in KEYS)
         KEYS = ["celsius", "fahrenheit"]
@@ -44,7 +44,7 @@ class TestApi:
 
         assert isinstance(response, list)
         assert len(response) > 0
-        
+
         DEVICES_BU = [x for x in response if x["deviceType"] == "BU01"]
         KEYS = ["deviceType", "serialNo", "shortSerialNo", "currentFwVersion", "connectionState", "characteristics", "isDriverConfigured"]
         assert all(name in DEVICES_BU[0] for name in KEYS)
@@ -91,7 +91,7 @@ class TestApi:
         response = tado.get_home()
 
         assert isinstance(response, dict)
-        KEYS = ["id", "name", "dateTimeZone", "dateCreated", "temperatureUnit", "partner", "simpleSmartScheduleEnabled", "awayRadiusInMeters", "installationCompleted", "incidentDetection", "autoAssistFreeTrialEnabled", "usePreSkillsApps", "skills", "christmasModeEnabled", "showAutoAssistReminders", "contactDetails", "address", "geolocation", "consentGrantSkippable"]
+        KEYS = ['id', 'name', 'dateTimeZone', 'dateCreated', 'temperatureUnit', 'partner', 'simpleSmartScheduleEnabled', 'awayRadiusInMeters', 'installationCompleted', 'incidentDetection', 'generation', 'zonesCount', 'usePreSkillsApps', 'skills', 'christmasModeEnabled', 'showAutoAssistReminders', 'contactDetails', 'address', 'geolocation', 'consentGrantSkippable', 'enabledFeatures', 'isAirComfortEligible', 'isBalanceAcEligible', 'isEnergyIqEligible']
         assert all(name in response for name in KEYS)
         KEYS = ["name", "email", "phone"]
         assert all(name in response["contactDetails"] for name in KEYS)
@@ -111,7 +111,7 @@ class TestApi:
         assert isinstance(response, list)
         KEYS = ["token", "email", "firstSent", "lastSent", "inviter", "home"]
         assert all(name in response[0] for name in KEYS)
-        KEYS = ["id", "name", "dateTimeZone", "dateCreated", "temperatureUnit", "partner", "simpleSmartScheduleEnabled", "awayRadiusInMeters", "installationCompleted", "incidentDetection", "autoAssistFreeTrialEnabled", "usePreSkillsApps", "skills", "christmasModeEnabled", "showAutoAssistReminders", "contactDetails", "address", "geolocation", "consentGrantSkippable"]
+        KEYS = ["id", "name", "dateTimeZone", "dateCreated", "temperatureUnit", "partner", "simpleSmartScheduleEnabled", "awayRadiusInMeters", "installationCompleted", "incidentDetection", "generation", "zonesCount", "usePreSkillsApps", "skills", "christmasModeEnabled", "showAutoAssistReminders", "contactDetails", "address", "geolocation", "consentGrantSkippable", "enabledFeatures", "isAirComfortEligible", "isBalanceAcEligible", "isEnergyIqEligible"]
         assert all(name in response[0]["home"] for name in KEYS)
         KEYS = ["supported", "enabled"]
         assert all(name in response[0]["home"]["incidentDetection"] for name in KEYS)
@@ -197,7 +197,7 @@ class TestApi:
     #     temp_current = tado.get_state(1)["setting"]["temperature"]["celsius"]
     #     tado.set_temperature(1, temp_current)
     #     temp_changed = tado.get_state(1)["setting"]["temperature"]["celsius"]
-        
+
     #     assert temp_changed == temp_changed
 
     # def test_end_manual_control(self):
@@ -215,17 +215,17 @@ class TestApi:
         assert isinstance(response, dict)
         KEYS = ["zoneType", "interval", "hoursInDay", "measuredData", "stripes", "settings", "callForHeat", "weather"]
         assert all(name in response for name in KEYS)
-        
+
         KEYS = ["from", "to"]
         assert all(name in response["interval"] for name in KEYS)
-        
+
         KEYS = ["measuringDeviceConnected", "insideTemperature", "humidity"]
         assert all(name in response["measuredData"] for name in KEYS)
         KEYS = ["timeSeriesType", "valueType", "dataIntervals"]
         assert all(name in response["measuredData"]["measuringDeviceConnected"] for name in KEYS)
         KEYS = ["from", "to", "value"]
         assert all(name in response["measuredData"]["measuringDeviceConnected"]["dataIntervals"][0] for name in KEYS)
-        
+
         KEYS = ["timeSeriesType", "valueType", "dataIntervals"]
         assert all(name in response["stripes"] for name in KEYS)
         KEYS = ["from", "to", "value"]
@@ -236,7 +236,7 @@ class TestApi:
         assert all(name in response["stripes"]["dataIntervals"][0]["value"]["setting"] for name in KEYS)
         KEYS = ["celsius", "fahrenheit"]
         assert all(name in response["stripes"]["dataIntervals"][0]["value"]["setting"]["temperature"] for name in KEYS)
-        
+
         KEYS = ["timeSeriesType", "valueType", "dataIntervals"]
         assert all(name in response["settings"] for name in KEYS)
         KEYS = ["from", "to", "value"]
@@ -245,10 +245,10 @@ class TestApi:
         assert all(name in response["settings"]["dataIntervals"][0]["value"] for name in KEYS)
         KEYS = ["celsius", "fahrenheit"]
         assert all(name in response["settings"]["dataIntervals"][0]["value"]["temperature"] for name in KEYS)
-        
+
         KEYS = ["timeSeriesType", "valueType", "dataIntervals"]
         assert all(name in response["callForHeat"] for name in KEYS)
-        
+
         KEYS = ["condition", "sunny", "slots"]
         assert all(name in response["weather"] for name in KEYS)
         KEYS = ["from", "to", "value"]
@@ -270,10 +270,10 @@ class TestApi:
         assert isinstance(response, dict)
         KEYS = ["freshness", "comfort"]
         assert all(name in response for name in KEYS)
-        
+
         KEYS = ["value", "lastOpenWindow"]
         assert all(name in response["freshness"] for name in KEYS)
-        
+
         KEYS = ["roomId", "temperatureLevel", "humidityLevel", "coordinate"]
         assert all(name in response["comfort"][0] for name in KEYS)
         KEYS = ["radial", "angular"]
@@ -287,15 +287,15 @@ class TestApi:
         assert isinstance(response, dict)
         KEYS = ["roomMessages", "outdoorQuality"]
         assert all(name in response for name in KEYS)
-        
+
         KEYS = ["roomId", "message", "visual", "link"]
         assert all(name in response["roomMessages"][0] for name in KEYS)
-        
+
         KEYS = ["aqi", "pollens", "pollutants"]
         assert all(name in response["outdoorQuality"] for name in KEYS)
         KEYS = ["value", "level"]
         assert all(name in response["outdoorQuality"]["aqi"] for name in KEYS)
-        
+
         KEYS = ["dominant", "types"]
         assert all(name in response["outdoorQuality"]["pollens"] for name in KEYS)
         KEYS = ["level"]
@@ -304,7 +304,7 @@ class TestApi:
         assert all(name in response["outdoorQuality"]["pollens"]["types"][0] for name in KEYS)
         KEYS = ["localizedDay", "date", "level"]
         assert all(name in response["outdoorQuality"]["pollens"]["types"][0]["forecast"][0] for name in KEYS)
-        
+
         KEYS = ["localizedName", "scientificName", "level", "concentration"]
         assert all(name in response["outdoorQuality"]["pollutants"][0] for name in KEYS)
         KEYS = ["value", "units"]
