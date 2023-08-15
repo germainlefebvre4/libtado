@@ -10,7 +10,6 @@
 ![build](https://github.com/germainlefebvre4/libtado/workflows/Release%20Management/badge.svg?branch=master)
 ![Docs](https://readthedocs.org/projects/libtado/badge/?version=latest&style=default)
 
-
 A library to control your Tado Smart Thermostat. This repository contains an actual library in `libtado/api.py` and a proof of concept command line client in `libtado/__main__.py`.
 
 **The tested version of APIs is Tado v2.**
@@ -25,7 +24,7 @@ But because I do not own a Tado anymore you may want to use a fork of libtado in
 git clone https://github.com/germainlefebvre4/libtado.git
 ```
 
-Please check out https://libtado.readthedocs.io for more documentation.
+Please check out [https://libtado.readthedocs.io](https://libtado.readthedocs.io) for more documentation.
 
 ## Preparation
 
@@ -33,7 +32,7 @@ Retrieve the `CLIENT_SECRET` before running the script otherwise you will get a 
 
 The latest `CLIENT_SECRET` can be found at [https://my.tado.com/webapp/env.js](https://my.tado.com/webapp/env.js).  It will look something like this:
 
-```
+```js
 var TD = {
     config: {
         version: 'v588',
@@ -45,7 +44,8 @@ var TD = {
 ```
 
 An alternative way to get your `CLIENT_SECRET` is to enable the Developper Mode when logging in and catch the Headers. You will find the form data like this :
-```
+
+```yaml
 client_id: tado-web-app
 client_secret: fndskjnjzkefjNFRNkfKJRNFKRENkjnrek
 grant_type: password
@@ -90,6 +90,7 @@ It shows you how to use the library and expose some structured responses. A more
 ## Development
 
 ### Setup
+
 ```bash
 sudo apt update
 sudo apt install python3.7 python3.7-pip
@@ -98,9 +99,11 @@ pipenv update --dev
 ```
 
 ### Run application
+
 Follow the indications in sectio [Usage](#usage).
 
 ### Run tests
+
 ```bash
 pipenv run pytest tests/
 ```
