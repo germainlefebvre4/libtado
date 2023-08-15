@@ -78,6 +78,15 @@ print(t.get_state(1))
 An example script is provided in the repository as `example.py`.
 It shows you how to use the library and expose some structured responses. A more detailed example is available in `libtado/__main__.py`.
 
+## Supported version and deprecations
+
+### Python
+
+| Python version | Supported versions   |
+|----------------|----------------------|
+| `3.7`          | `2.0.0` > `3.6.x`    |
+| `3.8`          | `3.7.0` > `latest`   |
+
 ## Development
 
 ### Setup
