@@ -126,15 +126,35 @@ class TestApi:
 
         assert isinstance(response, list)
         KEYS = ["token", "email", "firstSent", "lastSent", "inviter", "home"]
-        assert all(name in response[0] for name in KEYS)
-        KEYS = ["id", "name", "dateTimeZone", "dateCreated", "temperatureUnit", "partner", "simpleSmartScheduleEnabled", "awayRadiusInMeters", "installationCompleted", "incidentDetection", "generation", "zonesCount", "usePreSkillsApps", "skills", "christmasModeEnabled", "showAutoAssistReminders", "contactDetails", "address", "geolocation", "consentGrantSkippable", "enabledFeatures", "isAirComfortEligible", "isBalanceAcEligible", "isEnergyIqEligible"]
-        assert all(name in response[0]["home"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response[0].keys())) - set(KEYS)), list(set(KEYS) - set(list(response[0].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
+        KEYS = ["id", "name", "dateTimeZone", "dateCreated", "temperatureUnit", "partner", "simpleSmartScheduleEnabled", "awayRadiusInMeters", "installationCompleted", "incidentDetection", "generation", "zonesCount", "skills", "christmasModeEnabled", "showAutoAssistReminders", "contactDetails", "address", "geolocation", "consentGrantSkippable", "enabledFeatures", "isAirComfortEligible", "isBalanceAcEligible", "isEnergyIqEligible", "isBalanceHpEligible", "isHeatSourceInstalled"]
+        keys_diff, KEYS_DIFF = list(set(list(response[0]["home"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response[0]["home"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
         KEYS = ["supported", "enabled"]
-        assert all(name in response[0]["home"]["incidentDetection"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response[0]["home"]["incidentDetection"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response[0]["home"]["incidentDetection"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
         KEYS = ["name", "email", "phone"]
-        assert all(name in response[0]["home"]["contactDetails"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response[0]["home"]["contactDetails"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response[0]["home"]["contactDetails"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
         KEYS = ["latitude", "longitude"]
-        assert all(name in response[0]["home"]["geolocation"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response[0]["home"]["geolocation"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response[0]["home"]["geolocation"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
 
     def test_get_me(self):
         response = tado.get_me()
