@@ -1,0 +1,13 @@
+select = ["E", "F", "B"]
+
+ignore = ["E501"]
+
+unfixable = ["B"]
+
+[per-file-ignores]
+"__init__.py" = ["E402"]
+"path/to/file.py" = ["E402"]
+"libtado/api.py" = ["E722"]
+
+fixable = ["ALL"]
+unfixable = []

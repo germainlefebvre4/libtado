@@ -20,3 +20,13 @@ repos:
         args:
           - --strict
           - --config-file=./.yamllint
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.0.284
+    hooks:
+      - id: ruff
+
+  - repo: https://github.com/DavidAnson/markdownlint-cli2
+    rev: v0.8.1
+    hooks:
+      - id: markdownlint-cli2

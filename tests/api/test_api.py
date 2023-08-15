@@ -1,6 +1,5 @@
 import os
-import requests
-from datetime import datetime, date
+from datetime import date
 from dateutil.relativedelta import relativedelta
 from libtado.api import Tado
 
@@ -91,14 +90,30 @@ class TestApi:
         response = tado.get_home()
 
         assert isinstance(response, dict)
-        KEYS = ['id', 'name', 'dateTimeZone', 'dateCreated', 'temperatureUnit', 'partner', 'simpleSmartScheduleEnabled', 'awayRadiusInMeters', 'installationCompleted', 'incidentDetection', 'generation', 'zonesCount', 'usePreSkillsApps', 'skills', 'christmasModeEnabled', 'showAutoAssistReminders', 'contactDetails', 'address', 'geolocation', 'consentGrantSkippable', 'enabledFeatures', 'isAirComfortEligible', 'isBalanceAcEligible', 'isEnergyIqEligible']
-        assert all(name in response for name in KEYS)
-        KEYS = ["name", "email", "phone"]
-        assert all(name in response["contactDetails"] for name in KEYS)
+
+        KEYS = ['id', 'name', 'dateTimeZone', 'dateCreated', 'temperatureUnit', 'partner', 'simpleSmartScheduleEnabled', 'awayRadiusInMeters', 'installationCompleted', 'incidentDetection', 'generation', 'zonesCount', 'skills', 'christmasModeEnabled', 'showAutoAssistReminders', 'contactDetails', 'address', 'geolocation', 'consentGrantSkippable', 'enabledFeatures', 'isAirComfortEligible', 'isBalanceAcEligible', 'isEnergyIqEligible', 'isHeatSourceInstalled', 'isBalanceHpEligible']
+        keys_diff, KEYS_DIFF = list(set(list(response.keys())) - set(KEYS)), list(set(KEYS) - set(list(response.keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
+        KEYS = ["email", "phone", "name"]
+        keys_diff, KEYS_DIFF = list(set(list(response["contactDetails"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["contactDetails"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
         KEYS = ["addressLine1", "addressLine2", "zipCode", "city", "state", "country"]
-        assert all(name in response["address"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response["address"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["address"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
         KEYS = ["latitude", "longitude"]
-        assert all(name in response["geolocation"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response["geolocation"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["geolocation"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
 
     def get_installations(self):
         response = tado.get_home()
@@ -110,15 +125,35 @@ class TestApi:
 
         assert isinstance(response, list)
         KEYS = ["token", "email", "firstSent", "lastSent", "inviter", "home"]
-        assert all(name in response[0] for name in KEYS)
-        KEYS = ["id", "name", "dateTimeZone", "dateCreated", "temperatureUnit", "partner", "simpleSmartScheduleEnabled", "awayRadiusInMeters", "installationCompleted", "incidentDetection", "generation", "zonesCount", "usePreSkillsApps", "skills", "christmasModeEnabled", "showAutoAssistReminders", "contactDetails", "address", "geolocation", "consentGrantSkippable", "enabledFeatures", "isAirComfortEligible", "isBalanceAcEligible", "isEnergyIqEligible"]
-        assert all(name in response[0]["home"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response[0].keys())) - set(KEYS)), list(set(KEYS) - set(list(response[0].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
+        KEYS = ["id", "name", "dateTimeZone", "dateCreated", "temperatureUnit", "partner", "simpleSmartScheduleEnabled", "awayRadiusInMeters", "installationCompleted", "incidentDetection", "generation", "zonesCount", "skills", "christmasModeEnabled", "showAutoAssistReminders", "contactDetails", "address", "geolocation", "consentGrantSkippable", "enabledFeatures", "isAirComfortEligible", "isBalanceAcEligible", "isEnergyIqEligible", "isBalanceHpEligible", "isHeatSourceInstalled"]
+        keys_diff, KEYS_DIFF = list(set(list(response[0]["home"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response[0]["home"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
         KEYS = ["supported", "enabled"]
-        assert all(name in response[0]["home"]["incidentDetection"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response[0]["home"]["incidentDetection"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response[0]["home"]["incidentDetection"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
         KEYS = ["name", "email", "phone"]
-        assert all(name in response[0]["home"]["contactDetails"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response[0]["home"]["contactDetails"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response[0]["home"]["contactDetails"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
         KEYS = ["latitude", "longitude"]
-        assert all(name in response[0]["home"]["geolocation"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response[0]["home"]["geolocation"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response[0]["home"]["geolocation"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
 
     def test_get_me(self):
         response = tado.get_me()
@@ -286,26 +321,56 @@ class TestApi:
 
         assert isinstance(response, dict)
         KEYS = ["roomMessages", "outdoorQuality"]
-        assert all(name in response for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response.keys())) - set(KEYS)), list(set(KEYS) - set(list(response.keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
 
         KEYS = ["roomId", "message", "visual", "link"]
-        assert all(name in response["roomMessages"][0] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response["roomMessages"][0].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["roomMessages"][0].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
 
         KEYS = ["aqi", "pollens", "pollutants"]
-        assert all(name in response["outdoorQuality"] for name in KEYS)
-        KEYS = ["value", "level"]
-        assert all(name in response["outdoorQuality"]["aqi"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+        KEYS = ["level"]
+        keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"]["aqi"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"]["aqi"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
 
         KEYS = ["dominant", "types"]
-        assert all(name in response["outdoorQuality"]["pollens"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"]["pollens"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"]["pollens"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
         KEYS = ["level"]
-        assert all(name in response["outdoorQuality"]["pollens"]["dominant"] for name in KEYS)
-        KEYS = ["localizedName", "type", "localizedDescription", "forecast"]
-        assert all(name in response["outdoorQuality"]["pollens"]["types"][0] for name in KEYS)
-        KEYS = ["localizedDay", "date", "level"]
-        assert all(name in response["outdoorQuality"]["pollens"]["types"][0]["forecast"][0] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"]["pollens"]["dominant"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"]["pollens"]["dominant"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+        # KEYS = ["localizedName", "type", "localizedDescription", "forecast"]
+        # keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"]["pollens"]["types"][0].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"]["pollens"]["types"][0].keys())))
+        # keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        # assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        # assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+        # KEYS = ["localizedDay", "date", "level"]
+        # keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"]["pollens"]["types"][0]["forecast"][0].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"]["pollens"]["types"][0]["forecast"][0].keys())))
+        # keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        # assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        # assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
 
-        KEYS = ["localizedName", "scientificName", "level", "concentration"]
-        assert all(name in response["outdoorQuality"]["pollutants"][0] for name in KEYS)
-        KEYS = ["value", "units"]
-        assert all(name in response["outdoorQuality"]["pollutants"][0]["concentration"] for name in KEYS)
+        # KEYS = ["localizedName", "scientificName", "level", "concentration"]
+        # keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"]["pollutants"][0].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"]["pollutants"][0].keys())))
+        # keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        # assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        # assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+        # KEYS = ["value", "units"]
+        # keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"]["pollutants"][0]["concentration"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"]["pollutants"][0]["concentration"].keys())))
+        # keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        # assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        # assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"

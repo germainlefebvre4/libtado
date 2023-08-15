@@ -1,0 +1,11 @@
+---
+
+config:
+  line-length: false
+  no-inline-html: false
+
+fix: false
+
+globs:
+  - "*.md"
+  - "docs/*.md"
