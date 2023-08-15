@@ -4,6 +4,13 @@
 
 ---
 
+![License: GPL-3.0](https://img.shields.io/github/license/germainlefebvre4/libtado?color=blue)
+[![GitHub Repo stars](https://img.shields.io/github/stars/germainlefebvre4/libtado)](https://github.com/germainlefebvre4/libtado/stargazers)
+
+![build](https://github.com/germainlefebvre4/libtado/workflows/Release%20Management/badge.svg?branch=master)
+![Docs](https://readthedocs.org/projects/libtado/badge/?version=latest&style=default)
+
+
 A library to control your Tado Smart Thermostat. This repository contains an actual library in `libtado/api.py` and a proof of concept command line client in `libtado/__main__.py`.
 
 **The tested version of APIs is Tado v2.**
