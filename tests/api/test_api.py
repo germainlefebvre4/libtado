@@ -91,14 +91,30 @@ class TestApi:
         response = tado.get_home()
 
         assert isinstance(response, dict)
-        KEYS = ['id', 'name', 'dateTimeZone', 'dateCreated', 'temperatureUnit', 'partner', 'simpleSmartScheduleEnabled', 'awayRadiusInMeters', 'installationCompleted', 'incidentDetection', 'generation', 'zonesCount', 'usePreSkillsApps', 'skills', 'christmasModeEnabled', 'showAutoAssistReminders', 'contactDetails', 'address', 'geolocation', 'consentGrantSkippable', 'enabledFeatures', 'isAirComfortEligible', 'isBalanceAcEligible', 'isEnergyIqEligible']
-        assert all(name in response for name in KEYS)
-        KEYS = ["name", "email", "phone"]
-        assert all(name in response["contactDetails"] for name in KEYS)
+
+        KEYS = ['id', 'name', 'dateTimeZone', 'dateCreated', 'temperatureUnit', 'partner', 'simpleSmartScheduleEnabled', 'awayRadiusInMeters', 'installationCompleted', 'incidentDetection', 'generation', 'zonesCount', 'skills', 'christmasModeEnabled', 'showAutoAssistReminders', 'contactDetails', 'address', 'geolocation', 'consentGrantSkippable', 'enabledFeatures', 'isAirComfortEligible', 'isBalanceAcEligible', 'isEnergyIqEligible', 'isHeatSourceInstalled', 'isBalanceHpEligible']
+        keys_diff, KEYS_DIFF = list(set(list(response.keys())) - set(KEYS)), list(set(KEYS) - set(list(response.keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
+        KEYS = ["email", "phone", "name"]
+        keys_diff, KEYS_DIFF = list(set(list(response["contactDetails"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["contactDetails"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
         KEYS = ["addressLine1", "addressLine2", "zipCode", "city", "state", "country"]
-        assert all(name in response["address"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response["address"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["address"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
         KEYS = ["latitude", "longitude"]
-        assert all(name in response["geolocation"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response["geolocation"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["geolocation"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
 
     def get_installations(self):
         response = tado.get_home()
