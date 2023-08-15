@@ -220,22 +220,22 @@ def status(tado):
     if st['overlayType'] and st['tadoMode'] != 'AWAY':
       type_s = st['overlayType']
     elif st['tadoMode'] != 'HOME':
-      type_s = st['tadoMode'];
+      type_s = st['tadoMode']
 
     next_s = ''
     if st['tadoMode'] != 'AWAY':
-      if st['overlay'] != None:
+      if st['overlay'] is not None:
         if 'termination' in st['overlay'] and st['overlay']['termination']['type'] == 'MANUAL':
           next_s = '-+-'
-        elif st['overlay']['termination']['projectedExpiry'] != None:
+        elif st['overlay']['termination']['projectedExpiry'] is not None:
           next_s = '-' + ('%s' % time_str(st['overlay']['termination']['projectedExpiry']))
         else:
           next_s = '-+-'
-      elif st['nextScheduleChange'] != None:
+      elif st['nextScheduleChange'] is not None:
         next_s = '-' + ('%s' % time_str(st['nextScheduleChange']['start']))
 
     extra = ''
-    if st['openWindow'] != None:
+    if st['openWindow'] is not None:
       extra += ' Window open'
     for d in i['devices']:
       if d['batteryState'] != 'NORMAL':
@@ -264,22 +264,22 @@ def status(tado):
     if st['overlayType'] and st['tadoMode'] != 'AWAY':
       type_s = st['overlayType']
     elif st['tadoMode'] != 'HOME':
-      type_s = st['tadoMode'];
+      type_s = st['tadoMode']
 
     next_s = ''
     if st['tadoMode'] != 'AWAY':
-      if st['overlay'] != None:
+      if st['overlay'] is not None:
         if 'termination' in st['overlay'] and st['overlay']['termination']['type'] == 'MANUAL':
           next_s = '-+-'
-        elif st['overlay']['termination']['projectedExpiry'] != None:
+        elif st['overlay']['termination']['projectedExpiry'] is not None:
           next_s = '-' + ('%s' % time_str(st['overlay']['termination']['projectedExpiry']))
         else:
           next_s = '-+-'
-      elif st['nextScheduleChange'] != None:
+      elif st['nextScheduleChange'] is not None:
         next_s = '-' + ('%s' % time_str(st['nextScheduleChange']['start']))
 
     extra = ''
-    if st['openWindow'] != None:
+    if st['openWindow'] is not None:
       extra += ' Window open'
     for d in i['devices']:
       if d['batteryState'] != 'NORMAL':

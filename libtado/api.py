@@ -417,23 +417,8 @@ class Tado:
     else:
       payload = {'homePresence': 'AWAY'}
 
-    data = self._api_call('homes/%i/presenceLock' % self.id, payload, method='PUT')
+    self._api_call('homes/%i/presenceLock' % self.id, payload, method='PUT')
 
-
-  def get_installations(self):
-    """
-    It is unclear what this does.
-
-    Returns:
-      (list): Currently only an empty list.
-
-    Example:
-      ```json
-      []
-      ```
-    """
-    data = self._api_call('homes/%i/installations' % self.id)
-    return data
 
   def get_invitations(self):
     """
@@ -934,7 +919,7 @@ class Tado:
 
   def end_manual_control(self, zone):
     """End the manual control of a zone."""
-    data = self._api_call('homes/%i/zones/%i/overlay' % (self.id, zone), method='DELETE')
+    self._api_call('homes/%i/zones/%i/overlay' % (self.id, zone), method='DELETE')
 
   def get_away_configuration(self, zone):
     """
@@ -960,7 +945,7 @@ class Tado:
       seconds (int): timeout in seconds.
     """
 
-    payload = { 'enabled' : enabled, 'timeoutInSeconds': timeoutInSeconds }
+    payload = { 'enabled' : enabled, 'timeoutInSeconds': seconds }
 
     data = self._api_call('homes/%i/zones/%i/openWindowDetection' % (self.id, zone), data=payload, method='PUT')
     return data

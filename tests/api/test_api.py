@@ -1,6 +1,5 @@
 import os
-import requests
-from datetime import datetime, date
+from datetime import date
 from dateutil.relativedelta import relativedelta
 from libtado.api import Tado
 
