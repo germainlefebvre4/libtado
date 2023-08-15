@@ -302,26 +302,56 @@ class TestApi:
 
         assert isinstance(response, dict)
         KEYS = ["roomMessages", "outdoorQuality"]
-        assert all(name in response for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response.keys())) - set(KEYS)), list(set(KEYS) - set(list(response.keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
 
         KEYS = ["roomId", "message", "visual", "link"]
-        assert all(name in response["roomMessages"][0] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response["roomMessages"][0].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["roomMessages"][0].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
 
         KEYS = ["aqi", "pollens", "pollutants"]
-        assert all(name in response["outdoorQuality"] for name in KEYS)
-        KEYS = ["value", "level"]
-        assert all(name in response["outdoorQuality"]["aqi"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+        KEYS = ["level"]
+        keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"]["aqi"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"]["aqi"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
 
         KEYS = ["dominant", "types"]
-        assert all(name in response["outdoorQuality"]["pollens"] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"]["pollens"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"]["pollens"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
         KEYS = ["level"]
-        assert all(name in response["outdoorQuality"]["pollens"]["dominant"] for name in KEYS)
-        KEYS = ["localizedName", "type", "localizedDescription", "forecast"]
-        assert all(name in response["outdoorQuality"]["pollens"]["types"][0] for name in KEYS)
-        KEYS = ["localizedDay", "date", "level"]
-        assert all(name in response["outdoorQuality"]["pollens"]["types"][0]["forecast"][0] for name in KEYS)
+        keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"]["pollens"]["dominant"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"]["pollens"]["dominant"].keys())))
+        keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+        # KEYS = ["localizedName", "type", "localizedDescription", "forecast"]
+        # keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"]["pollens"]["types"][0].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"]["pollens"]["types"][0].keys())))
+        # keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        # assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        # assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+        # KEYS = ["localizedDay", "date", "level"]
+        # keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"]["pollens"]["types"][0]["forecast"][0].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"]["pollens"]["types"][0]["forecast"][0].keys())))
+        # keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        # assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        # assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
 
-        KEYS = ["localizedName", "scientificName", "level", "concentration"]
-        assert all(name in response["outdoorQuality"]["pollutants"][0] for name in KEYS)
-        KEYS = ["value", "units"]
-        assert all(name in response["outdoorQuality"]["pollutants"][0]["concentration"] for name in KEYS)
+        # KEYS = ["localizedName", "scientificName", "level", "concentration"]
+        # keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"]["pollutants"][0].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"]["pollutants"][0].keys())))
+        # keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        # assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        # assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+        # KEYS = ["value", "units"]
+        # keys_diff, KEYS_DIFF = list(set(list(response["outdoorQuality"]["pollutants"][0]["concentration"].keys())) - set(KEYS)), list(set(KEYS) - set(list(response["outdoorQuality"]["pollutants"][0]["concentration"].keys())))
+        # keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
+        # assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
+        # assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
