@@ -705,11 +705,11 @@
         },
         "sphinx-notfound-page": {
             "hashes": [
-                "sha256:c4867b345afccef72de71fb410c412540dfbb5c2de0dc06bde70b331b8f30469",
-                "sha256:f728403280026b84c234540bebbed7f710b9ea582e7348a35a5becefe4024332"
+                "sha256:14cd388956de5cdf8710ab4ff31776ef8d85759c4f46014ee30f368e83bd3a3b",
+                "sha256:40a5741a6b07245a08fe55dbbd603ad6719e191b1419ab2e5337c706ebd16554"
             ],
             "index": "pypi",
-            "version": "==0.8.3"
+            "version": "==1.0.0"
         },
         "sphinx-rtd-theme": {
             "hashes": [
