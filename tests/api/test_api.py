@@ -438,3 +438,56 @@ class TestApi:
         assert isinstance(response, dict)
         KEYS = ["consumptionUnit", "dataSource", "homeId", "preferredEnergyUnit", "showReadingsBanner"]
         assert all(name in response for name in KEYS)
+
+    def test_get_energy_insights(self):
+        start_date = "2023-09-01"
+        end_date = "2023-09-30"
+        country = "FRA"
+        response = tado.get_energy_insights(start_date=start_date, end_date=end_date, country=country)
+
+        assert isinstance(response, dict)
+        KEYS = ["awayTimeComparison", "consumptionComparison", "costForecast", "heatingHotwaterComparison", "heatingTimeComparison", "weatherComparison"]
+        assert all(name in response for name in KEYS)
+
+        KEYS = ["comparedTo", "currentMonth"]
+        assert all(name in response["awayTimeComparison"] for name in KEYS)
+        assert all(name in response["consumptionComparison"] for name in KEYS)
+        assert all(name in response["heatingTimeComparison"] for name in KEYS)
+        assert all(name in response["weatherComparison"] for name in KEYS)
+
+        KEYS = ["awayTimeInHours", "dateRange"]
+        assert all(name in response["awayTimeComparison"]["comparedTo"] for name in KEYS)
+        KEYS = ["consumed", "dateRange"]
+        assert all(name in response["consumptionComparison"]["comparedTo"] for name in KEYS)
+        KEYS = ["heatingTimeHours", "dateRange"]
+        assert all(name in response["heatingTimeComparison"]["comparedTo"] for name in KEYS)
+        KEYS = ["averageTemperature", "dateRange"]
+        assert all(name in response["weatherComparison"]["comparedTo"] for name in KEYS)
+
+        KEYS = ["start", "end"]
+        assert all(name in response["awayTimeComparison"]["comparedTo"]["dateRange"] for name in KEYS)
+        assert all(name in response["consumptionComparison"]["comparedTo"]["dateRange"] for name in KEYS)
+        assert all(name in response["heatingTimeComparison"]["comparedTo"]["dateRange"] for name in KEYS)
+        assert all(name in response["weatherComparison"]["comparedTo"]["dateRange"] for name in KEYS)
+
+
+        KEYS = ["awayTimeInHours", "dateRange"]
+        assert all(name in response["awayTimeComparison"]["currentMonth"] for name in KEYS)
+        KEYS = ["consumed", "dateRange"]
+        assert all(name in response["consumptionComparison"]["currentMonth"] for name in KEYS)
+        KEYS = ["heatingTimeHours", "dateRange"]
+        assert all(name in response["heatingTimeComparison"]["currentMonth"] for name in KEYS)
+        KEYS = ["averageTemperature", "dateRange"]
+        assert all(name in response["weatherComparison"]["currentMonth"] for name in KEYS)
+
+        KEYS = ["energy"]
+        assert all(name in response["consumptionComparison"]["comparedTo"]["consumed"] for name in KEYS)
+        if len(response["consumptionComparison"]["comparedTo"]["consumed"]["energy"]) > 0:
+            KEYS = ["perZone", "toEndOfRange", "unit"]
+            assert all(name in response["consumptionComparison"]["comparedTo"]["consumed"]["energy"][0] for name in KEYS)
+        if len(response["consumptionComparison"]["comparedTo"]["consumed"]["energy"][0]["perZone"]) > 0:
+            KEYS = ["toEndOfRange", "zone"]
+            assert all(name in response["consumptionComparison"]["comparedTo"]["consumed"]["energy"][0]["perZone"][0] for name in KEYS)
+
+        KEYS = ["costEndOfMonthInCents"]
+        assert all(name in response["costForecast"] for name in KEYS)
