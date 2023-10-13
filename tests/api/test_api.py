@@ -431,3 +431,10 @@ class TestApi:
 
         KEYS = ["consumptionUnit", "currencySign", "customTariff", "tariffInCents"]
         assert all(name in response["tariffInfo"] for name in KEYS)
+
+    def test_get_enery_settings(self):
+        response = tado.get_enery_settings()
+
+        assert isinstance(response, dict)
+        KEYS = ["consumptionUnit", "dataSource", "homeId", "preferredEnergyUnit", "showReadingsBanner"]
+        assert all(name in response for name in KEYS)
