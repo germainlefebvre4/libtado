@@ -1923,3 +1923,24 @@ class Tado:
     """
 
     return self._api_call('homes/%i/heatingSystem/boiler' % (self.id), data=payload, method='PUT')
+
+  def set_zone_order(self, payload, ngsw_bypass=True):
+    """
+    Set zone order
+
+    Parameters:
+      zoneOrder (list): List of zone IDs in the order you want them to appear in the app.
+
+    Returns:
+      No returned value.
+
+    Example:
+    ```json
+    [
+      {"id": 1},
+      {"id": 6},
+      {"id": 12}
+    ]
+    ```
+    """
+    return self._api_call('homes/%i/zoneOrder?ngsw-bypass=%s' % (self.id, ngsw_bypass), data=payload, method='PUT')
