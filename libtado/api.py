@@ -1906,3 +1906,20 @@ class Tado:
 
     data = self._api_energy_insights_call('homes/%i/insights?startDate=%s&endDate=%s&country=%s&ngsw-bypass=%s' % (self.id, start_date, end_date, country, ngsw_bypass))
     return data
+
+  def set_heating_system_boiler(self, payload):
+    """
+    Set heating system boiler status
+
+    Parameters:
+      found (bool|None): Does the system knows your boiler. (default null)
+      present: (bool): Is your own boiler present. (default true)
+
+    Returns:
+      Heating system boiler status.
+
+    Example:
+      No returned value.
+    """
+
+    return self._api_call('homes/%i/heatingSystem/boiler' % (self.id), data=payload, method='PUT')
