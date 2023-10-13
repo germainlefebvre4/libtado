@@ -374,3 +374,35 @@ class TestApi:
         # keys_diff_count, KEYS_DIFF_COUNT = len(keys_diff), len(KEYS_DIFF)
         # assert keys_diff_count == 0, f"Missing keys in test: {', '.join(keys_diff)}"
         # assert KEYS_DIFF_COUNT == 0, f"Too many keys in test: {', '.join(KEYS_DIFF)}"
+
+    def test_set_cost_simulation(self):
+        country = "FRA"
+        payload = {
+            "temperatureDeltaPerZone": [
+                {
+                    "zone": 1,
+                    "setTemperatureDelta": -1
+                },
+                {
+                    "zone": 1,
+                    "setTemperatureDelta": -1
+                },
+                {
+                    "zone": 1,
+                    "setTemperatureDelta": -1
+                },
+                {
+                    "zone": 1,
+                    "setTemperatureDelta": -1
+                }
+            ]
+        }
+        response = tado.set_cost_simulation(country=country, ngsw_bypass=True, payload=payload)
+
+        assert isinstance(response, dict)
+        KEYS = ["consumptionUnit", "estimationPerZone"]
+        assert all(name in response for name in KEYS)
+
+        if len(response["estimationPerZone"]) > 0:
+            KEYS = ["zone", "consumption", "costInCents"]
+            assert all(name in response["estimationPerZone"][0] for name in KEYS)
