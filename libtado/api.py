@@ -1775,3 +1775,134 @@ class Tado:
 
     data = self._api_energy_insights_call('homes/%i/settings?ngsw-bypass=%s' % (self.id, ngsw_bypass))
     return data
+
+  def get_energy_insights(self, start_date, end_date, country, ngsw_bypass=True):
+    """
+    Get energy insights of your home
+
+    Returns:
+      Energy insights.
+
+    Example:
+    ```json
+    {
+        "consumptionComparison": {
+            "currentMonth": {
+                "consumed": {
+                    "energy": [
+                        {
+                            "toEndOfRange": 1.5,
+                            "unit": "m3",
+                            "perZone": [
+                                {
+                                    "zone": 1,
+                                    "toEndOfRange": 0.6025913295286759
+                                }
+                            ]
+                        },
+                        {
+                            "toEndOfRange": 15.83,
+                            "unit": "kWh",
+                            "perZone": [
+                                {
+                                    "zone": 1,
+                                    "toEndOfRange": 6.36
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "dateRange": {
+                    "start": "2023-10-01",
+                    "end": "2023-10-13"
+                }
+            },
+            "comparedTo": {
+                "consumed": {
+                    "energy": [
+                        {
+                            "toEndOfRange": 16.9,
+                            "unit": "m3",
+                            "perZone": [
+                                {
+                                    "zone": 1,
+                                    "toEndOfRange": 6.098444101091741
+                                }
+                            ]
+                        },
+                        {
+                            "toEndOfRange": 178.3,
+                            "unit": "kWh",
+                            "perZone": [
+                                {
+                                    "zone": 1,
+                                    "toEndOfRange": 64.34
+                                }
+                            ]
+                        }
+                    ]
+                },
+                "dateRange": {
+                    "start": "2022-10-01",
+                    "end": "2022-10-13"
+                }
+            }
+        },
+        "costForecast": {
+            "costEndOfMonthInCents": 417.5
+        },
+        "weatherComparison": {
+            "currentMonth": {
+                "averageTemperature": 17.2,
+                "dateRange": {
+                    "start": "2023-10-01",
+                    "end": "2023-10-13"
+                }
+            },
+            "comparedTo": {
+                "averageTemperature": 12.7,
+                "dateRange": {
+                    "start": "2022-10-01",
+                    "end": "2022-10-13"
+                }
+            }
+        },
+        "heatingTimeComparison": {
+            "currentMonth": {
+                "heatingTimeHours": 13,
+                "dateRange": {
+                    "start": "2023-10-01",
+                    "end": "2023-10-14"
+                }
+            },
+            "comparedTo": {
+                "heatingTimeHours": 155,
+                "dateRange": {
+                    "start": "2022-10-01",
+                    "end": "2022-10-14"
+                }
+            }
+        },
+        "awayTimeComparison": {
+            "currentMonth": {
+                "awayTimeInHours": 39,
+                "dateRange": {
+                    "start": "2023-10-01",
+                    "end": "2023-10-13"
+                }
+            },
+            "comparedTo": {
+                "awayTimeInHours": 74,
+                "dateRange": {
+                    "start": "2022-10-01",
+                    "end": "2022-10-13"
+                }
+            }
+        },
+        "heatingHotwaterComparison": null
+    }
+    ```
+    """
+
+    data = self._api_energy_insights_call('homes/%i/insights?startDate=%s&endDate=%s&country=%s&ngsw-bypass=%s' % (self.id, start_date, end_date, country, ngsw_bypass))
+    return data
