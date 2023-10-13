@@ -406,3 +406,28 @@ class TestApi:
         if len(response["estimationPerZone"]) > 0:
             KEYS = ["zone", "consumption", "costInCents"]
             assert all(name in response["estimationPerZone"][0] for name in KEYS)
+
+    def test_get_consumption_overview(self):
+        monthYear = "2023-09"
+        country = "FRA"
+        response = tado.get_consumption_overview(monthYear=monthYear, country=country)
+
+        assert isinstance(response, dict)
+        KEYS = ["consumptionInputState", "currency", "customTariff", "energySavingsReport", "monthlyAggregation", "tariff", "tariffInfo", "unit"]
+        assert all(name in response for name in KEYS)
+
+        KEYS = ["totalSavingsInPercent", "yearMonth"]
+        assert all(name in response["energySavingsReport"] for name in KEYS)
+
+        KEYS = ["endOfMonthForecast"]
+        assert all(name in response["monthlyAggregation"] for name in KEYS)
+
+        # KEYS = ["consumptionPerDate", "endDate", "startDate", "totalConsumption", "totalCostInCents"]
+        # assert all(name in response["monthlyAggregation"]["endOfMonthForecast"] for name in KEYS)
+
+        # if len(response["monthlyAggregation"]["endOfMonthForecast"]["consumptionPerDate"]) > 0:
+        #     KEYS = ["consumption", "costInCents", "date"]
+        #     assert all(name in response["monthlyAggregation"]["endOfMonthForecast"]["consumptionPerDate"][0] for name in KEYS)
+
+        KEYS = ["consumptionUnit", "currencySign", "customTariff", "tariffInCents"]
+        assert all(name in response["tariffInfo"] for name in KEYS)
