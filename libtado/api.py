@@ -1637,3 +1637,119 @@ class Tado:
 
     data = self._api_energy_insights_call('homes/%i/costSimulator?country=%s&ngsw-bypass=%s' % (self.id, country, ngsw_bypass), data=payload, method='POST')
     return data
+
+  def get_consumption_overview(self, monthYear, country, ngsw_bypass=True):
+    """
+    Get energy consumption overview of your home by month and year
+
+    Returns:
+      consumptionInputState: Consumption input state
+      currency: Currency
+      customTariff: Custom tariff
+      energySavingsReport: Energy savings report
+      monthlyAggregation: Monthly aggregation
+      tariffInfo: Tariffication information
+      unit: Measurement unit
+
+    Example:
+    ```json
+    {
+        "currency": "EUR",
+        "tariff": "0.104 €/kWh",
+        "tariffInfo": {
+            "currencySign": "€",
+            "consumptionUnit": "kWh",
+            "tariffInCents": 10.36,
+            "customTariff": false
+        },
+        "customTariff": false,
+        "consumptionInputState": "full",
+        "unit": "m3",
+        "energySavingsReport": {
+            "totalSavingsInPercent": 4.7,
+            "yearMonth": "2023-09"
+        },
+        "monthlyAggregation": {
+            "endOfMonthForecast": {
+                "startDate": "2023-10-13",
+                "endDate": "2023-10-31",
+                "totalConsumption": 3.82,
+                "totalCostInCents": 417.52,
+                "consumptionPerDate": [
+                    {
+                        "date": "2023-10-14",
+                        "consumption": 0.2122222222222222,
+                        "costInCents": 23.2
+                    },
+                    [...] // 17 more days
+                    {
+                        "date": "2023-10-31",
+                        "consumption": 0.2122222222222222,
+                        "costInCents": 23.2
+                    }
+                ]
+            },
+            "requestedMonth": {
+                "startDate": "2023-10-01",
+                "endDate": "2023-10-13",
+                "totalConsumption": 1.5,
+                "totalCostInCents": 163.95,
+                "consumptionPerDate": [
+                    {
+                        "date": "2023-10-01",
+                        "consumption": 0,
+                        "costInCents": 0
+                    },
+                    [...] // 12 more days
+                    {
+                        "date": "2023-10-13",
+                        "consumption": 0,
+                        "costInCents": 0
+                    }
+                ]
+            },
+            "monthBefore": {
+                "startDate": "2023-09-01",
+                "endDate": "2023-09-30",
+                "totalConsumption": 1.2799999999999998,
+                "totalCostInCents": 139.9,
+                "consumptionPerDate": [
+                    {
+                        "date": "2023-09-01",
+                        "consumption": 0,
+                        "costInCents": 0
+                    },
+                    [...] // 29 more days
+                    {
+                        "date": "2023-09-30",
+                        "consumption": 0.36,
+                        "costInCents": 39.35
+                    }
+                ]
+            },
+            "yearBefore": {
+                "startDate": "2022-10-01",
+                "endDate": "2022-10-31",
+                "totalConsumption": 22.569999999999997,
+                "totalCostInCents": 2466.86,
+                "consumptionPerDate": [
+                    {
+                        "date": "2022-10-01",
+                        "consumption": 0.67,
+                        "costInCents": 73.23
+                    },
+                    [...] // 30 more days
+                    {
+                        "date": "2022-10-31",
+                        "consumption": 0.65,
+                        "costInCents": 71.04
+                    }
+                ]
+            }
+        }
+    }
+    ```
+    """
+
+    data = self._api_energy_insights_call('homes/%i/consumptionOverview?month=%s&country=%s&ngsw-bypass=%s' % (self.id, monthYear, country, ngsw_bypass))
+    return data
