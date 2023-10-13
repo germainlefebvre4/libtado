@@ -96,6 +96,7 @@ sudo apt update
 sudo apt install python3.7 python3.7-pip
 sudo pip install pipenv
 pipenv update --dev
+# poetry install --with dev
 ```
 
 ### Run application
@@ -105,5 +106,9 @@ Follow the indications in sectio [Usage](#usage).
 ### Run tests
 
 ```bash
+pipenv update --dev
+# poetry install --with dev
+
 pipenv run pytest tests/
+# poetry run pytest tests/
 ```

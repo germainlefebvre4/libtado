@@ -156,6 +156,10 @@ class Tado:
       r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
       return r
+    def call_post(url, data):
+      r = requests.post(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
+      r.raise_for_status()
+      return r
 
     self.refresh_auth()
     url = '%s/%s' % (self.api_energy_insights, cmd)
@@ -165,6 +169,8 @@ class Tado:
       return call_put(url, data).json()
     elif method == 'GET':
       return call_get(url).json()
+    elif method == 'POST' and data:
+      return call_post(url, data).json()
 
 
   def _api_energy_bob_call(self, cmd, data=False, method='GET'):
@@ -1588,10 +1594,46 @@ class Tado:
           "totalSavingsInThermostaticModeAvailable":false,
           "yearMonth":"2022-09",
           "hideOpenWindowDetection":false,
-          "home":283787,
+          "home":123456,
           "hideCommunityNews":false
       }
       ```
     """
     data = self._api_energy_bob_call('%i/%s?country=%s&ngsw-bypass=%s' % (self.id, monthYear, country, ngsw_bypass))
+    return data
+
+  def set_cost_simulation(self, country, ngsw_bypass=True, payload=None):
+    """
+    Trigger Cost Simulation of your home
+
+    Returns:
+      consumptionUnit: Consumption unit
+      estimationPerZone: List of cost estimation per zone
+
+    Example:
+    ```json
+    {
+        "consumptionUnit": "m3",
+        "estimationPerZone": [
+            {
+                "zone": 1,
+                "consumption": -0.05410000000000015,
+                "costInCents": -6
+            },
+            {
+                "zone": 6,
+                "consumption": -0.05699999999999983,
+                "costInCents": -6
+            },
+            {
+                "zone": 12,
+                "consumption": -0.051899999999999946,
+                "costInCents": -6
+            }
+        ]
+    }
+    ```
+    """
+
+    data = self._api_energy_insights_call('homes/%i/costSimulator?country=%s&ngsw-bypass=%s' % (self.id, country, ngsw_bypass), data=payload, method='POST')
     return data
