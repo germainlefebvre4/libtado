@@ -1,9 +1,12 @@
+import os
 from datetime import date
 from dateutil.relativedelta import relativedelta
 import pytest
 
 
 pytestmark = pytest.mark.live
+
+TADO_BRIDGE_AUTHKEY = os.getenv("TADO_BRIDGE_AUTHKEY", None)
 
 
 class TestApi:
@@ -21,6 +24,21 @@ class TestApi:
         assert isinstance(response, list)
         assert len(response) > 0
         assert response[0]["id"] == 1
+
+    @pytest.mark.skipif(not TADO_BRIDGE_AUTHKEY, reason="TADO_BRIDGE_AUTHKEY not set")
+    def test_get_boiler_state(self, tado):
+        response = tado.get_boiler_state(TADO_BRIDGE_AUTHKEY)
+
+        assert isinstance(response, dict)
+
+        KEYS = ["state", "deviceWiredToBoiler", "hotWaterZonePresent", "boiler"]
+        assert all(name in response for name in KEYS)
+        assert isinstance(response["state"], str)
+        assert isinstance(response["hotWaterZonePresent"], bool)
+        KEYS = ["type", "serialNo", "thermInterfaceType", "connected", "lastRequestTimestamp"]
+        assert all(name in response["deviceWiredToBoiler"] for name in KEYS)
+        KEYS = ["celsius", "timestamp"]
+        assert all(name in response["boiler"]["outputTemperature"] for name in KEYS)
 
     def test_get_capabilities(self, tado):
         ZONE_ID = tado.get_zones()[0]["id"]
