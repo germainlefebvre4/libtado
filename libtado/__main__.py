@@ -37,6 +37,15 @@ def capabilities(tado, zone):
   click.echo(tado.get_capabilities(zone))
 
 
+@main.command()
+@click.option('--authKey', '-a', required=True, type=int, help='Bridge auth code')
+@click.pass_obj
+def ch_flow_temp(tado, authkey):
+  """Display the current CH flow temperature (where applicable)."""
+  temp = tado.get_boiler_state(authkey)['boiler']['outputTemperature']
+  click.echo('Temperature: %s (%s)' % (temp['celsius'], temp['timestamp'],))
+
+
 @main.command(short_help='Display all devices.')
 @click.pass_obj
 def devices(tado):
