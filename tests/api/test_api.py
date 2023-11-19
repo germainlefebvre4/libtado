@@ -6,6 +6,7 @@ from libtado.api import Tado
 TADO_USERNAME = os.getenv("TADO_USERNAME", None)
 TADO_PASSWORD = os.getenv("TADO_PASSWORD", None)
 TADO_CLIENT_SECRET = os.getenv("TADO_CLIENT_SECRET", None)
+TADO_BRIDGE_AUTHKEY = os.getenv("TADO_BRIDGE_AUTHKEY", None)
 
 tado = Tado(TADO_USERNAME, TADO_PASSWORD, TADO_CLIENT_SECRET)
 
@@ -23,6 +24,20 @@ class TestApi:
         assert all(name in response[0]["devices"][0] for name in KEYS)
 
         assert response[0]["id"] == 1
+
+    def test_get_boiler_state(self):
+        response = tado.get_boiler_state(TADO_BRIDGE_AUTHKEY)
+
+        assert isinstance(response, dict)
+
+        KEYS = ["state", "deviceWiredToBoiler", "hotWaterZonePresent", "boiler"]
+        assert all(name in response for name in KEYS)
+        assert isinstance(response["state"], str)
+        assert isinstance(response["hotWaterZonePresent"], bool)
+        KEYS = ["type", "serialNo", "thermInterfaceType", "connected", "lastRequestTimestamp"]
+        assert all(name in response["deviceWiredToBoiler"] for name in KEYS)
+        KEYS = ["celsius", "timestamp"]
+        assert all(name in response["boiler"]["outputTemperature"] for name in KEYS)
 
     def test_get_capabilities(self):
         ZONE_ID = tado.get_zones()[0]["id"]
@@ -44,39 +59,43 @@ class TestApi:
         assert isinstance(response, list)
         assert len(response) > 0
 
-        DEVICES_BU = [x for x in response if x["deviceType"] == "BU01"]
-        KEYS = ["deviceType", "serialNo", "shortSerialNo", "currentFwVersion", "connectionState", "characteristics", "isDriverConfigured"]
-        assert all(name in DEVICES_BU[0] for name in KEYS)
-        KEYS = ["value", "timestamp"]
-        assert all(name in DEVICES_BU[0]["connectionState"] for name in KEYS)
-        KEYS = ["capabilities"]
-        assert all(name in DEVICES_BU[0]["characteristics"] for name in KEYS)
+        DEVICES_BU = [x for x in response if x["deviceType"] in ("BU01", "BR02")]
+        if DEVICES_BU:
+            KEYS = ["deviceType", "serialNo", "shortSerialNo", "currentFwVersion", "connectionState", "characteristics", "isDriverConfigured"]
+            assert all(name in DEVICES_BU[0] for name in KEYS)
+            KEYS = ["value", "timestamp"]
+            assert all(name in DEVICES_BU[0]["connectionState"] for name in KEYS)
+            KEYS = ["capabilities"]
+            assert all(name in DEVICES_BU[0]["characteristics"] for name in KEYS)
 
         DEVICES_GW = [x for x in response if x["deviceType"] == "GW03"]
-        KEYS = ["deviceType", "serialNo", "shortSerialNo", "currentFwVersion", "connectionState", "characteristics", "inPairingMode"]
-        assert all(name in DEVICES_GW[0] for name in KEYS)
-        KEYS = ["value", "timestamp"]
-        assert all(name in DEVICES_GW[0]["connectionState"] for name in KEYS)
-        KEYS = ["capabilities"]
-        assert all(name in DEVICES_GW[0]["characteristics"] for name in KEYS)
+        if DEVICES_GW:
+            KEYS = ["deviceType", "serialNo", "shortSerialNo", "currentFwVersion", "connectionState", "characteristics", "inPairingMode"]
+            assert all(name in DEVICES_GW[0] for name in KEYS)
+            KEYS = ["value", "timestamp"]
+            assert all(name in DEVICES_GW[0]["connectionState"] for name in KEYS)
+            KEYS = ["capabilities"]
+            assert all(name in DEVICES_GW[0]["characteristics"] for name in KEYS)
 
         DEVICES_RU = [x for x in response if x["deviceType"] == "RU01"]
-        KEYS = ["deviceType", "serialNo", "shortSerialNo", "currentFwVersion", "connectionState", "characteristics", "batteryState"]
-        assert all(name in DEVICES_RU[0] for name in KEYS)
-        KEYS = ["value", "timestamp"]
-        assert all(name in DEVICES_RU[0]["connectionState"] for name in KEYS)
-        KEYS = ["capabilities"]
-        assert all(name in DEVICES_RU[0]["characteristics"] for name in KEYS)
+        if DEVICES_RU:
+            KEYS = ["deviceType", "serialNo", "shortSerialNo", "currentFwVersion", "connectionState", "characteristics", "batteryState"]
+            assert all(name in DEVICES_RU[0] for name in KEYS)
+            KEYS = ["value", "timestamp"]
+            assert all(name in DEVICES_RU[0]["connectionState"] for name in KEYS)
+            KEYS = ["capabilities"]
+            assert all(name in DEVICES_RU[0]["characteristics"] for name in KEYS)
 
         DEVICES_VA = [x for x in response if x["deviceType"] == "VA01"]
-        KEYS = ["deviceType", "serialNo", "shortSerialNo", "currentFwVersion", "connectionState", "characteristics", "mountingState", "batteryState"]
-        assert all(name in DEVICES_VA[0] for name in KEYS)
-        KEYS = ["value", "timestamp"]
-        assert all(name in DEVICES_VA[0]["connectionState"] for name in KEYS)
-        KEYS = ["capabilities"]
-        assert all(name in DEVICES_VA[0]["characteristics"] for name in KEYS)
-        KEYS = ["value", "timestamp"]
-        assert all(name in DEVICES_VA[0]["mountingState"] for name in KEYS)
+        if DEVICES_VA:
+            KEYS = ["deviceType", "serialNo", "shortSerialNo", "currentFwVersion", "connectionState", "characteristics", "mountingState", "batteryState"]
+            assert all(name in DEVICES_VA[0] for name in KEYS)
+            KEYS = ["value", "timestamp"]
+            assert all(name in DEVICES_VA[0]["connectionState"] for name in KEYS)
+            KEYS = ["capabilities"]
+            assert all(name in DEVICES_VA[0]["characteristics"] for name in KEYS)
+            KEYS = ["value", "timestamp"]
+            assert all(name in DEVICES_VA[0]["mountingState"] for name in KEYS)
 
     def test_get_early_start(self):
         ZONE_ID = tado.get_zones()[0]["id"]
