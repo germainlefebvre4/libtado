@@ -38,7 +38,7 @@ def capabilities(tado, zone):
 
 
 @main.command()
-@click.option('--authKey', '-a', required=True, type=int, help='Bridge auth code')
+@click.option('--authKey', '-a', required=True, type=int, envvar='TADO_BRIDGE_AUTHKEY', help='Bridge auth code')
 @click.pass_obj
 def ch_flow_temp(tado, authkey):
   """Display the current CH flow temperature (where applicable)."""
