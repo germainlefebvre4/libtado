@@ -228,6 +228,8 @@ class Tado:
         bridges supported)
 
     Returns:
+      None when no boiler state data are available, or:
+
       state (str): installation status of boiler receiver/thermostat
       deviceWiredToBoiler (dict): type, serial number, protocol etc of
         receiver/thermostat.
@@ -259,6 +261,8 @@ class Tado:
     """
     devices = self.get_devices()
     bridge_serial = [x for x in devices if x['deviceType'] == 'IB01'][0]['serialNo']
+    if not bridge_serial:
+        return None
     data = self._api_call('homeByBridge/%s/boilerWiringInstallationState?authKey=%s' % (bridge_serial, authKey))
     return data
 
