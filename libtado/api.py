@@ -206,12 +206,13 @@ class Tado:
     if time.time() < self.token_expiry - 30:
       return
     url='https://auth.tado.com/oauth/token'
-    data = { 'client_id'     : 'tado-web-app',
-             'client_secret' : self.secret,
-             'grant_type'    : 'refresh_token',
-             'refresh_token' : self.refresh_token,
-             'scope'         : 'home.user'
-           }
+    data = {
+     'client_id'     : 'tado-web-app',
+     'client_secret' : self.secret,
+     'grant_type'    : 'refresh_token',
+     'refresh_token' : self.refresh_token,
+     'scope'         : 'home.user'
+    }
     try:
       request = requests.post(url, data=data, timeout=self.timeout)
       request.raise_for_status()
@@ -226,6 +227,8 @@ class Tado:
 
   def get_capabilities(self, zone):
     """
+    Get the capabilities of a zone.
+
     Parameters:
       zone (int): The zone ID.
 
@@ -236,11 +239,19 @@ class Tado:
     Example:
       ```json
       {
-        'temperatures': {
-          'celsius': {'max': 25, 'min': 5, 'step': 1.0},
-          'fahrenheit': {'max': 77, 'min': 41, 'step': 1.0}
+        "temperatures": {
+          "celsius": {
+            "max": 25,
+            "min": 5,
+            "step": 1.0
+          },
+          "fahrenheit": {
+            "max": 77,
+            "min": 41,
+            "step": 1.0
+          }
         },
-        'type': 'HEATING'
+        "type": "HEATING"
       }
       ```
     """
@@ -249,6 +260,8 @@ class Tado:
 
   def get_devices(self):
     """
+    Get all devices of your home.
+
     Returns:
       (list): All devices of the home as a list of dictionaries.
 
@@ -256,66 +269,68 @@ class Tado:
       ```json
       [
         {
-          'characteristics': { 'capabilities': [] },
-          'connectionState': {
-            'timestamp': '2017-02-20T18:51:47.362Z',
-            'value': True
+          "characteristics": {
+            "capabilities": []
           },
-          'currentFwVersion': '25.15',
-          'deviceType': 'GW03',
-          'gatewayOperation': 'NORMAL',
-          'serialNo': 'SOME_SERIAL',
-          'shortSerialNo': 'SOME_SERIAL'
+          "connectionState": {
+            "timestamp": "2017-02-20T18:51:47.362Z",
+            "value": True
+          },
+          "currentFwVersion": "25.15",
+          "deviceType": "GW03",
+          "gatewayOperation": "NORMAL",
+          "serialNo": "SOME_SERIAL",
+          "shortSerialNo": "SOME_SERIAL"
         },
         {
-          'characteristics': {
-            'capabilities': [ 'INSIDE_TEMPERATURE_MEASUREMENT', 'IDENTIFY']
+          "characteristics": {
+            "capabilities": ["INSIDE_TEMPERATURE_MEASUREMENT", "IDENTIFY"]
           },
-          'connectionState': {
-            'timestamp': '2017-01-22T16:03:00.773Z',
-            'value': False
+          "connectionState": {
+            "timestamp": "2017-01-22T16:03:00.773Z",
+            "value": False
           },
-          'currentFwVersion': '36.15',
-          'deviceType': 'VA01',
-          'mountingState': {
-            'timestamp': '2017-01-22T15:12:45.360Z',
-            'value': 'UNMOUNTED'
+          "currentFwVersion": "36.15",
+          "deviceType": "VA01",
+          "mountingState": {
+            "timestamp": "2017-01-22T15:12:45.360Z",
+            "value": "UNMOUNTED"
           },
-          'serialNo': 'SOME_SERIAL',
-          'shortSerialNo': 'SOME_SERIAL'
+          "serialNo": "SOME_SERIAL",
+          "shortSerialNo": "SOME_SERIAL"
         },
         {
-          'characteristics': {
-            'capabilities': [ 'INSIDE_TEMPERATURE_MEASUREMENT', 'IDENTIFY']
+          "characteristics": {
+            "capabilities": ["INSIDE_TEMPERATURE_MEASUREMENT", "IDENTIFY"]
           },
-          'connectionState': {
-            'timestamp': '2017-02-20T18:33:49.092Z',
-            'value': True
+          "connectionState": {
+            "timestamp": "2017-02-20T18:33:49.092Z",
+            "value": True
           },
-          'currentFwVersion': '36.15',
-          'deviceType': 'VA01',
-          'mountingState': {
-            'timestamp': '2017-02-12T13:34:35.288Z',
-            'value': 'CALIBRATED'},
-          'serialNo': 'SOME_SERIAL',
-          'shortSerialNo': 'SOME_SERIAL'
+          "currentFwVersion": "36.15",
+          "deviceType": "VA01",
+          "mountingState": {
+            "timestamp": "2017-02-12T13:34:35.288Z",
+            "value": "CALIBRATED"},
+          "serialNo": "SOME_SERIAL",
+          "shortSerialNo": "SOME_SERIAL"
         },
         {
-          'characteristics': {
-            'capabilities': [ 'INSIDE_TEMPERATURE_MEASUREMENT', 'IDENTIFY']
+          "characteristics": {
+            "capabilities": ["INSIDE_TEMPERATURE_MEASUREMENT", "IDENTIFY"]
           },
-          'connectionState': {
-            'timestamp': '2017-02-20T18:51:28.779Z',
-            'value': True
+          "connectionState": {
+            "timestamp": "2017-02-20T18:51:28.779Z",
+            "value": True
           },
-          'currentFwVersion': '36.15',
-          'deviceType': 'VA01',
-          'mountingState': {
-            'timestamp': '2017-01-12T13:22:11.618Z',
-            'value': 'CALIBRATED'
+          "currentFwVersion": "36.15",
+          "deviceType": "VA01",
+          "mountingState": {
+            "timestamp": "2017-01-12T13:22:11.618Z",
+            "value": "CALIBRATED"
            },
-          'serialNo': 'SOME_SERIAL',
-          'shortSerialNo': 'SOME_SERIAL'
+          "serialNo": "SOME_SERIAL",
+          "shortSerialNo": "SOME_SERIAL"
         }
       ]
       ```
@@ -347,7 +362,7 @@ class Tado:
     Example:
       ```json
       {
-        'enabled': True
+        "enabled": True
       }
       ```
     """
@@ -373,30 +388,30 @@ class Tado:
     Example:
       ```json
       {
-        'address': {
-          'addressLine1': 'SOME_STREET',
-          'addressLine2': None,
-          'city': 'SOME_CITY',
-          'country': 'SOME_COUNTRY',
-          'state': None,
-          'zipCode': 'SOME_ZIP_CODE'
+        "address": {
+          "addressLine1": "SOME_STREET",
+          "addressLine2": None,
+          "city": "SOME_CITY",
+          "country": "SOME_COUNTRY",
+          "state": None,
+          "zipCode": "SOME_ZIP_CODE"
         },
-        'contactDetails': {
-          'email': 'SOME_EMAIL',
-          'name': 'SOME_NAME',
-          'phone': 'SOME_PHONE'
+        "contactDetails": {
+          "email": "SOME_EMAIL",
+          "name": "SOME_NAME",
+          "phone": "SOME_PHONE"
         },
-        'dateTimeZone': 'Europe/Berlin',
-        'geolocation': {
-          'latitude': SOME_LAT,
-          'longitude': SOME_LONG
+        "dateTimeZone": "Europe/Berlin",
+        "geolocation": {
+          "latitude": SOME_LAT,
+          "longitude": SOME_LONG
         },
-        'id': SOME_ID,
-        'installationCompleted': True,
-        'name': 'SOME_NAME',
-        'partner': None,
-        'simpleSmartScheduleEnabled': True,
-        'temperatureUnit': 'CELSIUS'
+        "id": SOME_ID,
+        "installationCompleted": True,
+        "name": "SOME_NAME",
+        "partner": None,
+        "simpleSmartScheduleEnabled": True,
+        "temperatureUnit": "CELSIUS"
       }
       ```
     """
@@ -440,45 +455,45 @@ class Tado:
       ```json
       [
         {
-          'email': 'SOME_INVITED_EMAIL',
-          'firstSent': '2017-02-20T21:01:44.450Z',
-          'home': {
-            'address': {
-              'addressLine1': 'SOME_STREET',
-              'addressLine2': None,
-              'city': 'SOME_CITY',
-              'country': 'SOME_COUNTRY',
-              'state': None,
-              'zipCode': 'SOME_ZIP_CODE'
+          "email": "SOME_INVITED_EMAIL",
+          "firstSent": "2017-02-20T21:01:44.450Z",
+          "home": {
+            "address": {
+              "addressLine1": "SOME_STREET",
+              "addressLine2": None,
+              "city": "SOME_CITY",
+              "country": "SOME_COUNTRY",
+              "state": None,
+              "zipCode": "SOME_ZIP_CODE"
             },
-            'contactDetails': {
-              'email': 'SOME_EMAIL',
-              'name': 'SOME_NAME',
-              'phone': 'SOME_PHONE'
+            "contactDetails": {
+              "email": "SOME_EMAIL",
+              "name": "SOME_NAME",
+              "phone": "SOME_PHONE"
             },
-            'dateTimeZone': 'Europe/Berlin',
-            'geolocation': {
-              'latitude': SOME_LAT,
-              'longitude': SOME_LONG
+            "dateTimeZone": "Europe/Berlin",
+            "geolocation": {
+              "latitude": SOME_LAT,
+              "longitude": SOME_LONG
             },
-            'id': SOME_ID,
-            'installationCompleted': True,
-            'name': 'SOME_NAME',
-            'partner': None,
-            'simpleSmartScheduleEnabled': True,
-            'temperatureUnit': 'CELSIUS'
+            "id": SOME_ID,
+            "installationCompleted": True,
+            "name": "SOME_NAME",
+            "partner": None,
+            "simpleSmartScheduleEnabled": True,
+            "temperatureUnit": "CELSIUS"
           },
-          'inviter': {
-            'email': 'SOME_INVITER_EMAIL',
-            'enabled': True,
-            'homeId': SOME_ID,
-            'locale': 'SOME_LOCALE',
-            'name': 'SOME_NAME',
-            'type': 'WEB_USER',
-            'username': 'SOME_USERNAME'
+          "inviter": {
+            "email": "SOME_INVITER_EMAIL",
+            "enabled": True,
+            "homeId": SOME_ID,
+            "locale": "SOME_LOCALE",
+            "name": "SOME_NAME",
+            "type": "WEB_USER",
+            "username": "SOME_USERNAME"
           },
-          'lastSent': '2017-02-20T21:01:44.450Z',
-          'token': 'SOME_TOKEN'
+          "lastSent": "2017-02-20T21:01:44.450Z",
+          "token": "SOME_TOKEN"
         }
       ]
       ```
@@ -497,18 +512,18 @@ class Tado:
     Example:
       ```json
       {
-        'email': 'SOME_EMAIL',
-        'homes': [
+        "email": "SOME_EMAIL",
+        "homes": [
           {
-            'id': SOME_ID,
-            'name': 'SOME_NAME'
+            "id": SOME_ID,
+            "name": "SOME_NAME"
           }
         ],
-        'locale': 'en_US',
-        'mobileDevices': [],
-        'name': 'SOME_NAME',
-        'username': 'SOME_USERNAME',
-        'secret': 'SOME_CLIENT_SECRET'
+        "locale": "en_US",
+        "mobileDevices": [],
+        "name": "SOME_NAME",
+        "username": "SOME_USERNAME",
+        "secret": "SOME_CLIENT_SECRET"
       }
       ```
     """
@@ -517,7 +532,51 @@ class Tado:
     return data
 
   def get_mobile_devices(self):
-    """Get all mobile devices."""
+    """
+    Get all mobile devices.
+
+    Returns:
+      (list): List of dictionaries with information about the mobile devices.
+
+    Example:
+      ```json
+      [
+        {
+          "name": "Germain",
+          "id": 1234567,
+          "settings": {
+            "geoTrackingEnabled": true,
+            "specialOffersEnabled": true,
+            "onDemandLogRetrievalEnabled": true,
+            "pushNotifications": {
+              "lowBatteryReminder": true,
+              "awayModeReminder": true,
+              "homeModeReminder": true,
+              "openWindowReminder": true,
+              "energySavingsReportReminder": true,
+              "incidentDetection": true,
+              "energyIqReminder": false
+            }
+          },
+          "location": {
+            "stale": false,
+            "atHome": true,
+            "bearingFromHome": {
+              "degrees": 123.45611789012345,
+              "radians": 1.2345678901234567
+            },
+            "relativeDistanceFromHomeFence": 0.0
+          },
+          "deviceMetadata": {
+            "platform": "iOS",
+            "osVersion": "17.1.2",
+            "model": "iPhone11,2",
+            "locale": "fr"
+          }
+        }
+      ]
+      ```
+    """
     data = self._api_call('homes/%i/mobileDevices' % self.id)
     return data
 
@@ -555,8 +614,8 @@ class Tado:
     Example:
       ```json
       {
-        'id': 1,
-        'type': 'THREE_DAY'
+        "id": 1,
+        "type": "THREE_DAY"
       }
       ```
     """
@@ -749,45 +808,47 @@ class Tado:
     Example:
       ```json
       {
-        'activityDataPoints': {
-          'heatingPower': {
-            'percentage': 0.0,
-            'timestamp': '2017-02-21T11:56:52.204Z',
-            'type': 'PERCENTAGE'
+        "activityDataPoints": {
+          "heatingPower": {
+            "percentage": 0.0,
+            "timestamp": "2017-02-21T11:56:52.204Z",
+            "type": "PERCENTAGE"
           }
         },
-        'geolocationOverride': False,
-        'geolocationOverrideDisableTime': None,
-        'link': {'state': 'ONLINE'},
-        'overlay': None,
-        'overlayType': None,
-        'preparation': None,
-        'sensorDataPoints': {
-          'humidity': {
-            'percentage': 44.0,
-            'timestamp': '2017-02-21T11:56:45.369Z',
-            'type': 'PERCENTAGE'
+        "geolocationOverride": False,
+        "geolocationOverrideDisableTime": None,
+        "link": {
+          "state": "ONLINE"
+        },
+        "overlay": None,
+        "overlayType": None,
+        "preparation": None,
+        "sensorDataPoints": {
+          "humidity": {
+            "percentage": 44.0,
+            "timestamp": "2017-02-21T11:56:45.369Z",
+            "type": "PERCENTAGE"
           },
-          'insideTemperature': {
-            'celsius': 18.11,
-            'fahrenheit': 64.6,
-            'precision': {
-              'celsius': 1.0,
-              'fahrenheit': 1.0
+          "insideTemperature": {
+            "celsius": 18.11,
+            "fahrenheit": 64.6,
+            "precision": {
+              "celsius": 1.0,
+              "fahrenheit": 1.0
             },
-            'timestamp': '2017-02-21T11:56:45.369Z',
-            'type': 'TEMPERATURE'
+            "timestamp": "2017-02-21T11:56:45.369Z",
+            "type": "TEMPERATURE"
           }
         },
-        'setting': {
-          'power': 'ON',
-          'temperature': {
-            'celsius': 20.0,
-            'fahrenheit': 68.0
+        "setting": {
+          "power": "ON",
+          "temperature": {
+            "celsius": 20.0,
+            "fahrenheit": 68.0
           },
-          'type': 'HEATING'
+          "type": "HEATING"
         },
-        'tadoMode': 'HOME'
+        "tadoMode": "HOME"
       }
       ```
     """
@@ -822,9 +883,9 @@ class Tado:
     Example:
       ```json
       {
-         "terminationCondition": {
-           "type": "TADO_MODE"
-         }
+        "terminationCondition": {
+          "type": "TADO_MODE"
+        }
       }
       ```
     """
@@ -846,25 +907,25 @@ class Tado:
     Example:
       ```json
       {
-        'outsideTemperature': {
-          'celsius': 8.49,
-          'fahrenheit': 47.28,
-          'precision': {
-            'celsius': 0.01,
-            'fahrenheit': 0.01
+        "outsideTemperature": {
+          "celsius": 8.49,
+          "fahrenheit": 47.28,
+          "precision": {
+            "celsius": 0.01,
+            "fahrenheit": 0.01
           },
-          'timestamp': '2017-02-21T12:06:11.296Z',
-          'type': 'TEMPERATURE'
+          "timestamp": "2017-02-21T12:06:11.296Z",
+          "type": "TEMPERATURE"
         },
-        'solarIntensity': {
-          'percentage': 58.4,
-          'timestamp': '2017-02-21T12:06:11.296Z',
-          'type': 'PERCENTAGE'
+        "solarIntensity": {
+          "percentage": 58.4,
+          "timestamp": "2017-02-21T12:06:11.296Z",
+          "type": "PERCENTAGE"
         },
-        'weatherState': {
-          'timestamp': '2017-02-21T12:06:11.296Z',
-          'type': 'WEATHER_STATE',
-          'value': 'CLOUDY_PARTLY'
+        "weatherState": {
+          "timestamp": "2017-02-21T12:06:11.296Z",
+          "type": "WEATHER_STATE",
+          "value": "CLOUDY_PARTLY"
         }
       }
       ```
@@ -883,64 +944,65 @@ class Tado:
     Example:
       ```json
       [
-        { 'dateCreated': '2016-12-23T15:53:43.615Z',
-          'dazzleEnabled': True,
-          'deviceTypes': ['VA01'],
-          'devices': [
+        {
+          "dateCreated": "2016-12-23T15:53:43.615Z",
+          "dazzleEnabled": True,
+          "deviceTypes": ["VA01"],
+          "devices": [
             {
-              'characteristics': {
-                'capabilities': [ 'INSIDE_TEMPERATURE_MEASUREMENT', 'IDENTIFY']
+              "characteristics": {
+                "capabilities": ["INSIDE_TEMPERATURE_MEASUREMENT", "IDENTIFY"]
               },
-              'connectionState': {
-                'timestamp': '2017-02-21T14:22:45.913Z',
-                'value': True
+              "connectionState": {
+                "timestamp": "2017-02-21T14:22:45.913Z",
+                "value": True
               },
-              'currentFwVersion': '36.15',
-              'deviceType': 'VA01',
-              'duties': ['ZONE_UI', 'ZONE_DRIVER', 'ZONE_LEADER'],
-              'mountingState': {
-                'timestamp': '2017-02-12T13:34:35.288Z',
-                'value': 'CALIBRATED'
+              "currentFwVersion": "36.15",
+              "deviceType": "VA01",
+              "duties": ["ZONE_UI", "ZONE_DRIVER", "ZONE_LEADER"],
+              "mountingState": {
+                "timestamp": "2017-02-12T13:34:35.288Z",
+                "value": "CALIBRATED"
               },
-              'serialNo': 'SOME_SERIAL',
-              'shortSerialNo': 'SOME_SERIAL'
+              "serialNo": "SOME_SERIAL",
+              "shortSerialNo": "SOME_SERIAL"
             }
           ],
-          'id': 1,
-          'name': 'SOME_NAME',
-          'reportAvailable': False,
-          'supportsDazzle': True,
-          'type': 'HEATING'
+          "id": 1,
+          "name": "SOME_NAME",
+          "reportAvailable": False,
+          "supportsDazzle": True,
+          "type": "HEATING"
         },
         {
-          'dateCreated': '2016-12-23T16:16:11.390Z',
-          'dazzleEnabled': True,
-          'deviceTypes': ['VA01'],
-          'devices': [
+          "dateCreated": "2016-12-23T16:16:11.390Z",
+          "dazzleEnabled": True,
+          "deviceTypes": ["VA01"],
+          "devices": [
             {
-              'characteristics': {
-                'capabilities': [ 'INSIDE_TEMPERATURE_MEASUREMENT', 'IDENTIFY']
+              "characteristics": {
+                "capabilities": ["INSIDE_TEMPERATURE_MEASUREMENT", "IDENTIFY"]
               },
-              'connectionState': {
-                'timestamp': '2017-02-21T14:19:40.215Z',
-                'value': True
+              "connectionState": {
+                "timestamp": "2017-02-21T14:19:40.215Z",
+                "value": True
               },
-              'currentFwVersion': '36.15',
-              'deviceType': 'VA01',
-              'duties': ['ZONE_UI', 'ZONE_DRIVER', 'ZONE_LEADER'],
-              'mountingState': {
-                'timestamp': '2017-01-12T13:22:11.618Z',
-                'value': 'CALIBRATED'
+              "currentFwVersion": "36.15",
+              "deviceType": "VA01",
+              "duties": ["ZONE_UI", "ZONE_DRIVER", "ZONE_LEADER"],
+              "mountingState": {
+                "timestamp": "2017-01-12T13:22:11.618Z",
+                "value": "CALIBRATED"
               },
-              'serialNo': 'SOME_SERIAL',
-              'shortSerialNo': 'SOME_SERIAL'
+              "serialNo": "SOME_SERIAL",
+              "shortSerialNo": "SOME_SERIAL"
             }
           ],
-          'id': 3,
-          'name': 'SOME_NAME ',
-          'reportAvailable': False,
-          'supportsDazzle': True,
-          'type': 'HEATING'
+          "id": 3,
+          "name": "SOME_NAME ",
+          "reportAvailable": False,
+          "supportsDazzle": True,
+          "type": "HEATING"
         }
       ]
       ```
@@ -979,7 +1041,7 @@ class Tado:
     Example:
       ```json
       {
-        'enabled': True
+        "enabled": True
       }
       ```
     """
@@ -1014,16 +1076,19 @@ class Tado:
     Example:
       ```json
       {
-        'setting': {
-          'power': 'ON',
-          'temperature': {'celsius': 12.0, 'fahrenheit': 53.6},
-          'type': 'HEATING'
+        "setting": {
+          "power": "ON",
+          "temperature": {
+            "celsius": 12.0,
+            "fahrenheit": 53.6
+          },
+          "type": "HEATING"
         },
-        'termination': {
-          'projectedExpiry': None,
-          'type': 'MANUAL'
+        "termination": {
+          "projectedExpiry": None,
+          "type": "MANUAL"
         },
-        'type': 'MANUAL'
+        "type": "MANUAL"
       }
       ```
     """
@@ -1097,6 +1162,8 @@ class Tado:
 
   def get_report(self, zone, date):
     """
+    Get the report for a zone on a specific date.
+
     Parameters:
       zone (int): The zone ID.
       date (str): The date in ISO8601 format. e.g. "2019-02-14".
@@ -1104,6 +1171,164 @@ class Tado:
     Returns:
       (dict): The daily report.
 
+    Example:
+      ```json
+      {
+        "zoneType": "HEATING",
+        "interval": {
+          "from": "2023-12-11T22:45:00.000Z",
+          "to": "2023-12-12T23:15:00.000Z"
+        },
+        "hoursInDay": 24,
+        "measuredData": {
+          "measuringDeviceConnected": {
+            "timeSeriesType": "dataIntervals",
+            "valueType": "boolean",
+            "dataIntervals": [
+              {
+                "from": "2023-12-11T22:45:00.000Z",
+                "to": "2023-12-12T23:15:00.000Z",
+                "value": true
+              }
+            ]
+          },
+          "insideTemperature": {
+            "timeSeriesType": "dataPoints",
+            "valueType": "temperature",
+            "min": {
+              "celsius": 18.12,
+              "fahrenheit": 64.62
+            },
+            "max": {
+              "celsius": 19.67,
+              "fahrenheit": 67.41
+            },
+            "dataPoints": [
+              {
+                "timestamp": "2023-12-11T22:45:00.000Z",
+                "value": {
+                  "celsius": 19.59,
+                  "fahrenheit": 67.26
+                }
+              },
+              [...]
+            ]
+          },
+          "humidity": {
+            "timeSeriesType": "dataPoints",
+            "valueType": "percentage",
+            "percentageUnit": "UNIT_INTERVAL",
+            "min": 0.549,
+            "max": 0.605,
+            "dataPoints": [
+              {
+                "timestamp": "2023-12-11T22:45:00.000Z",
+                "value": 0.567
+              },
+              [...]
+            ]
+          }
+        },
+        "stripes": {
+          "timeSeriesType": "dataIntervals",
+          "valueType": "stripes",
+          "dataIntervals": [
+            {
+              "from": "2023-12-12T05:00:00.000Z",
+              "to": "2023-12-12T07:43:23.594Z",
+              "value": {
+                "stripeType": "HOME",
+                "setting": {
+                  "type": "HEATING",
+                  "power": "ON",
+                  "temperature": {
+                    "celsius": 19.0,
+                    "fahrenheit": 66.2
+                  }
+                }
+              }
+            },
+            [...]
+          ]
+        },
+        "settings": {
+          "timeSeriesType": "dataIntervals",
+          "valueType": "heatingSetting",
+          "dataIntervals": [
+            {
+              "from": "2023-12-11T22:45:00.000Z",
+              "to": "2023-12-11T23:00:00.000Z",
+              "value": {
+                "type": "HEATING",
+                "power": "ON",
+                "temperature": {
+                  "celsius": 18.0,
+                  "fahrenheit": 64.4
+                }
+              }
+            },
+            [...]
+          ]
+        },
+        "callForHeat": {
+          "timeSeriesType": "dataIntervals",
+          "valueType": "callForHeat",
+          "dataIntervals": [
+            {
+              "from": "2023-12-11T22:45:00.000Z",
+              "to": "2023-12-12T13:59:08.402Z",
+              "value": "NONE"
+            },
+            [...]
+          ]
+        },
+        "weather": {
+          "condition": {
+            "timeSeriesType": "dataIntervals",
+            "valueType": "weatherCondition",
+            "dataIntervals": [
+              {
+                "from": "2023-12-11T22:45:00.000Z",
+                "to": "2023-12-11T22:45:42.875Z",
+                "value": {
+                  "state": "NIGHT_CLOUDY",
+                  "temperature": {
+                    "celsius": 8.79,
+                    "fahrenheit": 47.82
+                  }
+                }
+              },
+              [...]
+            ]
+          },
+          "sunny": {
+            "timeSeriesType": "dataIntervals",
+            "valueType": "boolean",
+            "dataIntervals": [
+              {
+                "from": "2023-12-11T22:45:00.000Z",
+                "to": "2023-12-12T23:15:00.000Z",
+                "value": false
+              }
+            ]
+          },
+          "slots": {
+            "timeSeriesType": "slots",
+            "valueType": "weatherCondition",
+            "slots": {
+              "04:00": {
+                "state": "NIGHT_CLOUDY",
+                "temperature": {
+                  "celsius": 8.12,
+                  "fahrenheit": 46.62
+                }
+              },
+              [...]
+            }
+          }
+        }
+      }
+      ```
     """
     data = self._api_call('homes/%i/zones/%i/dayReport?date=%s' % (self.id, zone, date))
     return data
@@ -1151,8 +1376,8 @@ class Tado:
     Example:
       ```json
       {
-           "celsius": 0.0,
-           "fahrenheit": 0.0
+        "celsius": 0.0,
+        "fahrenheit": 0.0
       }
       ```
     """
@@ -1187,30 +1412,30 @@ class Tado:
     Example:
       ```json
       {
-          "freshness":{
-              "value":"FAIR",
-              "lastOpenWindow":"2020-09-04T10:38:57Z"
+        "freshness":{
+          "value":"FAIR",
+          "lastOpenWindow":"2020-09-04T10:38:57Z"
+        },
+        "comfort":[
+          {
+            "roomId":1,
+            "temperatureLevel":"COMFY",
+            "humidityLevel":"COMFY",
+            "coordinate":{
+              "radial":0.36,
+              "angular":323
+            }
           },
-          "comfort":[
-              {
-                  "roomId":1,
-                  "temperatureLevel":"COMFY",
-                  "humidityLevel":"COMFY",
-                  "coordinate":{
-                      "radial":0.36,
-                      "angular":323
-                  }
-              },
-              {
-                  "roomId":4,
-                  "temperatureLevel":"COMFY",
-                  "humidityLevel":"COMFY",
-                  "coordinate":{
-                      "radial":0.43,
-                      "angular":324
-                  }
-              }
-          ]
+          {
+            "roomId":4,
+            "temperatureLevel":"COMFY",
+            "humidityLevel":"COMFY",
+            "coordinate":{
+              "radial":0.43,
+              "angular":324
+            }
+          }
+        ]
       }
       ```
     """
@@ -1231,155 +1456,155 @@ class Tado:
     Example:
       ```json
       {
-          "roomMessages":[
-              {
-                  "roomId":4,
-                  "message":"Bravo\u00a0! L\u2019air de cette pi\u00e8ce est proche de la perfection.",
-                  "visual":"success",
-                  "link":null
-              },
-              {
-                  "roomId":1,
-                  "message":"Continuez \u00e0 faire ce que vous faites\u00a0! L'air de cette pi\u00e8ce est parfait.",
-                  "visual":"success",
-                  "link":null
-              }
-          ],
-          "outdoorQuality":{
-              "aqi":{
-                  "value":81,
-                  "level":"EXCELLENT"
-              },
-              "pollens":{
-                  "dominant":{
-                      "level":"LOW"
-                  },
-                  "types":[
-                      {
-                          "localizedName":"Gramin\u00e9es",
-                          "type":"GRASS",
-                          "localizedDescription":"Poaceae",
-                          "forecast":[
-                              {
-                                  "localizedDay":"Auj.",
-                                  "date":"2020-09-06",
-                                  "level":"NONE"
-                              },
-                              {
-                                  "localizedDay":"Lun",
-                                  "date":"2020-09-07",
-                                  "level":"NONE"
-                              },
-                              {
-                                  "localizedDay":"Mar",
-                                  "date":"2020-09-08",
-                                  "level":"NONE"
-                              }
-                          ]
-                      },
-                      {
-                          "localizedName":"Herbac\u00e9es",
-                          "type":"WEED",
-                          "localizedDescription":"Armoise, Ambroisie, Pari\u00e9taire",
-                          "forecast":[
-                              {
-                                  "localizedDay":"Auj.",
-                                  "date":"2020-09-06",
-                                  "level":"NONE"
-                              },
-                              {
-                                  "localizedDay":"Lun",
-                                  "date":"2020-09-07",
-                                  "level":"NONE"
-                              },
-                              {
-                                  "localizedDay":"Mar",
-                                  "date":"2020-09-08",
-                                  "level":"NONE"
-                              }
-                          ]
-                      },
-                      {
-                          "localizedName":"Arbres",
-                          "type":"TREE",
-                          "localizedDescription":"Aulne, Fr\u00eane, Bouleau, Noisetier, Cypr\u00e8s, Olivier",
-                          "forecast":[
-                              {
-                                  "localizedDay":"Auj.",
-                                  "date":"2020-09-06",
-                                  "level":"NONE"
-                              },
-                              {
-                                  "localizedDay":"Lun",
-                                  "date":"2020-09-07",
-                                  "level":"NONE"
-                              },
-                              {
-                                  "localizedDay":"Mar",
-                                  "date":"2020-09-08",
-                                  "level":"NONE"
-                              }
-                          ]
-                      }
-                  ]
-              },
-              "pollutants":[
-                  {
-                      "localizedName":"Mati\u00e8re particulaire",
-                      "scientificName":"PM<sub>10</sub>",
-                      "level":"EXCELLENT",
-                      "concentration":{
-                          "value":8.75,
-                          "units":"\u03bcg/m<sup>3</sup>"
-                      }
-                  },
-                  {
-                      "localizedName":"Mati\u00e8re particulaire",
-                      "scientificName":"PM<sub>2.5</sub>",
-                      "level":"EXCELLENT",
-                      "concentration":{
-                          "value":5.04,
-                          "units":"\u03bcg/m<sup>3</sup>"
-                      }
-                  },
-                  {
-                      "localizedName":"Ozone",
-                      "scientificName":"O<sub>3</sub>",
-                      "level":"EXCELLENT",
-                      "concentration":{
-                          "value":23.86,
-                          "units":"ppb"
-                      }
-                  },
-                  {
-                      "localizedName":"Dioxyde de soufre",
-                      "scientificName":"SO<sub>2</sub>",
-                      "level":"EXCELLENT",
-                      "concentration":{
-                          "value":1.19,
-                          "units":"ppb"
-                      }
-                  },
-                  {
-                      "localizedName":"Monoxyde de carbone",
-                      "scientificName":"CO",
-                      "level":"EXCELLENT",
-                      "concentration":{
-                          "value":266.8,
-                          "units":"ppb"
-                      }
-                  },
-                  {
-                      "localizedName":"Dioxyde d'azote",
-                      "scientificName":"NO<sub>2</sub>",
-                      "level":"EXCELLENT",
-                      "concentration":{
-                          "value":5.76,
-                          "units":"ppb"
-                      }
-                  }
-              ]
+        "roomMessages":[
+          {
+            "roomId":4,
+            "message":"Bravo\u00a0! L\u2019air de cette pi\u00e8ce est proche de la perfection.",
+            "visual":"success",
+            "link":null
+          },
+          {
+            "roomId":1,
+            "message":"Continuez \u00e0 faire ce que vous faites\u00a0! L'air de cette pi\u00e8ce est parfait.",
+            "visual":"success",
+            "link":null
           }
+        ],
+        "outdoorQuality":{
+          "aqi":{
+            "value":81,
+            "level":"EXCELLENT"
+          },
+          "pollens":{
+            "dominant":{
+              "level":"LOW"
+            },
+            "types":[
+              {
+                "localizedName":"Gramin\u00e9es",
+                "type":"GRASS",
+                "localizedDescription":"Poaceae",
+                "forecast":[
+                  {
+                    "localizedDay":"Auj.",
+                    "date":"2020-09-06",
+                    "level":"NONE"
+                  },
+                  {
+                    "localizedDay":"Lun",
+                    "date":"2020-09-07",
+                    "level":"NONE"
+                  },
+                  {
+                    "localizedDay":"Mar",
+                    "date":"2020-09-08",
+                    "level":"NONE"
+                  }
+                ]
+              },
+              {
+                "localizedName":"Herbac\u00e9es",
+                "type":"WEED",
+                "localizedDescription":"Armoise, Ambroisie, Pari\u00e9taire",
+                "forecast":[
+                  {
+                    "localizedDay":"Auj.",
+                    "date":"2020-09-06",
+                    "level":"NONE"
+                  },
+                  {
+                    "localizedDay":"Lun",
+                    "date":"2020-09-07",
+                    "level":"NONE"
+                  },
+                  {
+                    "localizedDay":"Mar",
+                    "date":"2020-09-08",
+                    "level":"NONE"
+                  }
+                ]
+              },
+              {
+                "localizedName":"Arbres",
+                "type":"TREE",
+                "localizedDescription":"Aulne, Fr\u00eane, Bouleau, Noisetier, Cypr\u00e8s, Olivier",
+                "forecast":[
+                  {
+                    "localizedDay":"Auj.",
+                    "date":"2020-09-06",
+                    "level":"NONE"
+                  },
+                  {
+                    "localizedDay":"Lun",
+                    "date":"2020-09-07",
+                    "level":"NONE"
+                  },
+                  {
+                    "localizedDay":"Mar",
+                    "date":"2020-09-08",
+                    "level":"NONE"
+                  }
+                ]
+              }
+            ]
+          },
+          "pollutants":[
+            {
+              "localizedName":"Mati\u00e8re particulaire",
+              "scientificName":"PM<sub>10</sub>",
+              "level":"EXCELLENT",
+              "concentration":{
+                "value":8.75,
+                "units":"\u03bcg/m<sup>3</sup>"
+              }
+            },
+            {
+              "localizedName":"Mati\u00e8re particulaire",
+              "scientificName":"PM<sub>2.5</sub>",
+              "level":"EXCELLENT",
+              "concentration":{
+                "value":5.04,
+                "units":"\u03bcg/m<sup>3</sup>"
+              }
+            },
+            {
+              "localizedName":"Ozone",
+              "scientificName":"O<sub>3</sub>",
+              "level":"EXCELLENT",
+              "concentration":{
+                "value":23.86,
+                "units":"ppb"
+              }
+            },
+            {
+              "localizedName":"Dioxyde de soufre",
+              "scientificName":"SO<sub>2</sub>",
+              "level":"EXCELLENT",
+              "concentration":{
+                "value":1.19,
+                "units":"ppb"
+              }
+            },
+            {
+              "localizedName":"Monoxyde de carbone",
+              "scientificName":"CO",
+              "level":"EXCELLENT",
+              "concentration":{
+                "value":266.8,
+                "units":"ppb"
+              }
+            },
+            {
+              "localizedName":"Dioxyde d'azote",
+              "scientificName":"NO<sub>2</sub>",
+              "level":"EXCELLENT",
+              "concentration":{
+                "value":5.76,
+                "units":"ppb"
+              }
+            }
+          ]
+        }
       }
       ```
     """
@@ -1397,14 +1622,14 @@ class Tado:
     Example:
       ```json
       {
-          "boiler":{
-              "present":true,
-              "id":17830,
-              "found":true
-          },
-          "underfloorHeating":{
-              "present":false
-          }
+        "boiler":{
+          "present":true,
+          "id":17830,
+          "found":true
+        },
+        "underfloorHeating":{
+          "present":false
+        }
       }
       ```
     """
@@ -1422,37 +1647,37 @@ class Tado:
     Example:
       ```json
       {
-          "runningTimes":[
+        "runningTimes":[
+          {
+            "runningTimeInSeconds":0,
+            "startTime":"2022-08-18 00:00:00",
+            "endTime":"2022-08-19 00:00:00",
+            "zones":[
               {
-                  "runningTimeInSeconds":0,
-                  "startTime":"2022-08-18 00:00:00",
-                  "endTime":"2022-08-19 00:00:00",
-                  "zones":[
-                      {
-                          "id":1,
-                          "runningTimeInSeconds":0
-                      },
-                      {
-                          "id":6,
-                          "runningTimeInSeconds":0
-                      },
-                      {
-                          "id":11,
-                          "runningTimeInSeconds":0
-                      },
-                      {
-                          "id":12,
-                          "runningTimeInSeconds":0
-                      }
-                  ]
+                "id":1,
+                "runningTimeInSeconds":0
+              },
+              {
+                "id":6,
+                "runningTimeInSeconds":0
+              },
+              {
+                "id":11,
+                "runningTimeInSeconds":0
+              },
+              {
+                "id":12,
+                "runningTimeInSeconds":0
               }
-          ],
-          "summary":{
-              "startTime":"2022-08-18 00:00:00",
-              "endTime":"2022-08-19 00:00:00",
-              "totalRunningTimeInSeconds":0
-          },
-          "lastUpdated":"2022-08-18T05:07:44Z"
+            ]
+          }
+        ],
+        "summary":{
+          "startTime":"2022-08-18 00:00:00",
+          "endTime":"2022-08-19 00:00:00",
+          "totalRunningTimeInSeconds":0
+        },
+        "lastUpdated":"2022-08-18T05:07:44Z"
       }
       ```
     """
@@ -1470,124 +1695,124 @@ class Tado:
     Example:
       ```json
       {
-          "zoneStates":{
-              "1":{
-                  "tadoMode":"HOME",
-                  "geolocationOverride":false,
-                  "geolocationOverrideDisableTime":"None",
-                  "preparation":"None",
-                  "setting":{
-                      "type":"HEATING",
-                      "power":"ON",
-                      "temperature":{
-                          "celsius":19.0,
-                          "fahrenheit":66.2
-                      }
-                  },
-                  "overlayType":"None",
-                  "overlay":"None",
-                  "openWindow":"None",
-                  "nextScheduleChange":{
-                      "start":"2022-08-18T16:00:00Z",
-                      "setting":{
-                          "type":"HEATING",
-                          "power":"ON",
-                          "temperature":{
-                              "celsius":20.0,
-                              "fahrenheit":68.0
-                          }
-                      }
-                  },
-                  "nextTimeBlock":{
-                      "start":"2022-08-18T16:00:00.000Z"
-                  },
-                  "link":{
-                      "state":"ONLINE"
-                  },
-                  "activityDataPoints":{
-                      "heatingPower":{
-                          "type":"PERCENTAGE",
-                          "percentage":0.0,
-                          "timestamp":"2022-08-18T05:34:32.127Z"
-                      }
-                  },
-                  "sensorDataPoints":{
-                      "insideTemperature":{
-                          "celsius":24.13,
-                          "fahrenheit":75.43,
-                          "timestamp":"2022-08-18T05:36:21.241Z",
-                          "type":"TEMPERATURE",
-                          "precision":{
-                              "celsius":0.1,
-                              "fahrenheit":0.1
-                          }
-                      },
-                      "humidity":{
-                          "type":"PERCENTAGE",
-                          "percentage":62.2,
-                          "timestamp":"2022-08-18T05:36:21.241Z"
-                      }
-                  }
-              },
-              "6":{
-                  "tadoMode":"HOME",
-                  "geolocationOverride":false,
-                  "geolocationOverrideDisableTime":"None",
-                  "preparation":"None",
-                  "setting":{
-                      "type":"HEATING",
-                      "power":"ON",
-                      "temperature":{
-                          "celsius":19.5,
-                          "fahrenheit":67.1
-                      }
-                  },
-                  "overlayType":"None",
-                  "overlay":"None",
-                  "openWindow":"None",
-                  "nextScheduleChange":{
-                      "start":"2022-08-18T07:00:00Z",
-                      "setting":{
-                          "type":"HEATING",
-                          "power":"ON",
-                          "temperature":{
-                              "celsius":18.0,
-                              "fahrenheit":64.4
-                          }
-                      }
-                  },
-                  "nextTimeBlock":{
-                      "start":"2022-08-18T07:00:00.000Z"
-                  },
-                  "link":{
-                      "state":"ONLINE"
-                  },
-                  "activityDataPoints":{
-                      "heatingPower":{
-                          "type":"PERCENTAGE",
-                          "percentage":0.0,
-                          "timestamp":"2022-08-18T05:47:58.505Z"
-                      }
-                  },
-                  "sensorDataPoints":{
-                      "insideTemperature":{
-                          "celsius":24.2,
-                          "fahrenheit":75.56,
-                          "timestamp":"2022-08-18T05:46:09.620Z",
-                          "type":"TEMPERATURE",
-                          "precision":{
-                              "celsius":0.1,
-                              "fahrenheit":0.1
-                          }
-                      },
-                      "humidity":{
-                          "type":"PERCENTAGE",
-                          "percentage":64.8,
-                          "timestamp":"2022-08-18T05:46:09.620Z"
-                      }
-                  }
+        "zoneStates":{
+          "1":{
+            "tadoMode":"HOME",
+            "geolocationOverride":false,
+            "geolocationOverrideDisableTime":"None",
+            "preparation":"None",
+            "setting":{
+              "type":"HEATING",
+              "power":"ON",
+              "temperature":{
+                "celsius":19.0,
+                "fahrenheit":66.2
               }
+            },
+            "overlayType":"None",
+            "overlay":"None",
+            "openWindow":"None",
+            "nextScheduleChange":{
+              "start":"2022-08-18T16:00:00Z",
+              "setting":{
+                "type":"HEATING",
+                "power":"ON",
+                "temperature":{
+                  "celsius":20.0,
+                  "fahrenheit":68.0
+                }
+              }
+            },
+            "nextTimeBlock":{
+              "start":"2022-08-18T16:00:00.000Z"
+            },
+            "link":{
+              "state":"ONLINE"
+            },
+            "activityDataPoints":{
+              "heatingPower":{
+                "type":"PERCENTAGE",
+                "percentage":0.0,
+                "timestamp":"2022-08-18T05:34:32.127Z"
+              }
+            },
+            "sensorDataPoints":{
+              "insideTemperature":{
+                "celsius":24.13,
+                "fahrenheit":75.43,
+                "timestamp":"2022-08-18T05:36:21.241Z",
+                "type":"TEMPERATURE",
+                "precision":{
+                  "celsius":0.1,
+                  "fahrenheit":0.1
+                }
+              },
+              "humidity":{
+                "type":"PERCENTAGE",
+                "percentage":62.2,
+                "timestamp":"2022-08-18T05:36:21.241Z"
+              }
+            }
+          },
+          "6":{
+            "tadoMode":"HOME",
+            "geolocationOverride":false,
+            "geolocationOverrideDisableTime":"None",
+            "preparation":"None",
+            "setting":{
+              "type":"HEATING",
+              "power":"ON",
+              "temperature":{
+                "celsius":19.5,
+                "fahrenheit":67.1
+              }
+            },
+            "overlayType":"None",
+            "overlay":"None",
+            "openWindow":"None",
+            "nextScheduleChange":{
+              "start":"2022-08-18T07:00:00Z",
+              "setting":{
+                "type":"HEATING",
+                "power":"ON",
+                "temperature":{
+                  "celsius":18.0,
+                  "fahrenheit":64.4
+                }
+              }
+            },
+            "nextTimeBlock":{
+              "start":"2022-08-18T07:00:00.000Z"
+            },
+            "link":{
+              "state":"ONLINE"
+            },
+            "activityDataPoints":{
+              "heatingPower":{
+                "type":"PERCENTAGE",
+                "percentage":0.0,
+                "timestamp":"2022-08-18T05:47:58.505Z"
+              }
+            },
+            "sensorDataPoints":{
+              "insideTemperature":{
+                "celsius":24.2,
+                "fahrenheit":75.56,
+                "timestamp":"2022-08-18T05:46:09.620Z",
+                "type":"TEMPERATURE",
+                "precision":{
+                  "celsius":0.1,
+                  "fahrenheit":0.1
+                }
+              },
+              "humidity":{
+                "type":"PERCENTAGE",
+                "percentage":64.8,
+                "timestamp":"2022-08-18T05:46:09.620Z"
+              }
+            }
           }
+        }
       }
       ```
     """
@@ -1610,37 +1835,37 @@ class Tado:
     Example:
       ```json
       {
-          "tariff": "0.104 €/kWh",
-          "unit": "m3",
-          "consumptionInputState": "full",
+        "tariff": "0.104 €/kWh",
+        "unit": "m3",
+        "consumptionInputState": "full",
+        "customTariff": false,
+        "currency": "EUR",
+        "tariffInfo":{
+          "consumptionUnit": "kWh",
           "customTariff": false,
-          "currency": "EUR",
-          "tariffInfo":{
-              "consumptionUnit": "kWh",
-              "customTariff": false,
-              "tariffInCents": 10.36,
-              "currencySign": "€",
-          "details":{
-              "totalCostInCents": 1762.98,
-              "totalConsumption": 16.13,
-              "perDay": [
-                  {
-                      "date": "2022-09-01",
-                      "consumption": 0,
-                      "costInCents": 0
-                  },{
-                      "date": "2022-09-02",
-                      "consumption": 0,
-                      "costInCents": 0
-                  },{
-                      "date": "2022-09-03",
-                      "consumption": 0.04,
-                      "costInCents": 0.4144
-                  }
-              ],
-          }
+          "tariffInCents": 10.36,
+          "currencySign": "€",
+        "details":{
+          "totalCostInCents": 1762.98,
+          "totalConsumption": 16.13,
+          "perDay": [
+            {
+              "date": "2022-09-01",
+              "consumption": 0,
+              "costInCents": 0
+            },{
+              "date": "2022-09-02",
+              "consumption": 0,
+              "costInCents": 0
+            },{
+              "date": "2022-09-03",
+              "consumption": 0.04,
+              "costInCents": 0.4144
+            }
+          ]
+        }
       }
-      ``
+      ```
     """
     data = self._api_energy_insights_call('homes/%i/consumption?startDate=%s&endDate=%s&country=%s&ngsw-bypass=%s' % (self.id, startDate, endDate, country, ngsw_bypass))
     return data
@@ -1660,81 +1885,81 @@ class Tado:
     Example:
       ```json
       {
-          "coveredInterval":{
-              "start":"2022-08-31T23:48:02.675000Z",
-              "end":"2022-09-29T13:10:23.035000Z"
+        "coveredInterval":{
+          "start":"2022-08-31T23:48:02.675000Z",
+          "end":"2022-09-29T13:10:23.035000Z"
+        },
+        "totalSavingsAvailable":true,
+        "withAutoAssist":{
+          "detectedAwayDuration":{
+            "value":56,
+            "unit":"HOURS"
           },
-          "totalSavingsAvailable":true,
-          "withAutoAssist":{
-              "detectedAwayDuration":{
-                  "value":56,
-                  "unit":"HOURS"
-              },
-              "openWindowDetectionTimes":9
-          },
-          "totalSavingsInThermostaticMode":{
-              "value":0,
-              "unit":"HOURS"
-          },
-          "manualControlSaving":{
+          "openWindowDetectionTimes":9
+        },
+        "totalSavingsInThermostaticMode":{
+          "value":0,
+          "unit":"HOURS"
+        },
+        "manualControlSaving":{
+          "value":0,
+          "unit":"PERCENTAGE"
+        },
+        "totalSavings":{
+          "value":6.5,
+          "unit":"PERCENTAGE"
+        },
+        "hideSunshineDuration":false,
+        "awayDuration":{
+          "value":56,
+          "unit":"HOURS"
+        },
+        "showSavingsInThermostaticMode":false,
+        "communityNews":{
+          "type":"HOME_COMFORT_STATES",
+          "states":[
+            {
+              "name":"humid",
+              "value":47.3,
+              "unit":"PERCENTAGE"
+            },
+            {
+              "name":"ideal",
+              "value":43.1,
+              "unit":"PERCENTAGE"
+            },
+            {
+              "name":"cold",
+              "value":9.5,
+              "unit":"PERCENTAGE"
+            },
+            {
+              "name":"warm",
+              "value":0.1,
+              "unit":"PERCENTAGE"
+            },
+            {
+              "name":"dry",
               "value":0,
               "unit":"PERCENTAGE"
-          },
-          "totalSavings":{
-              "value":6.5,
-              "unit":"PERCENTAGE"
-          },
-          "hideSunshineDuration":false,
-          "awayDuration":{
-              "value":56,
-              "unit":"HOURS"
-          },
-          "showSavingsInThermostaticMode":false,
-          "communityNews":{
-              "type":"HOME_COMFORT_STATES",
-              "states":[
-                  {
-                      "name":"humid",
-                      "value":47.3,
-                      "unit":"PERCENTAGE"
-                  },
-                  {
-                      "name":"ideal",
-                      "value":43.1,
-                      "unit":"PERCENTAGE"
-                  },
-                  {
-                      "name":"cold",
-                      "value":9.5,
-                      "unit":"PERCENTAGE"
-                  },
-                  {
-                      "name":"warm",
-                      "value":0.1,
-                      "unit":"PERCENTAGE"
-                  },
-                  {
-                      "name":"dry",
-                      "value":0,
-                      "unit":"PERCENTAGE"
-                  }
-              ]
-          },
-          "sunshineDuration":{
-              "value":112,
-              "unit":"HOURS"
-          },
-          "hasAutoAssist":true,
-          "openWindowDetectionTimes":5,
-          "setbackScheduleDurationPerDay":{
-              "value":9.100000381469727,
-              "unit":"HOURS"
-          },
-          "totalSavingsInThermostaticModeAvailable":false,
-          "yearMonth":"2022-09",
-          "hideOpenWindowDetection":false,
-          "home":123456,
-          "hideCommunityNews":false
+            }
+          ]
+        },
+        "sunshineDuration":{
+          "value":112,
+          "unit":"HOURS"
+        },
+        "hasAutoAssist":true,
+        "openWindowDetectionTimes":5,
+        "setbackScheduleDurationPerDay":{
+          "value":9.100000381469727,
+          "unit":"HOURS"
+        },
+        "totalSavingsInThermostaticModeAvailable":false,
+        "yearMonth":"2022-09",
+        "hideOpenWindowDetection":false,
+        "home":123456,
+        "hideCommunityNews":false
       }
       ```
     """
@@ -1746,32 +1971,32 @@ class Tado:
     Trigger Cost Simulation of your home
 
     Returns:
-      consumptionUnit: Consumption unit
-      estimationPerZone: List of cost estimation per zone
+      consumptionUnit (str): Consumption unit
+      estimationPerZone (list): List of cost estimation per zone
 
     Example:
-    ```json
-    {
+      ```json
+      {
         "consumptionUnit": "m3",
         "estimationPerZone": [
-            {
-                "zone": 1,
-                "consumption": -0.05410000000000015,
-                "costInCents": -6
-            },
-            {
-                "zone": 6,
-                "consumption": -0.05699999999999983,
-                "costInCents": -6
-            },
-            {
-                "zone": 12,
-                "consumption": -0.051899999999999946,
-                "costInCents": -6
-            }
+          {
+            "zone": 1,
+            "consumption": -0.05410000000000015,
+            "costInCents": -6
+          },
+          {
+            "zone": 6,
+            "consumption": -0.05699999999999983,
+            "costInCents": -6
+          },
+          {
+            "zone": 12,
+            "consumption": -0.051899999999999946,
+            "costInCents": -6
+          }
         ]
-    }
-    ```
+      }
+      ```
     """
 
     data = self._api_energy_insights_call('homes/%i/costSimulator?country=%s&ngsw-bypass=%s' % (self.id, country, ngsw_bypass), data=payload, method='POST')
@@ -1782,111 +2007,111 @@ class Tado:
     Get energy consumption overview of your home by month and year
 
     Returns:
-      consumptionInputState: Consumption input state
-      currency: Currency
-      customTariff: Custom tariff
-      energySavingsReport: Energy savings report
-      monthlyAggregation: Monthly aggregation
-      tariffInfo: Tariffication information
-      unit: Measurement unit
+      consumptionInputState (str): Consumption input state
+      currency (str): Currency
+      customTariff (bool): Custom tariff
+      energySavingsReport (dict): Energy savings report
+      monthlyAggregation (dict): Monthly aggregation
+      tariffInfo (dict): Tariffication information
+      unit (str): Measurement unit
 
     Example:
-    ```json
-    {
+      ```json
+      {
         "currency": "EUR",
         "tariff": "0.104 €/kWh",
         "tariffInfo": {
-            "currencySign": "€",
-            "consumptionUnit": "kWh",
-            "tariffInCents": 10.36,
-            "customTariff": false
+          "currencySign": "€",
+          "consumptionUnit": "kWh",
+          "tariffInCents": 10.36,
+          "customTariff": false
         },
         "customTariff": false,
         "consumptionInputState": "full",
         "unit": "m3",
         "energySavingsReport": {
-            "totalSavingsInPercent": 4.7,
-            "yearMonth": "2023-09"
+          "totalSavingsInPercent": 4.7,
+          "yearMonth": "2023-09"
         },
         "monthlyAggregation": {
-            "endOfMonthForecast": {
-                "startDate": "2023-10-13",
-                "endDate": "2023-10-31",
-                "totalConsumption": 3.82,
-                "totalCostInCents": 417.52,
-                "consumptionPerDate": [
-                    {
-                        "date": "2023-10-14",
-                        "consumption": 0.2122222222222222,
-                        "costInCents": 23.2
-                    },
-                    [...] // 17 more days
-                    {
-                        "date": "2023-10-31",
-                        "consumption": 0.2122222222222222,
-                        "costInCents": 23.2
-                    }
-                ]
-            },
-            "requestedMonth": {
-                "startDate": "2023-10-01",
-                "endDate": "2023-10-13",
-                "totalConsumption": 1.5,
-                "totalCostInCents": 163.95,
-                "consumptionPerDate": [
-                    {
-                        "date": "2023-10-01",
-                        "consumption": 0,
-                        "costInCents": 0
-                    },
-                    [...] // 12 more days
-                    {
-                        "date": "2023-10-13",
-                        "consumption": 0,
-                        "costInCents": 0
-                    }
-                ]
-            },
-            "monthBefore": {
-                "startDate": "2023-09-01",
-                "endDate": "2023-09-30",
-                "totalConsumption": 1.2799999999999998,
-                "totalCostInCents": 139.9,
-                "consumptionPerDate": [
-                    {
-                        "date": "2023-09-01",
-                        "consumption": 0,
-                        "costInCents": 0
-                    },
-                    [...] // 29 more days
-                    {
-                        "date": "2023-09-30",
-                        "consumption": 0.36,
-                        "costInCents": 39.35
-                    }
-                ]
-            },
-            "yearBefore": {
-                "startDate": "2022-10-01",
-                "endDate": "2022-10-31",
-                "totalConsumption": 22.569999999999997,
-                "totalCostInCents": 2466.86,
-                "consumptionPerDate": [
-                    {
-                        "date": "2022-10-01",
-                        "consumption": 0.67,
-                        "costInCents": 73.23
-                    },
-                    [...] // 30 more days
-                    {
-                        "date": "2022-10-31",
-                        "consumption": 0.65,
-                        "costInCents": 71.04
-                    }
-                ]
-            }
+          "endOfMonthForecast": {
+            "startDate": "2023-10-13",
+            "endDate": "2023-10-31",
+            "totalConsumption": 3.82,
+            "totalCostInCents": 417.52,
+            "consumptionPerDate": [
+              {
+                "date": "2023-10-14",
+                "consumption": 0.2122222222222222,
+                "costInCents": 23.2
+              },
+              [...] // 17 more days
+              {
+                "date": "2023-10-31",
+                "consumption": 0.2122222222222222,
+                "costInCents": 23.2
+              }
+            ]
+          },
+          "requestedMonth": {
+            "startDate": "2023-10-01",
+            "endDate": "2023-10-13",
+            "totalConsumption": 1.5,
+            "totalCostInCents": 163.95,
+            "consumptionPerDate": [
+              {
+                "date": "2023-10-01",
+                "consumption": 0,
+                "costInCents": 0
+              },
+              [...] // 12 more days
+              {
+                "date": "2023-10-13",
+                "consumption": 0,
+                "costInCents": 0
+              }
+            ]
+          },
+          "monthBefore": {
+            "startDate": "2023-09-01",
+            "endDate": "2023-09-30",
+            "totalConsumption": 1.2799999999999998,
+            "totalCostInCents": 139.9,
+            "consumptionPerDate": [
+              {
+                "date": "2023-09-01",
+                "consumption": 0,
+                "costInCents": 0
+              },
+              [...] // 29 more days
+              {
+                "date": "2023-09-30",
+                "consumption": 0.36,
+                "costInCents": 39.35
+              }
+            ]
+          },
+          "yearBefore": {
+            "startDate": "2022-10-01",
+            "endDate": "2022-10-31",
+            "totalConsumption": 22.569999999999997,
+            "totalCostInCents": 2466.86,
+            "consumptionPerDate": [
+              {
+                "date": "2022-10-01",
+                "consumption": 0.67,
+                "costInCents": 73.23
+              },
+              [...] // 30 more days
+              {
+                "date": "2022-10-31",
+                "consumption": 0.65,
+                "costInCents": 71.04
+              }
+            ]
+          }
         }
-    }
+      }
     ```
     """
 
@@ -1898,18 +2123,22 @@ class Tado:
     Get energy settings of your home
 
     Returns:
-      Energy settings.
+      homeId (int): Home ID
+      dataSource (str): Data source
+      consumptionUnit (str): Consumption unit
+      preferredEnergyUnit (str): Preferred energy unit
+      showReadingsBanner (bool): Show readings banner
 
     Example:
-    ```json
-    {
+      ```json
+      {
         "homeId": 123456,
         "dataSource": "meterReadings",
         "consumptionUnit": "m3",
         "preferredEnergyUnit": "m3",
         "showReadingsBanner": false
-    }
-    ```
+      }
+      ```
     """
 
     data = self._api_energy_insights_call('homes/%i/settings?ngsw-bypass=%s' % (self.id, ngsw_bypass))
@@ -1920,127 +2149,132 @@ class Tado:
     Get energy insights of your home
 
     Returns:
-      Energy insights.
+      consumptionComparison (dict): Consumption comparison
+      costForecast (dict): Cost forecast
+      weatherComparison (dict): Weather comparison
+      heatingTimeComparison (dict): Heating time comparison
+      awayTimeComparison (dict): Away time comparison
+      heatingHotwaterComparison (dict): Heating hotwater comparison
 
     Example:
-    ```json
-    {
+      ```json
+      {
         "consumptionComparison": {
-            "currentMonth": {
-                "consumed": {
-                    "energy": [
-                        {
-                            "toEndOfRange": 1.5,
-                            "unit": "m3",
-                            "perZone": [
-                                {
-                                    "zone": 1,
-                                    "toEndOfRange": 0.6025913295286759
-                                }
-                            ]
-                        },
-                        {
-                            "toEndOfRange": 15.83,
-                            "unit": "kWh",
-                            "perZone": [
-                                {
-                                    "zone": 1,
-                                    "toEndOfRange": 6.36
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "dateRange": {
-                    "start": "2023-10-01",
-                    "end": "2023-10-13"
-                }
+          "currentMonth": {
+          "consumed": {
+            "energy": [
+            {
+              "toEndOfRange": 1.5,
+              "unit": "m3",
+              "perZone": [
+              {
+                "zone": 1,
+                "toEndOfRange": 0.6025913295286759
+              }
+              ]
             },
-            "comparedTo": {
-                "consumed": {
-                    "energy": [
-                        {
-                            "toEndOfRange": 16.9,
-                            "unit": "m3",
-                            "perZone": [
-                                {
-                                    "zone": 1,
-                                    "toEndOfRange": 6.098444101091741
-                                }
-                            ]
-                        },
-                        {
-                            "toEndOfRange": 178.3,
-                            "unit": "kWh",
-                            "perZone": [
-                                {
-                                    "zone": 1,
-                                    "toEndOfRange": 64.34
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "dateRange": {
-                    "start": "2022-10-01",
-                    "end": "2022-10-13"
-                }
+            {
+              "toEndOfRange": 15.83,
+              "unit": "kWh",
+              "perZone": [
+              {
+                "zone": 1,
+                "toEndOfRange": 6.36
+              }
+              ]
             }
+            ]
+          },
+          "dateRange": {
+            "start": "2023-10-01",
+            "end": "2023-10-13"
+          }
+          },
+          "comparedTo": {
+          "consumed": {
+            "energy": [
+            {
+              "toEndOfRange": 16.9,
+              "unit": "m3",
+              "perZone": [
+              {
+                "zone": 1,
+                "toEndOfRange": 6.098444101091741
+              }
+              ]
+            },
+            {
+              "toEndOfRange": 178.3,
+              "unit": "kWh",
+              "perZone": [
+              {
+                "zone": 1,
+                "toEndOfRange": 64.34
+              }
+              ]
+            }
+            ]
+          },
+          "dateRange": {
+            "start": "2022-10-01",
+            "end": "2022-10-13"
+          }
+          }
         },
         "costForecast": {
-            "costEndOfMonthInCents": 417.5
+          "costEndOfMonthInCents": 417.5
         },
         "weatherComparison": {
-            "currentMonth": {
-                "averageTemperature": 17.2,
-                "dateRange": {
-                    "start": "2023-10-01",
-                    "end": "2023-10-13"
-                }
-            },
-            "comparedTo": {
-                "averageTemperature": 12.7,
-                "dateRange": {
-                    "start": "2022-10-01",
-                    "end": "2022-10-13"
-                }
-            }
+          "currentMonth": {
+          "averageTemperature": 17.2,
+          "dateRange": {
+            "start": "2023-10-01",
+            "end": "2023-10-13"
+          }
+          },
+          "comparedTo": {
+          "averageTemperature": 12.7,
+          "dateRange": {
+            "start": "2022-10-01",
+            "end": "2022-10-13"
+          }
+          }
         },
         "heatingTimeComparison": {
-            "currentMonth": {
-                "heatingTimeHours": 13,
-                "dateRange": {
-                    "start": "2023-10-01",
-                    "end": "2023-10-14"
-                }
-            },
-            "comparedTo": {
-                "heatingTimeHours": 155,
-                "dateRange": {
-                    "start": "2022-10-01",
-                    "end": "2022-10-14"
-                }
-            }
+          "currentMonth": {
+          "heatingTimeHours": 13,
+          "dateRange": {
+            "start": "2023-10-01",
+            "end": "2023-10-14"
+          }
+          },
+          "comparedTo": {
+          "heatingTimeHours": 155,
+          "dateRange": {
+            "start": "2022-10-01",
+            "end": "2022-10-14"
+          }
+          }
         },
         "awayTimeComparison": {
-            "currentMonth": {
-                "awayTimeInHours": 39,
-                "dateRange": {
-                    "start": "2023-10-01",
-                    "end": "2023-10-13"
-                }
-            },
-            "comparedTo": {
-                "awayTimeInHours": 74,
-                "dateRange": {
-                    "start": "2022-10-01",
-                    "end": "2022-10-13"
-                }
-            }
+          "currentMonth": {
+          "awayTimeInHours": 39,
+          "dateRange": {
+            "start": "2023-10-01",
+            "end": "2023-10-13"
+          }
+          },
+          "comparedTo": {
+          "awayTimeInHours": 74,
+          "dateRange": {
+            "start": "2022-10-01",
+            "end": "2022-10-13"
+          }
+          }
         },
         "heatingHotwaterComparison": null
-    }
-    ```
+      }
+      ```
     """
 
     data = self._api_energy_insights_call('homes/%i/insights?startDate=%s&endDate=%s&country=%s&ngsw-bypass=%s' % (self.id, start_date, end_date, country, ngsw_bypass))
@@ -2051,11 +2285,7 @@ class Tado:
     Set heating system boiler status
 
     Parameters:
-      found (bool|None): Does the system knows your boiler. (default null)
-      present: (bool): Is your own boiler present. (default true)
-
-    Returns:
-      Heating system boiler status.
+      payload (dict): The payload to send to the API.
 
     Example:
       No returned value.
@@ -2068,18 +2298,15 @@ class Tado:
     Set zone order
 
     Parameters:
-      zoneOrder (list): List of zone IDs in the order you want them to appear in the app.
-
-    Returns:
-      No returned value.
+      payload (dict): The payload to send to the API.
 
     Example:
-    ```json
-    [
-      {"id": 1},
-      {"id": 6},
-      {"id": 12}
-    ]
-    ```
+      ```json
+      [
+        {"id": 1},
+        {"id": 6},
+        {"id": 12}
+      ]
+      ```
     """
     return self._api_call('homes/%i/zoneOrder?ngsw-bypass=%s' % (self.id, ngsw_bypass), data=payload, method='PUT')
