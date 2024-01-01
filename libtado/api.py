@@ -586,11 +586,76 @@ class Tado:
     Gets the blocks for the current schedule on a zone
 
     Parameters:
-      zone (int):      The zone ID.
+      zone (int): The zone ID.
       schedule (int): The schedule ID to fetch.
 
     Returns:
       (list): The blocks for the requested schedule.
+
+    Example:
+      ```json
+      [
+        {
+          "dayType": "MONDAY_TO_FRIDAY",
+          "start": "00:00",
+          "end": "06:30",
+          "geolocationOverride": false,
+          "setting": {
+            "type": "HEATING",
+            "power": "ON",
+            "temperature": {
+              "celsius": 21.2,
+              "fahrenheit": 70.16
+            }
+          }
+        },
+        {
+          "dayType": "MONDAY_TO_FRIDAY",
+          "start": "06:30",
+          "end": "00:00",
+          "geolocationOverride": false,
+          "setting": {
+            "type": "HEATING",
+            "power": "ON",
+            "temperature": {
+              "celsius": 21.0,
+              "fahrenheit": 69.8
+            }
+          }
+        },
+        {
+          "dayType": "SATURDAY",
+          "start": "00:00",
+          "end": "08:00",
+          "geolocationOverride": false,
+          "setting": {
+            "type": "HEATING",
+            "power": "ON",
+            "temperature": {
+              "celsius": 21.0,
+              "fahrenheit": 69.8
+            }
+          }
+        },
+
+        [...]
+
+        {
+          "dayType": "SUNDAY",
+          "start": "08:00",
+          "end": "00:00",
+          "geolocationOverride": false,
+          "setting": {
+            "type": "HEATING",
+            "power": "ON",
+            "temperature": {
+              "celsius": 21.0,
+              "fahrenheit": 69.8
+            }
+          }
+        }
+      ]
+      ```
     """
 
     return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks' % (self.id, zone, schedule))
@@ -611,6 +676,61 @@ class Tado:
 
     payload = blocks
     return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks' % (self.id, zone, schedule), payload, method='PUT')
+
+
+  def get_schedule_block_by_day_type(self, zone, schedule, day_type):
+    """
+    Gets the blocks for the current schedule on a zone
+
+    Parameters:
+      zone (int): The zone ID.
+      schedule (int): The schedule ID to fetch.
+      day_type (str): The day_type to fetch. e.g. MONDAY_TO_FRIDAY, "MONDAY", "TUESDAY" etc
+
+    Returns:
+      (list): The blocks for the requested day type schedule.
+
+    Example:
+      ```json
+      [
+        {
+          "dayType": "MONDAY_TO_FRIDAY",
+          "start": "00:00",
+          "end": "06:30",
+          "geolocationOverride": false,
+          "setting": {
+            "type": "HEATING",
+            "power": "ON",
+            "temperature": {
+              "celsius": 21.2,
+              "fahrenheit": 70.16
+            }
+          }
+        },
+        [...]
+      ]
+      ```
+    """
+
+    return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type))
+
+
+  def set_schedule_block_by_day_type(self, zone, schedule, day_type, blocks):
+    """
+    Sets the block for the current schedule on a zone
+
+    Parameters:
+      zone (int): The zone ID.
+      schedule (int): The schedule ID.
+      day_type (str): The day_type to fetch. e.g. MONDAY_TO_FRIDAY, "MONDAY", "TUESDAY" etc
+      blocks (list): The new blocks.
+
+    Returns:
+      (list): The new configuration.
+    """
+
+    payload = blocks
+    return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type), payload, method='PUT')
 
 
   def get_state(self, zone):

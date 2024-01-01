@@ -449,5 +449,52 @@ def energy_savings(tado, month_date, country, ngsw_bypass=True):
   click.echo('')
 
 
+@main.command()
+@click.pass_obj
+@click.option('--zone', '-z', required=True, type=int, help='Zone ID')
+@click.option('--schedule', '-s', required=True, type=int, help='Schedule ID')
+def schedule_blocks(tado, zone, schedule):
+  """Get the schedule blocks of a zone."""
+  schedule_blocks = tado.get_schedule_blocks(zone, schedule)
+
+  click.echo('Schedule blocks for zone %s and schedule %s' % (zone, schedule))
+  click.echo('')
+
+  click.echo('Schedule blocks:')
+  for sb in schedule_blocks:
+    click.echo('  Day type: %s' % (sb['dayType']))
+    click.echo('  Start: %s' % (sb['start']))
+    click.echo('  End: %s' % (sb['end']))
+    click.echo('  Setting:')
+    click.echo('    Power: %s' % (sb['setting']['power']))
+    click.echo('    Temperature (celsius): %s' % (sb['setting']['temperature']['celsius']))
+    click.echo('')
+
+
+@main.command()
+@click.pass_obj
+@click.option('--zone', '-z', required=True, type=int, help='Zone ID')
+@click.option('--schedule', '-s', required=True, type=int, help='Schedule ID')
+@click.option('--day-type', '-d', required=True, type=str, help='Day type')
+def schedule_block_day_type(tado, zone, schedule, day_type):
+  """Get the day type schedule block of a zone."""
+  schedule_block_by_day_type = tado.get_schedule_block_by_day_type(zone, schedule, day_type)
+
+  click.echo('Schedule blocks for zone %s and schedule %s' % (zone, schedule))
+  click.echo('')
+
+  click.echo('Day type: %s' % (schedule_block_by_day_type[0]['dayType']))
+  click.echo('')
+
+  click.echo('Schedule day type blocks:')
+  for sb in schedule_block_by_day_type:
+    click.echo('  Start: %s' % (sb['start']))
+    click.echo('  End: %s' % (sb['end']))
+    click.echo('  Setting:')
+    click.echo('    Power: %s' % (sb['setting']['power']))
+    click.echo('    Temperature (celsius): %s' % (sb['setting']['temperature']['celsius']))
+    click.echo('')
+
+
 if __name__ == "__main__":
   main()

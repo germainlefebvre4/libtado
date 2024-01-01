@@ -86,6 +86,8 @@ It shows you how to use the library and expose some structured responses. A more
 |----------------|----------------------|
 | `3.7`          | `2.0.0` > `3.6.x`    |
 | `3.8`          | `3.7.0` > `latest`   |
+| `3.9`          | `3.7.0` > `latest`   |
+| `3.10`         | `3.7.0` > `latest`   |
 
 ## Development
 
@@ -93,10 +95,10 @@ It shows you how to use the library and expose some structured responses. A more
 
 ```bash
 sudo apt update
-sudo apt install python3.7 python3.7-pip
-sudo pip install pipenv
-pipenv update --dev
-# poetry install --with dev
+sudo apt install python3.9 python3.9-pip
+sudo pip install poetry
+poetry install --with dev
+# pipenv update --dev
 ```
 
 ### Run application
@@ -106,9 +108,9 @@ Follow the indications in sectio [Usage](#usage).
 ### Run tests
 
 ```bash
-pipenv update --dev
-# poetry install --with dev
+poetry install --with dev
+# pipenv update --dev
 
-pipenv run pytest tests/
-# poetry run pytest tests/
+poetry run pytest tests/
+# pipenv run pytest tests/
 ```
