@@ -15,6 +15,8 @@ This library is tested with following python versions:
 
 - `3.7`
 - `3.8`
+- `3.9`
+- `3.10`
 
 ## Setup
 
@@ -23,16 +25,16 @@ Update your system and install a python version (at least the minimum required) 
 
 ```bash
 sudo apt update
-sudo apt install python3.7 python3.7-pip
-sudo pip install pipenv
-# sudo pip install poetry
+sudo apt install python3.9 python3.9-pip
+sudo pip install poetry
+# sudo pip install pipenv
 ```
 
 Initialize your `pipenv` (or `poetry`) setup and install all the development libraries.
 
 ```bash
-pipenv update --dev
-# poetry install
+poetry install
+# pipenv update --dev
 ```
 
 ## Improve the library
@@ -55,6 +57,6 @@ The tests are written in the following files:
 Run the tests inside `pipenv` or `poetry`.
 
 ```bash
-pipenv run pytest -sv tests/
-# poetry run pytest -sv tests/
+poetry run pytest -sv tests/
+# pipenv run pytest -sv tests/
 ```
