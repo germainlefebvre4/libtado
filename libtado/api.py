@@ -202,7 +202,12 @@ class Tado:
 
 
   def refresh_auth(self):
-    """Refresh the access token."""
+    """
+    Refresh the access token.
+
+    Returns:
+      (dict): A dictionary with the new access token and its expiry time.
+    """
     if time.time() < self.token_expiry - 30:
       return
     url='https://auth.tado.com/oauth/token'
@@ -224,6 +229,7 @@ class Tado:
     self.token_expiry = time.time() + float(response['expires_in'])
     self.refresh_token = response['refresh_token']
     self.access_headers['Authorization'] = 'Bearer ' + self.access_token
+
 
   def get_capabilities(self, zone):
     """
@@ -340,7 +346,7 @@ class Tado:
 
   def get_device_usage(self):
     """
-    Get all devices of your home with how they are used
+    Get all devices of your home with how they are used.
 
     Returns:
       entries (list): All devices of home as list of dictionaries.
@@ -696,7 +702,25 @@ class Tado:
       zone (int): The zone ID.
 
     Returns:
-      (dict): The schedule types.
+      (list): List of schedule types.
+
+    ??? info "Result example"
+        ```json
+        [
+          {
+            "id": 0,
+            "type": "ONE_DAY"
+          },
+          {
+            "id": 1,
+            "type": "THREE_DAY"
+          },
+          {
+            "id": 2,
+            "type": "SEVEN_DAY"
+          }
+        ]
+        ```
     """
 
     data = self._api_call('homes/%i/zones/%i/schedule/timetables' % (self.id, zone))
@@ -1001,7 +1025,66 @@ class Tado:
     return data
 
   def get_users(self):
-    """Get all users of your home."""
+    """
+    Get all users of your home.
+
+    Returns:
+      (list): A list of dictionaries with all your users.
+
+    ??? info "Result example"
+        ```json
+        [
+          {
+            "name": "Germain",
+            "email": "an_email@adress.com",
+            "username": "an_email@adress.com",
+            "id": "5c1234b1d0123456789dba1a",
+            "homes": [
+              {
+                "id": 1234567,
+                "name": "Domicile"
+              }
+            ],
+            "locale": "fr",
+            "mobileDevices": [
+              {
+                "name": "Germain",
+                "id": 1234567,
+                "settings": {
+                  "geoTrackingEnabled": true,
+                  "specialOffersEnabled": true,
+                  "onDemandLogRetrievalEnabled": true,
+                  "pushNotifications": {
+                    "lowBatteryReminder": true,
+                    "awayModeReminder": true,
+                    "homeModeReminder": true,
+                    "openWindowReminder": true,
+                    "energySavingsReportReminder": true,
+                    "incidentDetection": true,
+                    "energyIqReminder": false
+                  }
+                },
+                "location": {
+                  "stale": false,
+                  "atHome": true,
+                  "bearingFromHome": {
+                    "degrees": 0.0,
+                    "radians": 0.0
+                  },
+                  "relativeDistanceFromHomeFence": 0.0
+                },
+                "deviceMetadata": {
+                  "platform": "iOS",
+                  "osVersion": "17.1.2",
+                  "model": "iPhone11,2",
+                  "locale": "fr"
+                }
+              }
+            ]
+          }
+        ]
+        ```
+    """
     data = self._api_call('homes/%i/users' % self.id)
     return data
 
@@ -1177,9 +1260,9 @@ class Tado:
 
     The termination supports three different mode:
 
-    * "MANUAL": The zone will be set on the desired temperature until you change it manually.
-    * "AUTO": The zone will be set on the desired temperature until the next automatic change.
-    * INTEGER: The zone will be set on the desired temperature for INTEGER seconds.
+    * `MANUAL`: The zone will be set on the desired temperature until you change it manually.
+    * `AUTO`: The zone will be set on the desired temperature until the next automatic change.
+    * `INTEGER`: The zone will be set on the desired temperature for INTEGER seconds.
 
     ??? info "Result example"
         ```json
@@ -1225,6 +1308,14 @@ class Tado:
 
     Parameters:
       zone (int): The zone ID.
+
+    Returns:
+      (None): None
+
+    ??? info "Result example"
+        ```json
+        None
+        ```
     """
     self._api_call('homes/%i/zones/%i/overlay' % (self.id, zone), method='DELETE')
 
@@ -1520,6 +1611,9 @@ class Tado:
     """
     Gets the temperature offset of a device
 
+    Parameters:
+      device_serial (str): The serial number of the device.
+
     Returns:
       (dict): A dictionary that returns the offset in 'celsius' and 'fahrenheit'.
 
@@ -1540,7 +1634,7 @@ class Tado:
     Sets the temperature offset of a device
 
     Parameters:
-      device_serial (Str): The serial number of the device.
+      device_serial (str): The serial number of the device.
       offset (float): the temperature offset to apply in celsius.
 
     Returns:
@@ -1592,7 +1686,7 @@ class Tado:
     data = self._api_call('homes/%i/airComfort' % self.id)
     return data
 
-  def get_air_comfort_geoloc(self, latitude, longitude):
+  def get_air_comfort_geoloc(self, latitude, longitude) -> dict:
     """
     Get all zones of your home.
 
@@ -1601,7 +1695,7 @@ class Tado:
       longitude (float): The longitude of the home.
 
     Returns:
-      (list): A dict of lists of dictionaries with all your rooms.
+      (dict): A dict of lists of dictionaries with all your rooms.
 
     ??? info "Result example"
         ```json
@@ -1790,6 +1884,9 @@ class Tado:
   def get_running_times(self, from_date):
     """
     Get all running times of your home.
+
+    Parameters:
+      from_date (str): The date in ISO8601 format. e.g. "2019-02-14".
 
     Returns:
       (list): A dict of your running times.
@@ -2120,6 +2217,19 @@ class Tado:
     """
     Trigger Cost Simulation of your home
 
+    Parameters:
+      country (str): Country code.
+      ngsw_bypass (bool): Bypass the ngsw cache.
+      payload (dict): Payload for the request.
+
+    Other parameters: Payload
+      payload (dict): Payload for the request.
+
+    ??? info "Payload example"
+        ```json
+        {}
+        ```
+
     Returns:
       consumptionUnit (str): Consumption unit
       estimationPerZone (list): List of cost estimation per zone
@@ -2155,6 +2265,11 @@ class Tado:
   def get_consumption_overview(self, monthYear, country, ngsw_bypass=True):
     """
     Get energy consumption overview of your home by month and year
+
+    Parameters:
+      monthYear (str): Month and year of the range date.
+      country (str): Country code.
+      ngsw_bypass (bool): Bypass the ngsw cache.
 
     Returns:
       consumptionInputState (str): Consumption input state
@@ -2272,6 +2387,9 @@ class Tado:
     """
     Get energy settings of your home
 
+    Parameters:
+      ngsw_bypass (bool): Bypass the ngsw cache.
+
     Returns:
       homeId (int): Home ID
       dataSource (str): Data source
@@ -2297,6 +2415,12 @@ class Tado:
   def get_energy_insights(self, start_date, end_date, country, ngsw_bypass=True):
     """
     Get energy insights of your home
+
+    Parameters:
+      start_date (str): Start date of the range date.
+      end_date (str): End date of the range date.
+      country (str): Country code.
+      ngsw_bypass (bool): Bypass the ngsw cache.
 
     Returns:
       consumptionComparison (dict): Consumption comparison
@@ -2437,7 +2561,15 @@ class Tado:
     Parameters:
       payload (dict): The payload to send to the API.
 
-    ??? info "Result example"
+    Other parameters: Payload
+      payload (dict): Payload for the request.
+
+    ??? info "Payload example"
+        ```json
+        {}
+        ```
+
+    Returns:
       No returned value.
     """
 
@@ -2448,14 +2580,32 @@ class Tado:
     Set zone order
 
     Parameters:
+      ngsw_bypass (bool): Bypass the ngsw cache.
       payload (dict): The payload to send to the API.
+
+    Other parameters: Payload
+      payload (list): Payload for the request.
+
+    ??? info "Payload example"
+        ```json
+        []
+        ```
+
+    Returns:
+      (list): A list of zones ID.
 
     ??? info "Result example"
         ```json
         [
-          {"id": 1},
-          {"id": 6},
-          {"id": 12}
+          {
+            "id": 1
+          },
+          {
+            "id": 6
+          },
+          {
+            "id": 12
+          }
         ]
         ```
     """
