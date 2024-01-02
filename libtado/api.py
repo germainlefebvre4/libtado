@@ -343,7 +343,106 @@ class Tado:
     Get all devices of your home with how they are used
 
     Returns:
-      (list): All devices of home as list of dictionaries.
+      entries (list): All devices of home as list of dictionaries.
+
+    ??? info "Result example"
+        ```json
+        {
+          "entries": [
+            {
+              "type": "RU01",
+              "device": {
+                "deviceType": "RU01",
+                "serialNo": "RU3174041856",
+                "shortSerialNo": "RU3174041856",
+                "currentFwVersion": "54.20",
+                "connectionState": {
+                  "value": true,
+                  "timestamp": "2024-01-01T23:57:43.265Z"
+                },
+                "characteristics": {
+                  "capabilities": [
+                    "INSIDE_TEMPERATURE_MEASUREMENT",
+                    "IDENTIFY"
+                  ]
+                },
+                "batteryState": "NORMAL"
+              },
+              "zone": {
+                "discriminator": 1,
+                "duties": [
+                  "UI"
+                ]
+              }
+            },
+            {
+              "type": "VA01",
+              "device": {
+                "deviceType": "VA01",
+                "serialNo": "VA4291823104",
+                "shortSerialNo": "VA4291823104",
+                "currentFwVersion": "54.20",
+                "connectionState": {
+                  "value": true,
+                  "timestamp": "2024-01-02T00:08:51.296Z"
+                },
+                "characteristics": {
+                  "capabilities": [
+                    "INSIDE_TEMPERATURE_MEASUREMENT",
+                    "IDENTIFY"
+                  ]
+                },
+                "mountingState": {
+                  "value": "CALIBRATED",
+                  "timestamp": "2023-10-18T08:32:04.640Z"
+                },
+                "mountingStateWithError": "CALIBRATED",
+                "batteryState": "NORMAL",
+                "childLockEnabled": false
+              },
+              "zone": {
+                "discriminator": 11
+              }
+            },
+            {
+              "type": "BU01",
+              "device": {
+                "deviceType": "BU01",
+                "serialNo": "BU4274718464",
+                "shortSerialNo": "BU4274718464",
+                "currentFwVersion": "81.1",
+                "connectionState": {
+                  "value": true,
+                  "timestamp": "2024-01-02T00:00:02.365Z"
+                },
+                "characteristics": {
+                  "capabilities": []
+                },
+                "isDriverConfigured": true
+              }
+            },
+            {
+              "type": "GW03",
+              "device": {
+                "deviceType": "GW03",
+                "serialNo": "GW2754808064",
+                "shortSerialNo": "GW2754808064",
+                "currentFwVersion": "47.2",
+                "connectionState": {
+                  "value": true,
+                  "timestamp": "2024-01-01T23:55:19.317Z"
+                },
+                "characteristics": {
+                  "capabilities": [
+                    "RADIO_ENCRYPTION_KEY_ACCESS"
+                  ]
+                },
+                "inPairingMode": false
+              }
+            }
+          ]
+        }
+        ```
     """
 
     data = self._api_call('homes/%i/deviceList' % self.id)
@@ -423,7 +522,16 @@ class Tado:
     Get information about the status of the home.
 
     Returns:
-      (dict): A dictionary with the status of the home.
+      presence (str): The presence of the home.
+      presenceLocked (bool): Whether the presence is locked or not.
+
+    ??? info "Result example"
+        ```json
+        {
+          "presence": "HOME",
+          "presenceLocked": false
+        }
+        ```
     """
     data = self._api_call('homes/%i/state' % self.id)
     return data
@@ -878,7 +986,7 @@ class Tado:
       zone (int): The zone ID.
 
     Returns:
-      (dict): A dictionary with the default overlay settings of the zone.
+      terminationCondition (dict): The termination condition of the overlay.
 
     ??? info "Result example"
         ```json
@@ -1111,8 +1219,13 @@ class Tado:
               }
     return self._api_call('homes/%i/zones/%i/overlay' % (self.id, zone), data=payload, method='PUT')
 
-  def end_manual_control(self, zone):
-    """End the manual control of a zone."""
+  def end_manual_control(self, zone: int):
+    """
+    End the manual control of a zone.
+
+    Parameters:
+      zone (int): The zone ID.
+    """
     self._api_call('homes/%i/zones/%i/overlay' % (self.id, zone), method='DELETE')
 
   def get_away_configuration(self, zone):
@@ -1123,7 +1236,21 @@ class Tado:
       zone (int): The zone ID.
 
     Returns:
-      (dict): A dictionary with the away configuration.
+      type (str): The type of the away configuration.
+      preheatingLevel (str): The preheating level of the away configuration.
+      minimumAwayTemperature (dict): The minimum away temperature of the away configuration.
+
+    ??? info "Result example"
+        ```json
+        {
+          "type": "HEATING",
+          "preheatingLevel": "COMFORT",
+          "minimumAwayTemperature": {
+            "celsius": 16.0,
+            "fahrenheit": 60.8
+          }
+        }
+        ```
     """
 
     data = self._api_call('homes/%i/zones/%i/awayConfiguration' % (self.id, zone))
@@ -1339,6 +1466,17 @@ class Tado:
 
     Returns:
       (list): List of all dictionaries for all heating circuits.
+
+    ??? info "Result example"
+        ```json
+        [
+          {
+            "number": 1,
+            "driverSerialNo": "BU4274718464",
+            "driverShortSerialNo": "BU4274718464"
+          }
+        ]
+        ```
     """
 
     data = self._api_call('homes/%i/heatingCircuits' % self.id)
@@ -1349,7 +1487,14 @@ class Tado:
     Gets the ongoing incidents in the current home
 
     Returns:
-      (dict): Incident information.
+      incidents (list): List of all current incidents.
+
+    ??? info "Result example"
+        ```json
+        {
+          "incidents": []
+        }
+        ```
     """
 
     data = self._api_minder_call('homes/%i/incidents' % self.id)
@@ -1361,6 +1506,11 @@ class Tado:
 
     Returns:
       (list): List of all current installations
+
+    ??? info "Result example"
+        ```json
+        []
+        ```
     """
 
     data = self._api_call('homes/%i/installations' % self.id)
@@ -1623,12 +1773,12 @@ class Tado:
         ```json
         {
           "boiler":{
-            "present":true,
-            "id":17830,
-            "found":true
+            "present": true,
+            "id": 17830,
+            "found": true
           },
           "underfloorHeating":{
-            "present":false
+            "present": false
           }
         }
         ```
