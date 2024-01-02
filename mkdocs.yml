@@ -19,6 +19,7 @@ theme:
     - search.suggest
     - search.highlight
     - navigation.footer
+    - content.code.copy
 
 plugins:
   - search:
@@ -81,6 +82,7 @@ markdown_extensions:
           format: !!python/name:pymdownx.superfences.fence_code_format ''
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.details
 
 watch:
   - libtado/
