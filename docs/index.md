@@ -1,4 +1,16 @@
+---
+hide:
+  - title
+  - navigation
+---
 # Homepage
+
+<style>
+  .md-typeset h1,
+  .md-content__button {
+    display: none;
+  }
+</style>
 
 ![Image title](./logo.png){: .center width=600 }
 
