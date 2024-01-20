@@ -3,7 +3,7 @@
 Usage:
 
 ``` { .python .select .copy }
-import tado.api
+import libtado.api
 
 api = tado.api('Username', 'Password')
 ```
