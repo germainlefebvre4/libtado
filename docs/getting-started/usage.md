@@ -9,7 +9,7 @@ tado --username USERNAME --password PASSWORD whoami
 To use the library in your own code you can start with this:
 
 ``` python
-import tado.api
+import libtado.api
 t = tado.api('Username', 'Password')
 print(t.get_me())
 ```
