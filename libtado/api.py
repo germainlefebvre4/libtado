@@ -221,6 +221,51 @@ class Tado:
     self.refresh_token = response['refresh_token']
     self.access_headers['Authorization'] = 'Bearer ' + self.access_token
 
+  def get_boiler_state(self, authKey):
+    """
+    Parameters:
+      authKey (str|int): Auth code of bridge (from QR sticker; only V3/V3+
+        bridges supported)
+
+    Returns:
+      None when no boiler state data are available, or:
+
+      state (str): installation status of boiler receiver/thermostat
+      deviceWiredToBoiler (dict): type, serial number, protocol etc of
+        receiver/thermostat.
+      bridgeConnected (bool): brigge connection status
+      hotWaterZonePresent (bool): whether controller includes DHW
+      boiler (dict): output temperature (celcius) with timestamp
+
+    Example:
+      ```json
+      {
+        "state": "INSTALLATION_COMPLETED",
+        "deviceWiredToBoiler": {
+          "type": "BR02",
+          "serialNo": "SOME_SERIAL",
+          "thermInterfaceType": "OPENTHERM",
+          "connected": true,
+          "lastRequestTimestamp": "2023-11-18T16:22:01.788Z"
+        },
+        "bridgeConnected": true,
+        "hotWaterZonePresent": false,
+        "boiler": {
+          "outputTemperature": {
+            "celsius": 50.01,
+            "timestamp": "2023-11-18T16:29:35.785Z"
+          }
+        }
+      }
+      ```
+    """
+    devices = self.get_devices()
+    bridge_serial = [x for x in devices if x['deviceType'] == 'IB01'][0]['serialNo']
+    if not bridge_serial:
+        return None
+    data = self._api_call('homeByBridge/%s/boilerWiringInstallationState?authKey=%s' % (bridge_serial, authKey))
+    return data
+
   def get_capabilities(self, zone):
     """
     Parameters:
