@@ -89,7 +89,10 @@ class Tado:
     if method == 'DELETE':
       return call_delete(url)
     elif method == 'PUT' and data:
-      return call_put(url, data).json()
+      res = call_put(url, data)
+      if res.status_code == 204:
+        return None
+      return res.json()
     elif method == 'GET':
       return call_get(url).json()
 
@@ -1059,6 +1062,22 @@ class Tado:
     """
 
     data = self._api_call('homes/%i/zones/%i/awayConfiguration' % (self.id, zone))
+    return data
+
+  def set_away_configuration(self, zone, equipment_type, preheating_level, minimumAwayTemperatureCelcius):
+    """
+    Set the away configuration for a zone
+
+    Parameters:
+      zone (int): The zone ID.
+      equipment_type (str): The change type. e.g. HEATING, HOT_WATER
+      preheating_level (str): The preheating level. e.g. OFF, ECO, MEDIUM, CONFORT
+      minimumAwayTemperatureCelcius (float): The minimum temperature in celsius.
+    """
+
+    payload = { 'type': equipment_type, 'preheatingLevel': preheating_level, 'minimumAwayTemperature': { 'celsius': minimumAwayTemperatureCelcius } }
+
+    data = self._api_call('homes/%i/zones/%i/awayConfiguration' % (self.id, zone), data=payload, method='PUT')
     return data
 
   def set_open_window_detection(self, zone, enabled, seconds):
