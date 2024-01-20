@@ -2227,7 +2227,26 @@ class Tado:
 
     ??? info "Payload example"
         ```json
-        {}
+        {
+          "temperatureDeltaPerZone": [
+            {
+              "zone": 1,
+              "setTemperatureDelta": -1
+            },
+            {
+              "zone": 6,
+              "setTemperatureDelta": -1
+            },
+            {
+              "zone": 11,
+              "setTemperatureDelta": -1
+            },
+            {
+              "zone": 12,
+              "setTemperatureDelta": -1
+            }
+          ]
+        }
         ```
 
     Returns:
@@ -2241,18 +2260,23 @@ class Tado:
           "estimationPerZone": [
             {
               "zone": 1,
-              "consumption": -0.05410000000000015,
-              "costInCents": -6
+              "consumption": -1.6066000000000038,
+              "costInCents": -176
             },
             {
               "zone": 6,
-              "consumption": -0.05699999999999983,
-              "costInCents": -6
+              "consumption": -1.1184999999999974,
+              "costInCents": -122
+            },
+            {
+              "zone": 11,
+              "consumption": -1.412700000000008,
+              "costInCents": -154
             },
             {
               "zone": 12,
-              "consumption": -0.051899999999999946,
-              "costInCents": -6
+              "consumption": -1.6030000000000015,
+              "costInCents": -175
             }
           ]
         }
@@ -2588,20 +2612,15 @@ class Tado:
 
     ??? info "Payload example"
         ```json
-        []
-        ```
-
-    Returns:
-      (list): A list of zones ID.
-
-    ??? info "Result example"
-        ```json
         [
           {
             "id": 1
           },
           {
             "id": 6
+          },
+          {
+            "id": 11
           },
           {
             "id": 12
