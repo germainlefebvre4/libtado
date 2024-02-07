@@ -50,7 +50,6 @@ def devices(tado):
       click.echo('Serial: %s' % d['serialNo'])
       click.echo('Type: %s' % d['deviceType'])
       click.echo('Firmware: %s' % d['currentFwVersion'])
-      click.echo('Operation: %s' % d['gatewayOperation'])
       click.echo('Connection: %s (%s)' % (d['connectionState']['value'], d['connectionState']['timestamp']))
     elif d['deviceType'] == 'VA01':
       click.echo('Serial: %s' % d['serialNo'])
@@ -81,6 +80,13 @@ def devices(tado):
       click.echo('Connection: %s (%s)' % (d['connectionState']['value'], d['connectionState']['timestamp']))
       click.echo('Mounted: %s (%s)' % (d['mountingState']['value'], d['mountingState']['timestamp']))
       click.echo('Battery State: %s' % d['batteryState'])
+    elif d['deviceType'] == 'RU01':
+      # V2 smart wall theromstat
+      click.echo('Serial: %s' % d['serialNo'])
+      click.echo('Type: %s' % d['deviceType'])
+      click.echo('Firmware: %s' % d['currentFwVersion'])
+      click.echo('Connection: %s (%s)' % (d['connectionState']['value'], d['connectionState']['timestamp']))
+      click.echo('Battery State: %s' % d['batteryState'])
     elif d['deviceType'] == 'RU02':
       # V2 smart wall theromstat
       click.echo('Serial: %s' % d['serialNo'])
@@ -97,6 +103,25 @@ def devices(tado):
       click.echo('Battery State: %s' % d['batteryState'])
     elif d['deviceType'] == 'BR02':
       # Wireless Receiver
+      click.echo('Serial: %s' % d['serialNo'])
+      click.echo('Type: %s' % d['deviceType'])
+      click.echo('Firmware: %s' % d['currentFwVersion'])
+      click.echo('Connection: %s (%s)' % (d['connectionState']['value'], d['connectionState']['timestamp']))
+      click.echo('Battery State: %s' % d['batteryState'])
+    elif d['deviceType'] == 'BU01':
+      # ???
+      click.echo('Serial: %s' % d['serialNo'])
+      click.echo('Type: %s' % d['deviceType'])
+      click.echo('Firmware: %s' % d['currentFwVersion'])
+      click.echo('Connection: %s (%s)' % (d['connectionState']['value'], d['connectionState']['timestamp']))
+    elif d['deviceType'] == 'WR01':
+      # Smart AC
+      click.echo('Serial: %s' % d['serialNo'])
+      click.echo('Type: %s' % d['deviceType'])
+      click.echo('Firmware: %s' % d['currentFwVersion'])
+      click.echo('Connection: %s (%s)' % (d['connectionState']['value'], d['connectionState']['timestamp']))
+    elif d['deviceType'] == 'WR02':
+      # Smart AC
       click.echo('Serial: %s' % d['serialNo'])
       click.echo('Type: %s' % d['deviceType'])
       click.echo('Firmware: %s' % d['currentFwVersion'])
