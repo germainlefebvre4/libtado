@@ -1139,17 +1139,17 @@ files = [
 
 [[package]]
 name = "poetry-plugin-dotenv"
-version = "0.5.3"
+version = "0.6.23"
 description = "poetry-plugin-dotenv - is the plugin that automatically loads environment variables from a dotenv file into the environment before poetry commands are run."
 optional = false
 python-versions = ">=3.8.1,<4.0"
 files = [
-    {file = "poetry_plugin_dotenv-0.5.3-py3-none-any.whl", hash = "sha256:a8e03a7c4dbb9f3d43f73f4742cf9d24b40f98a8566a146ba13de45e78024b17"},
-    {file = "poetry_plugin_dotenv-0.5.3.tar.gz", hash = "sha256:abb74e0c01172440979275ba95c4b0c78c5450d971df03eb9ba61da4713d92ff"},
+    {file = "poetry_plugin_dotenv-0.6.23-py3-none-any.whl", hash = "sha256:939fb32724e5b8e2a359c80a2ea2127a37a2c7ab762ad2027fc4b65900a3e934"},
+    {file = "poetry_plugin_dotenv-0.6.23.tar.gz", hash = "sha256:9acf04c422b688845aea33d84674547713c32273982a54dd39b7a00873f80865"},
 ]
 
 [package.dependencies]
-poetry = ">=1.5.1,<2.0.0"
+poetry = ">=1.5.1"
 
 [[package]]
 name = "poetry-plugin-export"
@@ -1968,4 +1968,4 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8.1,<4.0"
-content-hash = "776dfdbd9de9ccae56041bc1ce3be6176e5352c080960c811897b5b7605471c6"
+content-hash = "0640b7f9ced1f7dba015956133c41a72de85501f39ad8c5c4ae1e5617341ad30"
