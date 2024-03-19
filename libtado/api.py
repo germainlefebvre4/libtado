@@ -91,7 +91,10 @@ class Tado:
     self.refresh_auth()
     url = '%s/%s' % (self.api, cmd)
     if method == 'DELETE':
-      return call_delete(url)
+      res = call_delete(url)
+      if res.status_code == 204:
+        return None
+      return res.json()
     elif method == 'PUT' and data:
       res = call_put(url, data)
       if res.status_code == 204:
@@ -709,6 +712,17 @@ class Tado:
     payload = { 'email': email }
     return self._api_call('homes/%i/invitations' % (self.id), data=payload, method='POST')
 
+  def delete_invitation(self, token):
+    """
+    Delete an invitation.
+    
+    Parameters:
+      token (str): The token of the invitation to delete.
+    
+    Returns:
+      (None): None.
+    """
+    return self._api_call('homes/%i/invitations/%s' % (self.id, token), method='DELETE')
 
   def get_me(self):
     """
