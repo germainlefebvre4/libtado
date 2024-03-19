@@ -635,79 +635,79 @@ class Tado:
     Returns:
       (dict): The invitation information.
     
-      ??? info "Result example"
-        ```json
-        {
-            "token": "44483e1d07qf439&8b786fc0372ec315",
-            "email": "SOME_EMAIL",
-            "firstSent": "2024-03-19T12:54:38.591Z",
-            "lastSent": "2024-03-19T12:54:38.591Z",
-            "inviter": {
-                "name": "SOME_NAME",
-                "email": "SOME_EMAIL",
-                "username": "SOME_MAIL",
-                "enabled": true,
-                "id": "5c22a9b6d5018000088dba4a",
-                "homeId": 123456,
-                "locale": "fr",
-                "type": "WEB_USER"
-            },
-            "home": {
-                "id": 123456,
-                "name": "Domicile",
-                "dateTimeZone": "Europe/Paris",
-                "dateCreated": "2018-12-25T20:58:28.674Z",
-                "temperatureUnit": "CELSIUS",
-                "partner": null,
-                "simpleSmartScheduleEnabled": true,
-                "awayRadiusInMeters": 1999.68,
-                "installationCompleted": true,
-                "incidentDetection": {
-                    "supported": true,
-                    "enabled": true
-                },
-                "generation": "PRE_LINE_X",
-                "zonesCount": 4,
-                "skills": [
-                    "AUTO_ASSIST"
-                ],
-                "christmasModeEnabled": true,
-                "showAutoAssistReminders": true,
-                "contactDetails": {
-                    "name": "SOME_NAME",
-                    "email": "SOME_EMAIL",
-                    "phone": "SOME_PHONE_NUMBER"
-                },
-                "address": {
-                    "addressLine1": "SOME_POSTAL_ADDRESS",
-                    "addressLine2": null,
-                    "zipCode": "SOME_POSTCODE",
-                    "city": "SOME_CITY",
-                    "state": null,
-                    "country": "FRA"
-                },
-                "geolocation": {
-                    "latitude": 12.3456789,
-                    "longitude": 1.23456
-                },
-                "consentGrantSkippable": true,
-                "enabledFeatures": [
-                    "CLIMATE_REPORT_AS_WEBVIEW",
-                    "EIQ_SETTINGS_AS_WEBVIEW",
-                    "ENERGY_IQ_V2_ONBOARDING",
-                    "HIDE_BOILER_REPAIR_SERVICE",
-                    "KEEP_WEBAPP_UPDATED",
-                    "OWD_SETTINGS_AS_WEBVIEW",
-                    "SMART_SCHEDULE_AS_WEBVIEW"
-                ],
-                "isAirComfortEligible": true,
-                "isBalanceAcEligible": false,
-                "isEnergyIqEligible": true,
-                "isHeatSourceInstalled": false,
-                "isBalanceHpEligible": false
-            }
-        }
-        ```
+    ??? info "Result example"
+      ```json
+      {
+          "token": "44483e1d07qf439&8b786fc0372ec315",
+          "email": "SOME_EMAIL",
+          "firstSent": "2024-03-19T12:54:38.591Z",
+          "lastSent": "2024-03-19T12:54:38.591Z",
+          "inviter": {
+              "name": "SOME_NAME",
+              "email": "SOME_EMAIL",
+              "username": "SOME_MAIL",
+              "enabled": true,
+              "id": "5c22a9b6d5018000088dba4a",
+              "homeId": 123456,
+              "locale": "fr",
+              "type": "WEB_USER"
+          },
+          "home": {
+              "id": 123456,
+              "name": "Domicile",
+              "dateTimeZone": "Europe/Paris",
+              "dateCreated": "2018-12-25T20:58:28.674Z",
+              "temperatureUnit": "CELSIUS",
+              "partner": null,
+              "simpleSmartScheduleEnabled": true,
+              "awayRadiusInMeters": 1999.68,
+              "installationCompleted": true,
+              "incidentDetection": {
+                  "supported": true,
+                  "enabled": true
+              },
+              "generation": "PRE_LINE_X",
+              "zonesCount": 4,
+              "skills": [
+                  "AUTO_ASSIST"
+              ],
+              "christmasModeEnabled": true,
+              "showAutoAssistReminders": true,
+              "contactDetails": {
+                  "name": "SOME_NAME",
+                  "email": "SOME_EMAIL",
+                  "phone": "SOME_PHONE_NUMBER"
+              },
+              "address": {
+                  "addressLine1": "SOME_POSTAL_ADDRESS",
+                  "addressLine2": null,
+                  "zipCode": "SOME_POSTCODE",
+                  "city": "SOME_CITY",
+                  "state": null,
+                  "country": "FRA"
+              },
+              "geolocation": {
+                  "latitude": 12.3456789,
+                  "longitude": 1.23456
+              },
+              "consentGrantSkippable": true,
+              "enabledFeatures": [
+                  "CLIMATE_REPORT_AS_WEBVIEW",
+                  "EIQ_SETTINGS_AS_WEBVIEW",
+                  "ENERGY_IQ_V2_ONBOARDING",
+                  "HIDE_BOILER_REPAIR_SERVICE",
+                  "KEEP_WEBAPP_UPDATED",
+                  "OWD_SETTINGS_AS_WEBVIEW",
+                  "SMART_SCHEDULE_AS_WEBVIEW"
+              ],
+              "isAirComfortEligible": true,
+              "isBalanceAcEligible": false,
+              "isEnergyIqEligible": true,
+              "isHeatSourceInstalled": false,
+              "isBalanceHpEligible": false
+          }
+      }
+      ```
     """
     payload = { 'email': email }
     return self._api_call('homes/%i/invitations' % (self.id), data=payload, method='POST')
