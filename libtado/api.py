@@ -2698,7 +2698,11 @@ class Tado:
 
     ??? info "Payload example"
         ```json
-        {}
+        {
+          "present":true,
+          "found":true,
+          "id":"17830"
+        }
         ```
 
     Returns:
