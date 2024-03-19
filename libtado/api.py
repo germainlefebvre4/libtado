@@ -1699,6 +1699,25 @@ class Tado:
     data = self._api_minder_call('homes/%i/incidents' % self.id)
     return data
 
+  def set_incident_detection(self, enabled):
+    """
+    Set the incident detection for the home
+
+    Parameters:
+      enabled (bool): Enable or disable the incident detection.
+
+    Returns:
+      (None): None
+
+    ??? info "Result example"
+        ```json
+        None
+        ```
+    """
+    payload = { 'enabled': enabled }
+
+    return self._api_call('homes/%i/incidentDetection' % self.id, payload, method='PUT')
+
   def get_installations(self):
     """
     Gets the ongoing installations in the current home
