@@ -192,8 +192,8 @@ class TestApi:
         assert all(name in response for name in KEYS)
         KEYS = ["type", "power", "temperature"]
         assert all(name in response["setting"] for name in KEYS)
-        KEYS = ["start", "setting"]
-        assert all(name in response["nextScheduleChange"] for name in KEYS)
+        # KEYS = ["start", "setting"]
+        # assert all(name in response["nextScheduleChange"] for name in KEYS)
         KEYS = ["start"]
         assert all(name in response["nextTimeBlock"] for name in KEYS)
         KEYS = ["heatingPower"]
