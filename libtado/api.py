@@ -35,7 +35,6 @@ License:
 import json
 import requests
 import time
-import importlib_metadata as metadata
 
 class Tado:
   json_content        = { 'Content-Type': 'application/json'}
@@ -56,7 +55,7 @@ class Tado:
   def _login(self):
     """Login and setup the HTTP session."""
     url='https://auth.tado.com/oauth/token'
-    headers = { 'User-Agent': 'libtado/%s' % metadata.version('libtado') }
+    headers = { 'User-Agent': 'python/libtado' }
     data = { 'client_id'     : 'tado-web-app',
              'client_secret' : self.secret,
              'grant_type'    : 'password',
@@ -71,7 +70,7 @@ class Tado:
     self.refresh_token = response['refresh_token']
     self.access_headers = {
       'Authorization': 'Bearer ' + response['access_token'],
-      'User-Agent': 'libtado/%s' % metadata.version('libtado'),
+      'User-Agent': 'python/libtado',
     }
 
   def _api_call(self, cmd, data=False, method='GET'):

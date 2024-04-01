@@ -18,7 +18,7 @@ classifiers = [
 python = ">=3.8.1,<4.0"
 click = "*"
 requests = "*"
-importlib-metadata = "^7.1.0"
+python-dateutil = "2.8.2"
 
 [tool.poetry.group.test.dependencies]
 poetry-plugin-dotenv = "^0.5.0"
