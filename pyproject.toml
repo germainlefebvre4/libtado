@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "libtado"
-version = "3.5.1"
+version = "3.7.13"
 description = "A library (and a command line client) to control your Tado Smart Thermostat."
 authors = ["Germain Lefebvre <germain.lefebvre4@gmail.com>"]
 license = "GNU GPL v3.0"
