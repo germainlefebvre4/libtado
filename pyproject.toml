@@ -21,20 +21,20 @@ requests = "*"
 python-dateutil = "2.8.2"
 
 [tool.poetry.group.test.dependencies]
-poetry-plugin-dotenv = "^0.5.0"
+poetry-plugin-dotenv = ">=0.5,<2.2"
 pytest = "*"
 pytest-dotenv = "*"
 python-dateutil = "*"
 
 [tool.poetry.group.docs.dependencies]
-poetry-plugin-dotenv = "^0.5.0"
+poetry-plugin-dotenv = ">=0.5,<2.2"
 mkdocs = "*"
 mkdocs-material = "*"
 mkdocstrings = {extras = ["python"], version = "*"}
 mkdocs-click = "*"
 
 [tool.poetry.group.lint.dependencies]
-poetry-plugin-dotenv = "^0.5.0"
+poetry-plugin-dotenv = ">=0.5,<2.2"
 ruff = "*"
 
 
