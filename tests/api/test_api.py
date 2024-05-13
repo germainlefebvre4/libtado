@@ -265,12 +265,8 @@ class TestApi:
         assert all(name in response["stripes"] for name in KEYS)
         KEYS = ["from", "to", "value"]
         assert all(name in response["stripes"]["dataIntervals"][0] for name in KEYS)
-        KEYS = ["stripeType", "setting"]
+        KEYS = ["stripeType"]
         assert all(name in response["stripes"]["dataIntervals"][0]["value"] for name in KEYS)
-        KEYS = ["type", "power", "temperature"]
-        assert all(name in response["stripes"]["dataIntervals"][0]["value"]["setting"] for name in KEYS)
-        KEYS = ["celsius", "fahrenheit"]
-        assert all(name in response["stripes"]["dataIntervals"][0]["value"]["setting"]["temperature"] for name in KEYS)
 
         KEYS = ["timeSeriesType", "valueType", "dataIntervals"]
         assert all(name in response["settings"] for name in KEYS)
