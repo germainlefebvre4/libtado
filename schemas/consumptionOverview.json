@@ -1,0 +1,201 @@
+{
+  "type": "object",
+  "properties": {
+    "unit": {
+      "type": "string"
+    },
+    "monthlyAggregation": {
+      "type": "object",
+      "properties": {
+        "endOfMonthForecast": {
+          "type": "object",
+          "properties": {
+            "startDate": {
+              "type": "string"
+            },
+            "endDate": {
+              "type": "string"
+            },
+            "totalConsumption": {
+              "type": "number"
+            },
+            "totalCostInCents": {
+              "type": "number"
+            },
+            "consumptionPerDate": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string"
+                  },
+                  "consumption": {
+                    "type": "number"
+                  },
+                  "costInCents": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "date",
+                  "consumption",
+                  "costInCents"
+                ]
+              }
+            }
+          }
+        },
+        "requestedMonth": {
+          "type": "object",
+          "properties": {
+            "startDate": {
+              "type": "string"
+            },
+            "endDate": {
+              "type": "string"
+            },
+            "totalConsumption": {
+              "type": "number"
+            },
+            "totalCostInCents": {
+              "type": "number"
+            },
+            "consumptionPerDate": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string"
+                  },
+                  "consumption": {
+                    "type": "number"
+                  },
+                  "costInCents": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "date",
+                  "consumption",
+                  "costInCents"
+                ]
+              }
+            }
+          }
+        },
+        "monthBefore": {
+          "type": "object",
+          "properties": {
+            "startDate": {
+              "type": "string"
+            },
+            "endDate": {
+              "type": "string"
+            },
+            "totalConsumption": {
+              "type": "number"
+            },
+            "totalCostInCents": {
+              "type": "number"
+            },
+            "consumptionPerDate": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string"
+                  },
+                  "consumption": {
+                    "type": "number"
+                  },
+                  "costInCents": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "date",
+                  "consumption",
+                  "costInCents"
+                ]
+              }
+            }
+          }
+        },
+        "yearBefore": {
+          "type": "object",
+          "properties": {
+            "startDate": {
+              "type": "string"
+            },
+            "endDate": {
+              "type": "string"
+            },
+            "totalConsumption": {
+              "type": "number"
+            },
+            "totalCostInCents": {
+              "type": "number"
+            },
+            "consumptionPerDate": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string"
+                  },
+                  "consumption": {
+                    "type": "number"
+                  },
+                  "costInCents": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "date",
+                  "consumption",
+                  "costInCents"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "isInPreferredUnit": {
+      "type": "boolean"
+    },
+    "energySavingsReport": {
+      "type": "object",
+      "properties": {
+        "totalSavingsInPercent": {
+          "type": "number"
+        },
+        "yearMonth": {
+          "type": "string"
+        }
+      }
+    },
+    "ecogaz": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "date",
+          "status"
+        ]
+      }
+    }
+  }
+}

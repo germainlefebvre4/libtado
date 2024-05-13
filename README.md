@@ -114,3 +114,18 @@ poetry install --with dev
 poetry run pytest tests/
 # pipenv run pytest tests/
 ```
+
+### Documentation
+
+The documentation is written in markdown and can be found in the `docs/` folder. It is built with `mkdocs` and `mkdocs-material`.
+
+```bash
+poetry run mkdocs serve
+```
+
+Generate the json schema ofr Tado endpoints:
+
+```bash
+npm i --save generate-schema # https://www.npmjs.com/package/generate-schema
+generate-schema -j schemas/consumptionOverview.json
+```

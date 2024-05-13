@@ -25,6 +25,7 @@ poetry-plugin-dotenv = ">=0.5,<2.2"
 pytest = "*"
 pytest-dotenv = "*"
 python-dateutil = "*"
+jsonschema = "*"
 
 [tool.poetry.group.docs.dependencies]
 poetry-plugin-dotenv = ">=0.5,<2.2"
@@ -33,10 +34,15 @@ mkdocs-material = "*"
 mkdocstrings = {extras = ["python"], version = "*"}
 mkdocs-click = "*"
 
+
 [tool.poetry.group.lint.dependencies]
 poetry-plugin-dotenv = ">=0.5,<2.2"
 ruff = "*"
 
+
+
+[tool.poetry.group.dev.dependencies]
+jsonschema = "^4.22.0"
 
 [build-system]
 requires = ["poetry-core"]
