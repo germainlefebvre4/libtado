@@ -2538,7 +2538,7 @@ class Tado:
     data = self._api_energy_insights_call('homes/%i/consumptionOverview?month=%s&country=%s&ngsw-bypass=%s' % (self.id, monthYear, country, ngsw_bypass))
     return data
 
-  def get_enery_settings(self, ngsw_bypass=True):
+  def get_energy_settings(self, ngsw_bypass=True):
     """
     Get energy settings of your home
 
