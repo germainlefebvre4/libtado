@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "roomMessages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          },
+          "visual": {
+            "type": [
+              "null",
+              "string"
+            ]
+          },
+          "link": {
+            "anyOf": [
+              {
+                "type": "null"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "text",
+                  "type",
+                  "url"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "link",
+          "message",
+          "roomId",
+          "visual"
+        ]
+      }
+    },
+    "outdoorQuality": {
+      "type": "object",
+      "properties": {
+        "aqi": {
+          "type": "object",
+          "properties": {
+            "level": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "level"
+          ]
+        },
+        "pollens": {
+          "type": "object",
+          "properties": {
+            "dominant": {
+              "type": "object",
+              "properties": {
+                "level": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "level"
+              ]
+            },
+            "types": {
+              "type": "array"
+            }
+          },
+          "required": [
+            "dominant",
+            "types"
+          ]
+        },
+        "pollutants": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "aqi",
+        "pollens",
+        "pollutants"
+      ]
+    }
+  },
+  "required": [
+    "outdoorQuality",
+    "roomMessages"
+  ]
+}

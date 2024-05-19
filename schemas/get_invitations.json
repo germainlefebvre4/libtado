@@ -1,0 +1,249 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "token": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string"
+      },
+      "firstSent": {
+        "type": "string"
+      },
+      "lastSent": {
+        "type": "string"
+      },
+      "inviter": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string"
+          },
+          "homeId": {
+            "type": "integer"
+          },
+          "locale": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "enabled",
+          "homeId",
+          "id",
+          "locale",
+          "name",
+          "type",
+          "username"
+        ]
+      },
+      "home": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "dateTimeZone": {
+            "type": "string"
+          },
+          "dateCreated": {
+            "type": "string"
+          },
+          "temperatureUnit": {
+            "type": "string"
+          },
+          "partner": {
+            "type": "null"
+          },
+          "simpleSmartScheduleEnabled": {
+            "type": "boolean"
+          },
+          "awayRadiusInMeters": {
+            "type": "number"
+          },
+          "installationCompleted": {
+            "type": "boolean"
+          },
+          "incidentDetection": {
+            "type": "object",
+            "properties": {
+              "supported": {
+                "type": "boolean"
+              },
+              "enabled": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "enabled",
+              "supported"
+            ]
+          },
+          "generation": {
+            "type": "string"
+          },
+          "zonesCount": {
+            "type": "integer"
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "christmasModeEnabled": {
+            "type": "boolean"
+          },
+          "showAutoAssistReminders": {
+            "type": "boolean"
+          },
+          "contactDetails": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "phone": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "email",
+              "name",
+              "phone"
+            ]
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "addressLine1": {
+                "type": "string"
+              },
+              "addressLine2": {
+                "type": "null"
+              },
+              "zipCode": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "state": {
+                "type": "null"
+              },
+              "country": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "addressLine1",
+              "addressLine2",
+              "city",
+              "country",
+              "state",
+              "zipCode"
+            ]
+          },
+          "geolocation": {
+            "type": "object",
+            "properties": {
+              "latitude": {
+                "type": "number"
+              },
+              "longitude": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "latitude",
+              "longitude"
+            ]
+          },
+          "consentGrantSkippable": {
+            "type": "boolean"
+          },
+          "enabledFeatures": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isAirComfortEligible": {
+            "type": "boolean"
+          },
+          "isBalanceAcEligible": {
+            "type": "boolean"
+          },
+          "isEnergyIqEligible": {
+            "type": "boolean"
+          },
+          "isHeatSourceInstalled": {
+            "type": "boolean"
+          },
+          "isBalanceHpEligible": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "address",
+          "awayRadiusInMeters",
+          "christmasModeEnabled",
+          "consentGrantSkippable",
+          "contactDetails",
+          "dateCreated",
+          "dateTimeZone",
+          "enabledFeatures",
+          "generation",
+          "geolocation",
+          "id",
+          "incidentDetection",
+          "installationCompleted",
+          "isAirComfortEligible",
+          "isBalanceAcEligible",
+          "isBalanceHpEligible",
+          "isEnergyIqEligible",
+          "isHeatSourceInstalled",
+          "name",
+          "partner",
+          "showAutoAssistReminders",
+          "simpleSmartScheduleEnabled",
+          "skills",
+          "temperatureUnit",
+          "zonesCount"
+        ]
+      }
+    },
+    "required": [
+      "email",
+      "firstSent",
+      "home",
+      "inviter",
+      "lastSent",
+      "token"
+    ]
+  }
+}

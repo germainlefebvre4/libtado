@@ -1,0 +1,192 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string"
+      },
+      "email": {
+        "type": "string"
+      },
+      "username": {
+        "type": "string"
+      },
+      "id": {
+        "type": "string"
+      },
+      "homes": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "name"
+          ]
+        }
+      },
+      "locale": {
+        "type": "string"
+      },
+      "mobileDevices": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "id": {
+              "type": "integer"
+            },
+            "settings": {
+              "type": "object",
+              "properties": {
+                "geoTrackingEnabled": {
+                  "type": "boolean"
+                },
+                "specialOffersEnabled": {
+                  "type": "boolean"
+                },
+                "onDemandLogRetrievalEnabled": {
+                  "type": "boolean"
+                },
+                "pushNotifications": {
+                  "type": "object",
+                  "properties": {
+                    "lowBatteryReminder": {
+                      "type": "boolean"
+                    },
+                    "awayModeReminder": {
+                      "type": "boolean"
+                    },
+                    "homeModeReminder": {
+                      "type": "boolean"
+                    },
+                    "openWindowReminder": {
+                      "type": "boolean"
+                    },
+                    "energySavingsReportReminder": {
+                      "type": "boolean"
+                    },
+                    "incidentDetection": {
+                      "type": "boolean"
+                    },
+                    "energyIqReminder": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "awayModeReminder",
+                    "energyIqReminder",
+                    "energySavingsReportReminder",
+                    "homeModeReminder",
+                    "incidentDetection",
+                    "lowBatteryReminder",
+                    "openWindowReminder"
+                  ]
+                }
+              },
+              "required": [
+                "geoTrackingEnabled",
+                "onDemandLogRetrievalEnabled",
+                "pushNotifications",
+                "specialOffersEnabled"
+              ]
+            },
+            "location": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "stale": {
+                      "type": "boolean"
+                    },
+                    "atHome": {
+                      "type": "boolean"
+                    },
+                    "bearingFromHome": {
+                      "type": "object",
+                      "properties": {
+                        "degrees": {
+                          "type": "number"
+                        },
+                        "radians": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "degrees",
+                        "radians"
+                      ]
+                    },
+                    "relativeDistanceFromHomeFence": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "atHome",
+                    "bearingFromHome",
+                    "relativeDistanceFromHomeFence",
+                    "stale"
+                  ]
+                }
+              ]
+            },
+            "deviceMetadata": {
+              "type": "object",
+              "properties": {
+                "platform": {
+                  "type": "string"
+                },
+                "osVersion": {
+                  "type": "string"
+                },
+                "model": {
+                  "type": "string"
+                },
+                "locale": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "locale",
+                "model",
+                "osVersion",
+                "platform"
+              ]
+            }
+          },
+          "required": [
+            "deviceMetadata",
+            "id",
+            "location",
+            "name",
+            "settings"
+          ]
+        }
+      }
+    },
+    "required": [
+      "email",
+      "homes",
+      "id",
+      "locale",
+      "mobileDevices",
+      "name",
+      "username"
+    ]
+  }
+}
