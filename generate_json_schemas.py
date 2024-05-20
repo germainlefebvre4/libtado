@@ -1,8 +1,6 @@
 import json
 import inspect
 
-from libtado.api import Tado
-
 from tests.api import utils
 
 

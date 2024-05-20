@@ -153,6 +153,8 @@ class TestApi:
         country = "FRA"
         response = tado.get_consumption_overview(monthYear=monthYear, country=country)
 
+        assert isinstance(response, dict)
+
     def test_get_energy_settings(self):
         response = tado.get_energy_settings()
 
