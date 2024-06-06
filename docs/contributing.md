@@ -9,32 +9,30 @@ git clone https://github.com/germainlefebvre4/libtado.git
 
 ## Requirements
 
-The library development requires at least python `3.7`.
+The library development requires at least python `3.8`. Prefer developping with the version `3.10` minimum.
 
 This library is tested with following python versions:
 
-- `3.7`
 - `3.8`
 - `3.9`
 - `3.10`
+- `3.11`
 
 ## Setup
 
 Update your system and install a python version (at least the minimum required) and install the python virtualenv tool
-`pipenv` (or `poetry`).
+`poetry`).
 
 ```bash
 sudo apt update
-sudo apt install python3.9 python3.9-pip
+sudo apt install python3.10 python3.10-pip
 sudo pip install poetry
-# sudo pip install pipenv
 ```
 
-Initialize your `pipenv` (or `poetry`) setup and install all the development libraries.
+Initialize your `poetry` setup and install all the development libraries.
 
 ```bash
 poetry install
-# pipenv update --dev
 ```
 
 ## Improve the library
@@ -54,9 +52,28 @@ The tests are written in the following files:
 - Library API in `./tests/api/test_api.py`
 - Library CLI in `./tests/cli/test_cli.py`
 
-Run the tests inside `pipenv` or `poetry`.
+Run the tests inside `poetry`.
 
 ```bash
 poetry run pytest -sv tests/
-# pipenv run pytest -sv tests/
 ```
+
+## Generate the JSON Scheams
+
+The JSON schemas are generated from the Tado API. You can generate them with the following command:
+
+```bash
+poetry run python generate_json_schemas.py
+```
+
+## Checking gate
+
+Before validating your pull request, please run the following `tox` commands:
+
+> *You can use your python version*: here `3.10`
+
+```bash
+tox -e py3.10,lint,generate_json_schemas,unittest
+```
+
+The pull request checking pipeline will run the same commands on several python versions to ensure the compatibility of the library.
