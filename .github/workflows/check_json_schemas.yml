@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install poetry tox genson
+          pip install poetry tox
           poetry export --with=test --without-hashes --format=requirements.txt > requirements.txt
 
       - name: Generate JSON Schemas
