@@ -98,7 +98,6 @@ sudo apt update
 sudo apt install python3.9 python3.9-pip
 sudo pip install poetry
 poetry install --with dev
-# pipenv update --dev
 ```
 
 ### Run application
@@ -109,10 +108,8 @@ Follow the indications in sectio [Usage](#usage).
 
 ```bash
 poetry install --with dev
-# pipenv update --dev
 
 poetry run pytest tests/
-# pipenv run pytest tests/
 ```
 
 ### Documentation
