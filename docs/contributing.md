@@ -20,8 +20,7 @@ This library is tested with following python versions:
 
 ## Setup
 
-Update your system and install a python version (at least the minimum required) and install the python virtualenv tool
-`poetry`).
+Update your system and install a python version (at least the minimum required) and install the python virtualenv tool `poetry`.
 
 ```bash
 sudo apt update
@@ -29,10 +28,10 @@ sudo apt install python3.10 python3.10-pip
 sudo pip install poetry
 ```
 
-Initialize your `poetry` setup and install all the development libraries.
+Initialize your `poetry` setup and install all the development and test libraries.
 
 ```bash
-poetry install
+poetry install --with test
 ```
 
 ## Improve the library
@@ -42,7 +41,9 @@ The library is served through 2 sections:
 - API in `./libtado/api.py`
 - CLI in `./libtado/cli.py`
 
-## Write and run some tests
+## Test your changes
+
+### Write and run some tests
 
 Unit tests are important for the developement team because it adds strenghtness and confidence to the code.
 
@@ -58,7 +59,7 @@ Run the tests inside `poetry`.
 poetry run pytest -sv tests/
 ```
 
-## Generate the JSON Scheams
+### Generate the JSON Scheams
 
 The JSON schemas are generated from the Tado API. You can generate them with the following command:
 
@@ -66,7 +67,15 @@ The JSON schemas are generated from the Tado API. You can generate them with the
 poetry run python generate_json_schemas.py
 ```
 
-## Checking gate
+## Improve the documentation
+
+The documentation is written in markdown and can be found in the `docs/` folder. It is built with `mkdocs` and `mkdocs-material`.
+
+```bash
+poetry run mkdocs serve
+```
+
+## Validation gate
 
 Before validating your pull request, please run the following `tox` commands:
 
