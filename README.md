@@ -89,28 +89,12 @@ It shows you how to use the library and expose some structured responses. A more
 | `3.9`          | `3.7.0` > `latest`   |
 | `3.10`         | `3.7.0` > `latest`   |
 
-## Development
+## Contributing
 
-### Setup
+We thank everyone for their help and contributions to the library.
 
-```bash
-sudo apt update
-sudo apt install python3.9 python3.9-pip
-sudo pip install poetry
-poetry install --with dev
-# pipenv update --dev
-```
+You want to report a bug? [Create an issue](https://github.com/germainlefebvre4/libtado/issues/new/choose)
 
-### Run application
+You want to request a feature? [Create an issue](https://github.com/germainlefebvre4/libtado/issues/new/choose)
 
-Follow the indications in sectio [Usage](#usage).
-
-### Run tests
-
-```bash
-poetry install --with dev
-# pipenv update --dev
-
-poetry run pytest tests/
-# pipenv run pytest tests/
-```
+You want to contribute to the library? Read the [Contributing](https://libtado.readthedocs.io/en/latest/contributing/) page.

@@ -1,6 +1,0 @@
-click
-requests
-python-dateutil
-python-dotenv
-pytest
-pytest-dotenv

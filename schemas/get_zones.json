@@ -1,0 +1,179 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer"
+      },
+      "name": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string"
+      },
+      "dateCreated": {
+        "type": "string"
+      },
+      "deviceTypes": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "devices": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "deviceType": {
+              "type": "string"
+            },
+            "serialNo": {
+              "type": "string"
+            },
+            "shortSerialNo": {
+              "type": "string"
+            },
+            "currentFwVersion": {
+              "type": "string"
+            },
+            "connectionState": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "boolean"
+                },
+                "timestamp": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "timestamp",
+                "value"
+              ]
+            },
+            "characteristics": {
+              "type": "object",
+              "properties": {
+                "capabilities": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "capabilities"
+              ]
+            },
+            "batteryState": {
+              "type": "string"
+            },
+            "duties": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "mountingState": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string"
+                },
+                "timestamp": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "timestamp",
+                "value"
+              ]
+            },
+            "mountingStateWithError": {
+              "type": "string"
+            },
+            "orientation": {
+              "type": "string"
+            },
+            "childLockEnabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "batteryState",
+            "characteristics",
+            "connectionState",
+            "currentFwVersion",
+            "deviceType",
+            "duties",
+            "serialNo",
+            "shortSerialNo"
+          ]
+        }
+      },
+      "reportAvailable": {
+        "type": "boolean"
+      },
+      "showScheduleSetup": {
+        "type": "boolean"
+      },
+      "supportsDazzle": {
+        "type": "boolean"
+      },
+      "dazzleEnabled": {
+        "type": "boolean"
+      },
+      "dazzleMode": {
+        "type": "object",
+        "properties": {
+          "supported": {
+            "type": "boolean"
+          },
+          "enabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "enabled",
+          "supported"
+        ]
+      },
+      "openWindowDetection": {
+        "type": "object",
+        "properties": {
+          "supported": {
+            "type": "boolean"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "timeoutInSeconds": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "enabled",
+          "supported",
+          "timeoutInSeconds"
+        ]
+      }
+    },
+    "required": [
+      "dateCreated",
+      "dazzleEnabled",
+      "dazzleMode",
+      "deviceTypes",
+      "devices",
+      "id",
+      "name",
+      "openWindowDetection",
+      "reportAvailable",
+      "showScheduleSetup",
+      "supportsDazzle",
+      "type"
+    ]
+  }
+}

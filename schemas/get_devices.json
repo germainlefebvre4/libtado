@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "deviceType": {
+        "type": "string"
+      },
+      "serialNo": {
+        "type": "string"
+      },
+      "shortSerialNo": {
+        "type": "string"
+      },
+      "currentFwVersion": {
+        "type": "string"
+      },
+      "connectionState": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "timestamp",
+          "value"
+        ]
+      },
+      "characteristics": {
+        "type": "object",
+        "properties": {
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "capabilities"
+        ]
+      },
+      "isDriverConfigured": {
+        "type": "boolean"
+      },
+      "inPairingMode": {
+        "type": "boolean"
+      },
+      "batteryState": {
+        "type": "string"
+      },
+      "mountingState": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "timestamp",
+          "value"
+        ]
+      },
+      "mountingStateWithError": {
+        "type": "string"
+      },
+      "childLockEnabled": {
+        "type": "boolean"
+      },
+      "orientation": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "characteristics",
+      "connectionState",
+      "currentFwVersion",
+      "deviceType",
+      "serialNo",
+      "shortSerialNo"
+    ]
+  }
+}

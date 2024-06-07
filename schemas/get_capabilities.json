@@ -1,0 +1,60 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "temperatures": {
+      "type": "object",
+      "properties": {
+        "celsius": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": "integer"
+            },
+            "max": {
+              "type": "integer"
+            },
+            "step": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "max",
+            "min",
+            "step"
+          ]
+        },
+        "fahrenheit": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": "integer"
+            },
+            "max": {
+              "type": "integer"
+            },
+            "step": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "max",
+            "min",
+            "step"
+          ]
+        }
+      },
+      "required": [
+        "celsius",
+        "fahrenheit"
+      ]
+    }
+  },
+  "required": [
+    "temperatures",
+    "type"
+  ]
+}

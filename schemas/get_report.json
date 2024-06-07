@@ -1,0 +1,663 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "zoneType": {
+      "type": "string"
+    },
+    "interval": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "string"
+        },
+        "to": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "from",
+        "to"
+      ]
+    },
+    "hoursInDay": {
+      "type": "integer"
+    },
+    "measuredData": {
+      "type": "object",
+      "properties": {
+        "measuringDeviceConnected": {
+          "type": "object",
+          "properties": {
+            "timeSeriesType": {
+              "type": "string"
+            },
+            "valueType": {
+              "type": "string"
+            },
+            "dataIntervals": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "from": {
+                    "type": "string"
+                  },
+                  "to": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "from",
+                  "to",
+                  "value"
+                ]
+              }
+            }
+          },
+          "required": [
+            "dataIntervals",
+            "timeSeriesType",
+            "valueType"
+          ]
+        },
+        "insideTemperature": {
+          "type": "object",
+          "properties": {
+            "timeSeriesType": {
+              "type": "string"
+            },
+            "valueType": {
+              "type": "string"
+            },
+            "min": {
+              "type": "object",
+              "properties": {
+                "celsius": {
+                  "type": "number"
+                },
+                "fahrenheit": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "celsius",
+                "fahrenheit"
+              ]
+            },
+            "max": {
+              "type": "object",
+              "properties": {
+                "celsius": {
+                  "type": "number"
+                },
+                "fahrenheit": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "celsius",
+                "fahrenheit"
+              ]
+            },
+            "dataPoints": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "timestamp": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "object",
+                    "properties": {
+                      "celsius": {
+                        "type": "number"
+                      },
+                      "fahrenheit": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "celsius",
+                      "fahrenheit"
+                    ]
+                  }
+                },
+                "required": [
+                  "timestamp",
+                  "value"
+                ]
+              }
+            }
+          },
+          "required": [
+            "dataPoints",
+            "max",
+            "min",
+            "timeSeriesType",
+            "valueType"
+          ]
+        },
+        "humidity": {
+          "type": "object",
+          "properties": {
+            "timeSeriesType": {
+              "type": "string"
+            },
+            "valueType": {
+              "type": "string"
+            },
+            "percentageUnit": {
+              "type": "string"
+            },
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            },
+            "dataPoints": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "timestamp": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "timestamp",
+                  "value"
+                ]
+              }
+            }
+          },
+          "required": [
+            "dataPoints",
+            "max",
+            "min",
+            "percentageUnit",
+            "timeSeriesType",
+            "valueType"
+          ]
+        }
+      },
+      "required": [
+        "humidity",
+        "insideTemperature",
+        "measuringDeviceConnected"
+      ]
+    },
+    "stripes": {
+      "type": "object",
+      "properties": {
+        "timeSeriesType": {
+          "type": "string"
+        },
+        "valueType": {
+          "type": "string"
+        },
+        "dataIntervals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              },
+              "value": {
+                "type": "object",
+                "properties": {
+                  "stripeType": {
+                    "type": "string"
+                  },
+                  "setting": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string"
+                      },
+                      "power": {
+                        "type": "string"
+                      },
+                      "temperature": {
+                        "type": "object",
+                        "properties": {
+                          "celsius": {
+                            "type": "number"
+                          },
+                          "fahrenheit": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "celsius",
+                          "fahrenheit"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "power",
+                      "temperature",
+                      "type"
+                    ]
+                  }
+                },
+                "required": [
+                  "stripeType"
+                ]
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "value"
+            ]
+          }
+        }
+      },
+      "required": [
+        "dataIntervals",
+        "timeSeriesType",
+        "valueType"
+      ]
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "timeSeriesType": {
+          "type": "string"
+        },
+        "valueType": {
+          "type": "string"
+        },
+        "dataIntervals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              },
+              "value": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string"
+                  },
+                  "power": {
+                    "type": "string"
+                  },
+                  "temperature": {
+                    "type": "object",
+                    "properties": {
+                      "celsius": {
+                        "type": "number"
+                      },
+                      "fahrenheit": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "celsius",
+                      "fahrenheit"
+                    ]
+                  }
+                },
+                "required": [
+                  "power",
+                  "temperature",
+                  "type"
+                ]
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "value"
+            ]
+          }
+        }
+      },
+      "required": [
+        "dataIntervals",
+        "timeSeriesType",
+        "valueType"
+      ]
+    },
+    "callForHeat": {
+      "type": "object",
+      "properties": {
+        "timeSeriesType": {
+          "type": "string"
+        },
+        "valueType": {
+          "type": "string"
+        },
+        "dataIntervals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "from",
+              "to",
+              "value"
+            ]
+          }
+        }
+      },
+      "required": [
+        "dataIntervals",
+        "timeSeriesType",
+        "valueType"
+      ]
+    },
+    "weather": {
+      "type": "object",
+      "properties": {
+        "condition": {
+          "type": "object",
+          "properties": {
+            "timeSeriesType": {
+              "type": "string"
+            },
+            "valueType": {
+              "type": "string"
+            },
+            "dataIntervals": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "from": {
+                    "type": "string"
+                  },
+                  "to": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "object",
+                    "properties": {
+                      "state": {
+                        "type": "string"
+                      },
+                      "temperature": {
+                        "type": "object",
+                        "properties": {
+                          "celsius": {
+                            "type": "number"
+                          },
+                          "fahrenheit": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "celsius",
+                          "fahrenheit"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "state",
+                      "temperature"
+                    ]
+                  }
+                },
+                "required": [
+                  "from",
+                  "to",
+                  "value"
+                ]
+              }
+            }
+          },
+          "required": [
+            "dataIntervals",
+            "timeSeriesType",
+            "valueType"
+          ]
+        },
+        "sunny": {
+          "type": "object",
+          "properties": {
+            "timeSeriesType": {
+              "type": "string"
+            },
+            "valueType": {
+              "type": "string"
+            },
+            "dataIntervals": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "from": {
+                    "type": "string"
+                  },
+                  "to": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "from",
+                  "to",
+                  "value"
+                ]
+              }
+            }
+          },
+          "required": [
+            "dataIntervals",
+            "timeSeriesType",
+            "valueType"
+          ]
+        },
+        "slots": {
+          "type": "object",
+          "properties": {
+            "timeSeriesType": {
+              "type": "string"
+            },
+            "valueType": {
+              "type": "string"
+            },
+            "slots": {
+              "type": "object",
+              "properties": {
+                "04:00": {
+                  "type": "object",
+                  "properties": {
+                    "state": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "state",
+                    "temperature"
+                  ]
+                },
+                "08:00": {
+                  "type": "object",
+                  "properties": {
+                    "state": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "state",
+                    "temperature"
+                  ]
+                },
+                "12:00": {
+                  "type": "object",
+                  "properties": {
+                    "state": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "state",
+                    "temperature"
+                  ]
+                },
+                "16:00": {
+                  "type": "object",
+                  "properties": {
+                    "state": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "state",
+                    "temperature"
+                  ]
+                },
+                "20:00": {
+                  "type": "object",
+                  "properties": {
+                    "state": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "state",
+                    "temperature"
+                  ]
+                }
+              },
+              "required": [
+                "04:00",
+                "08:00",
+                "12:00",
+                "16:00",
+                "20:00"
+              ]
+            }
+          },
+          "required": [
+            "slots",
+            "timeSeriesType",
+            "valueType"
+          ]
+        }
+      },
+      "required": [
+        "condition",
+        "slots",
+        "sunny"
+      ]
+    }
+  },
+  "required": [
+    "callForHeat",
+    "hoursInDay",
+    "interval",
+    "measuredData",
+    "settings",
+    "stripes",
+    "weather",
+    "zoneType"
+  ]
+}

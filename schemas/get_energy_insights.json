@@ -1,0 +1,364 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "consumptionComparison": {
+      "type": "object",
+      "properties": {
+        "currentMonth": {
+          "type": "object",
+          "properties": {
+            "consumed": {
+              "type": "object",
+              "properties": {
+                "energy": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "toEndOfRange": {
+                        "type": "number"
+                      },
+                      "unit": {
+                        "type": "string"
+                      },
+                      "perZone": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "zone": {
+                              "type": "integer"
+                            },
+                            "toEndOfRange": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "toEndOfRange",
+                            "zone"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "perZone",
+                      "toEndOfRange",
+                      "unit"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "energy"
+              ]
+            },
+            "dateRange": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "end",
+                "start"
+              ]
+            }
+          },
+          "required": [
+            "consumed",
+            "dateRange"
+          ]
+        },
+        "comparedTo": {
+          "type": "object",
+          "properties": {
+            "consumed": {
+              "type": "object",
+              "properties": {
+                "energy": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "toEndOfRange": {
+                        "type": "number"
+                      },
+                      "unit": {
+                        "type": "string"
+                      },
+                      "perZone": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "zone": {
+                              "type": "integer"
+                            },
+                            "toEndOfRange": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "toEndOfRange",
+                            "zone"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "perZone",
+                      "toEndOfRange",
+                      "unit"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "energy"
+              ]
+            },
+            "dateRange": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "end",
+                "start"
+              ]
+            }
+          },
+          "required": [
+            "consumed",
+            "dateRange"
+          ]
+        }
+      },
+      "required": [
+        "comparedTo",
+        "currentMonth"
+      ]
+    },
+    "costForecast": {
+      "type": "object",
+      "properties": {
+        "costEndOfMonthInCents": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "costEndOfMonthInCents"
+      ]
+    },
+    "weatherComparison": {
+      "type": "object",
+      "properties": {
+        "currentMonth": {
+          "type": "object",
+          "properties": {
+            "averageTemperature": {
+              "type": "number"
+            },
+            "dateRange": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "end",
+                "start"
+              ]
+            }
+          },
+          "required": [
+            "averageTemperature",
+            "dateRange"
+          ]
+        },
+        "comparedTo": {
+          "type": "object",
+          "properties": {
+            "averageTemperature": {
+              "type": "number"
+            },
+            "dateRange": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "end",
+                "start"
+              ]
+            }
+          },
+          "required": [
+            "averageTemperature",
+            "dateRange"
+          ]
+        }
+      },
+      "required": [
+        "comparedTo",
+        "currentMonth"
+      ]
+    },
+    "heatingTimeComparison": {
+      "type": "object",
+      "properties": {
+        "currentMonth": {
+          "type": "object",
+          "properties": {
+            "heatingTimeHours": {
+              "type": "integer"
+            },
+            "dateRange": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "end",
+                "start"
+              ]
+            }
+          },
+          "required": [
+            "dateRange",
+            "heatingTimeHours"
+          ]
+        },
+        "comparedTo": {
+          "type": "object",
+          "properties": {
+            "heatingTimeHours": {
+              "type": "integer"
+            },
+            "dateRange": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "end",
+                "start"
+              ]
+            }
+          },
+          "required": [
+            "dateRange",
+            "heatingTimeHours"
+          ]
+        }
+      },
+      "required": [
+        "comparedTo",
+        "currentMonth"
+      ]
+    },
+    "awayTimeComparison": {
+      "type": "object",
+      "properties": {
+        "currentMonth": {
+          "type": "object",
+          "properties": {
+            "awayTimeInHours": {
+              "type": "integer"
+            },
+            "dateRange": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "end",
+                "start"
+              ]
+            }
+          },
+          "required": [
+            "awayTimeInHours",
+            "dateRange"
+          ]
+        },
+        "comparedTo": {
+          "type": "object",
+          "properties": {
+            "awayTimeInHours": {
+              "type": "integer"
+            },
+            "dateRange": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "end": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "end",
+                "start"
+              ]
+            }
+          },
+          "required": [
+            "awayTimeInHours",
+            "dateRange"
+          ]
+        }
+      },
+      "required": [
+        "comparedTo",
+        "currentMonth"
+      ]
+    },
+    "heatingHotwaterComparison": {
+      "type": "null"
+    }
+  },
+  "required": [
+    "awayTimeComparison",
+    "consumptionComparison",
+    "costForecast",
+    "heatingHotwaterComparison",
+    "heatingTimeComparison",
+    "weatherComparison"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "freshness": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        },
+        "lastOpenWindow": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "lastOpenWindow",
+        "value"
+      ]
+    },
+    "comfort": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "roomId": {
+            "type": "integer"
+          },
+          "temperatureLevel": {
+            "type": "string"
+          },
+          "humidityLevel": {
+            "type": "string"
+          },
+          "coordinate": {
+            "type": "object",
+            "properties": {
+              "radial": {
+                "type": "number"
+              },
+              "angular": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "angular",
+              "radial"
+            ]
+          }
+        },
+        "required": [
+          "coordinate",
+          "humidityLevel",
+          "roomId",
+          "temperatureLevel"
+        ]
+      }
+    }
+  },
+  "required": [
+    "comfort",
+    "freshness"
+  ]
+}

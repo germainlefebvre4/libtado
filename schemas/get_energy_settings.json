@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "homeId": {
+      "type": "integer"
+    },
+    "dataSource": {
+      "type": "string"
+    },
+    "consumptionUnit": {
+      "type": "string"
+    },
+    "preferredEnergyUnit": {
+      "type": "string"
+    },
+    "showReadingsBanner": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "consumptionUnit",
+    "dataSource",
+    "homeId",
+    "preferredEnergyUnit",
+    "showReadingsBanner"
+  ]
+}
