@@ -3,6 +3,7 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 from libtado.api import Tado
 from tests.api import utils
+import pytest
 
 TADO_USERNAME = os.getenv("TADO_USERNAME", None)
 TADO_PASSWORD = os.getenv("TADO_PASSWORD", None)
@@ -122,6 +123,14 @@ class TestApi:
         assert isinstance(response, dict)
 
     def test_set_cost_simulation(self):
+        monthYear = date.today().strftime("%Y-%m") # 2023-09
+        country = "FRA"
+        response = tado.get_consumption_overview(monthYear=monthYear, country=country)
+        consumption_sum = sum([x["consumption"] for x in response["monthlyAggregation"]["requestedMonth"]["consumptionPerDate"]])
+
+        if consumption_sum == 0:
+            pytest.skip("not enough activity to test cost simulation")
+
         country = "FRA"
         payload = {
             "temperatureDeltaPerZone": [
