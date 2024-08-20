@@ -9,7 +9,7 @@ git clone https://github.com/germainlefebvre4/libtado.git
 
 ## Requirements
 
-The library development requires at least python `3.8`. Prefer developping with the version `3.10` minimum.
+The library development requires at least python `3.8`. Prefer developping with the version `3.11` minimum.
 
 This library is tested with following python versions:
 
@@ -24,8 +24,17 @@ Update your system and install a python version (at least the minimum required) 
 
 ```bash
 sudo apt update
-sudo apt install python3.10 python3.10-pip
+sudo apt install python3.11 python3.11-pip
 sudo pip install poetry
+```
+
+Initialize your python virtual environment with the python version referenced in the `.python-version` file.
+
+```bash
+pyenv local
+# output: 3.11
+pyenv shell $(pyenv local)
+poetry env use $(pyenv local)
 ```
 
 Initialize your `poetry` setup and install all the development and test libraries.
@@ -79,10 +88,10 @@ poetry run mkdocs serve
 
 Before validating your pull request, please run the following `tox` commands:
 
-> *You can use your python version*: here `3.10`
+> *You can use your python version*: here `3.11`
 
 ```bash
-tox -e py3.10,lint,generate_json_schemas,unittest
+tox -e py3.11,lint,generate_json_schemas,unittest
 ```
 
 The pull request checking pipeline will run the same commands on several python versions to ensure the compatibility of the library.
