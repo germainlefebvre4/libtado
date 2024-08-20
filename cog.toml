@@ -1,7 +1,7 @@
 [commit_types]
 feat = { changelog_title = "Features" }
 fix = { changelog_title = "Bugfix" }
-chore = { changelog_title = "Miscellaneous", omit_from_changelog = true }
+chore = { changelog_title = "Miscellaneous" }
 refactor = { changelog_title = "Refactor" }
 test = { changelog_title = "Tests", omit_from_changelog = true }
 doc = { changelog_title = "Documentation", omit_from_changelog = true }
