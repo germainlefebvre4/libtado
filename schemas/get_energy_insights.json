@@ -150,15 +150,7 @@
       ]
     },
     "costForecast": {
-      "type": "object",
-      "properties": {
-        "costEndOfMonthInCents": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "costEndOfMonthInCents"
-      ]
+      "type": "null"
     },
     "weatherComparison": {
       "type": "object",

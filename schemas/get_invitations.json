@@ -106,6 +106,9 @@
           "zonesCount": {
             "type": "integer"
           },
+          "language": {
+            "type": "string"
+          },
           "skills": {
             "type": "array",
             "items": {
@@ -204,6 +207,9 @@
           "isHeatSourceInstalled": {
             "type": "boolean"
           },
+          "isHeatPumpInstalled": {
+            "type": "boolean"
+          },
           "isBalanceHpEligible": {
             "type": "boolean"
           }
@@ -226,7 +232,9 @@
           "isBalanceAcEligible",
           "isBalanceHpEligible",
           "isEnergyIqEligible",
+          "isHeatPumpInstalled",
           "isHeatSourceInstalled",
+          "language",
           "name",
           "partner",
           "showAutoAssistReminders",

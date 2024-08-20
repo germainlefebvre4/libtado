@@ -18,10 +18,10 @@
               "type": "string"
             },
             "totalConsumption": {
-              "type": "number"
+              "type": "integer"
             },
             "totalCostInCents": {
-              "type": "number"
+              "type": "integer"
             },
             "consumptionPerDate": {
               "type": "array",
@@ -32,10 +32,10 @@
                     "type": "string"
                   },
                   "consumption": {
-                    "type": "number"
+                    "type": "integer"
                   },
                   "costInCents": {
-                    "type": "number"
+                    "type": "integer"
                   }
                 },
                 "required": [
@@ -64,10 +64,10 @@
               "type": "string"
             },
             "totalConsumption": {
-              "type": "number"
+              "type": "integer"
             },
             "totalCostInCents": {
-              "type": "number"
+              "type": "integer"
             },
             "consumptionPerDate": {
               "type": "array",
@@ -78,10 +78,10 @@
                     "type": "string"
                   },
                   "consumption": {
-                    "type": "number"
+                    "type": "integer"
                   },
                   "costInCents": {
-                    "type": "number"
+                    "type": "integer"
                   }
                 },
                 "required": [
@@ -110,10 +110,10 @@
               "type": "string"
             },
             "totalConsumption": {
-              "type": "number"
+              "type": "integer"
             },
             "totalCostInCents": {
-              "type": "number"
+              "type": "integer"
             },
             "consumptionPerDate": {
               "type": "array",
@@ -124,10 +124,10 @@
                     "type": "string"
                   },
                   "consumption": {
-                    "type": "number"
+                    "type": "integer"
                   },
                   "costInCents": {
-                    "type": "number"
+                    "type": "integer"
                   }
                 },
                 "required": [
@@ -156,10 +156,10 @@
               "type": "string"
             },
             "totalConsumption": {
-              "type": "number"
+              "type": "integer"
             },
             "totalCostInCents": {
-              "type": "number"
+              "type": "integer"
             },
             "consumptionPerDate": {
               "type": "array",
@@ -170,10 +170,10 @@
                     "type": "string"
                   },
                   "consumption": {
-                    "type": "number"
+                    "type": "integer"
                   },
                   "costInCents": {
-                    "type": "number"
+                    "type": "integer"
                   }
                 },
                 "required": [
@@ -207,7 +207,7 @@
       "type": "object",
       "properties": {
         "totalSavingsInPercent": {
-          "type": "number"
+          "type": "null"
         },
         "yearMonth": {
           "type": "string"

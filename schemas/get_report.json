@@ -231,19 +231,7 @@
                         "type": "string"
                       },
                       "temperature": {
-                        "type": "object",
-                        "properties": {
-                          "celsius": {
-                            "type": "number"
-                          },
-                          "fahrenheit": {
-                            "type": "number"
-                          }
-                        },
-                        "required": [
-                          "celsius",
-                          "fahrenheit"
-                        ]
+                        "type": "null"
                       }
                     },
                     "required": [
@@ -254,6 +242,7 @@
                   }
                 },
                 "required": [
+                  "setting",
                   "stripeType"
                 ]
               }
@@ -302,19 +291,7 @@
                     "type": "string"
                   },
                   "temperature": {
-                    "type": "object",
-                    "properties": {
-                      "celsius": {
-                        "type": "number"
-                      },
-                      "fahrenheit": {
-                        "type": "number"
-                      }
-                    },
-                    "required": [
-                      "celsius",
-                      "fahrenheit"
-                    ]
+                    "type": "null"
                   }
                 },
                 "required": [
