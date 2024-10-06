@@ -21,7 +21,7 @@ requests = "*"
 python-dateutil = "2.8.2"
 
 [tool.poetry.group.test.dependencies]
-poetry-plugin-dotenv = ">=2.2.3,<2.3"
+poetry-plugin-dotenv = ">=2.2.3,<2.5"
 pytest = "*"
 pytest-dotenv = "*"
 python-dateutil = "*"
@@ -29,14 +29,14 @@ jsonschema = "*"
 genson = "*"
 
 [tool.poetry.group.docs.dependencies]
-poetry-plugin-dotenv = ">=2.2.3,<2.3"
+poetry-plugin-dotenv = ">=2.2.3,<2.5"
 mkdocs = "*"
 mkdocs-material = "*"
 mkdocstrings = {extras = ["python"], version = "*"}
 mkdocs-click = "*"
 
 [tool.poetry.group.lint.dependencies]
-poetry-plugin-dotenv = ">=2.2.3,<2.3"
+poetry-plugin-dotenv = ">=2.2.3,<2.5"
 ruff = "*"
 
 [build-system]
