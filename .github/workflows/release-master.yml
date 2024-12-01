@@ -60,11 +60,11 @@ jobs:
     needs: release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v4
       - name: Set up Python
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.7'
+          python-version: '3.11'
 
       - name: get release_version
         id: release_version
@@ -83,19 +83,20 @@ jobs:
 
       - name: Update package version
         run: |
-          sed -i "s/^\( *version=\).*/\1'${{ steps.release_version.outputs.data }}',/g" setup.py
-          sed -i 's/^\(^version = \).*/\1"${{ steps.release_version.outputs.data }}",/g' pyproject.toml
+          echo ${{ steps.release_version.outputs.data }}
+          poetry version ${{ steps.release_version.outputs.data }}
         if: steps.release_published.outputs.data == 'true'
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install setuptools wheel twine
+          pip install poetry
         if: steps.release_published.outputs.data == 'true'
       - name: Build and publish
         env:
-          TWINE_USERNAME: "__token__"
-          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: |
-          python setup.py sdist bdist_wheel
-          twine upload dist/*
+          poetry config repositories.pypi https://test.pypi.org/legacy/
+          poetry config pypi-token.pypi $PYPI_TOKEN
+          poetry build
+          poetry publish -r pypi
         if: steps.release_published.outputs.data == 'true'
