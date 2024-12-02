@@ -113,7 +113,7 @@ jobs:
         run: |
           sha_short=$(git rev-parse --short HEAD)
           bump_version="${{ needs.release.outputs.new_release_version }}.dev${{ github.run_number }}"
-          echo "bump_version: $bump_version" >> $GITHUB_OUTPUT
+          echo "bump_version=$bump_version" >> $GITHUB_OUTPUT
           echo "bump_version: $bump_version" >> $GITHUB_STEP_SUMMARY
           echo $bump_version
           poetry version $bump_version
