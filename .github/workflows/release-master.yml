@@ -9,6 +9,9 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    outputs:
+      new_release_version: ${{ steps.version.outputs.new_release_version }}
+      new_release_published: ${{ steps.version.outputs.new_release_published }}
     steps:
       - uses: actions/checkout@v1
 
@@ -38,23 +41,25 @@ jobs:
           dry_run: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: set release_version
-        id: set_release_version
-        uses: noobly314/share-data@v1
-        with:
-          share-id: release_version
-          mode: set
-          key: version
-          value: ${{ steps.semantic.outputs.new_release_version }}
-      - name: set release_published
-        id: set_release_published
-        uses: noobly314/share-data@v1
-        with:
-          share-id: release_published
-          mode: set
-          key: version
-          value: ${{ steps.semantic.outputs.new_release_published }}
+          
+      - name: Write in summary
+        run: |
+          echo "## Semantic Release" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "new_release_version: $NEW_RELEASE_VERSION" >> $GITHUB_STEP_SUMMARY
+          echo "new_release_published: $NEW_RELEASE_PUBLISHED" >> $GITHUB_STEP_SUMMARY
+        env:
+          NEW_RELEASE_VERSION: ${{ steps.semantic.outputs.new_release_version }}
+          NEW_RELEASE_PUBLISHED: ${{ steps.semantic.outputs.new_release_published }}
+          
+      - name: Write in outputs
+        id: version
+        run: |
+          echo "NEW_RELEASE_VERSION=$NEW_RELEASE_VERSION" >> $GITHUB_OUTPUT
+          echo "NEW_RELEASE_PUBLISHED=$NEW_RELEASE_PUBLISHED" >> $GITHUB_OUTPUT
+        env:
+          NEW_RELEASE_VERSION: ${{ steps.semantic.outputs.new_release_version }}
+          NEW_RELEASE_PUBLISHED: ${{ steps.semantic.outputs.new_release_published }}
 
   deploy:
     needs: release
@@ -66,36 +71,28 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: get release_version
-        id: release_version
-        uses: noobly314/share-data@v1
-        with:
-          share-id: release_version
-          mode: get
-          key: version
-      - name: get release_published
-        id: release_published
-        uses: noobly314/share-data@v1
-        with:
-          share-id: release_published
-          mode: get
-          key: version
-
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install poetry
         if: steps.release_published.outputs.data == 'true'
+
       - name: Update package version
+        id: update_version
         run: |
-          echo ${{ steps.release_version.outputs.data }}
-          poetry version ${{ steps.release_version.outputs.data }}
+          sha_short=$(git rev-parse --short HEAD)
+          bump_version="${{ needs.release.outputs.new_release_version }}.dev${{ github.run_number }}"
+          echo "bump_version=$bump_version" >> $GITHUB_OUTPUT
+          echo "bump_version: $bump_version" >> $GITHUB_STEP_SUMMARY
+          echo $bump_version
+          poetry version $bump_version
         if: steps.release_published.outputs.data == 'true'
+
       - name: Build and publish
         env:
           PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
         run: |
-          poetry config repositories.pypi https://test.pypi.org/legacy/
+          poetry config repositories.pypi https://pypi.org
           poetry config pypi-token.pypi $PYPI_TOKEN
           poetry build
           poetry publish -r pypi
