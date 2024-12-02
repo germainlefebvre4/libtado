@@ -2,12 +2,7 @@
 name: Release development branches
 
 on:
-  push:
-    branches:
-      - develop
-      - feat/*
-      - fix/*
-      - ci/*
+  pull_request
 
 jobs:
   release:
@@ -112,7 +107,7 @@ jobs:
         id: update_version
         run: |
           sha_short=$(git rev-parse --short HEAD)
-          bump_version="${{ needs.release.outputs.new_release_version }}.dev${{ github.event.number }}"
+          bump_version="${{ needs.release.outputs.new_release_version }}.dev${{ github.event.pull_request.number }}"
           echo "bump_version: $bump_version" >> $GITHUB_OUTPUT
           echo "bump_version: $bump_version" >> $GITHUB_STEP_SUMMARY
           echo $bump_version
