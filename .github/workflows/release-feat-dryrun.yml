@@ -109,12 +109,21 @@ jobs:
           python -m pip install --upgrade pip
           pip install poetry
       - name: Update package version
+        id: update_version
         run: |
           sha_short=$(git rev-parse --short HEAD)
-          bump_version="${{ needs.release.outputs.new_release_version }}.dev${{ github.run_number }}"
+          bump_version="${{ needs.release.outputs.new_release_version }}.dev${{ github.event.number }}"
+          echo "bump_version: $bump_version" >> $GITHUB_OUTPUT
           echo "bump_version: $bump_version" >> $GITHUB_STEP_SUMMARY
           echo $bump_version
           poetry version $bump_version
+
+      - name: Clean PyPi release
+        run: |
+          python -m pip install --upgrade pypi-cleanup
+          pypi-cleanup --host https://test.pypi.org/legacy/ --package libtado --version-regex '${{ steps.update_version.outputs.bump_version }}' --do-it
+        env:
+          PYPI_CLEANUP_PASSWORD: ${{ secrets.PYPI_TEST_TOKEN }}
 
       - name: Build and publish
         env:
