@@ -39,7 +39,7 @@ poetry-plugin-export==1.8.0 ; python_full_version >= "3.8.1" and python_version 
 poetry==1.8.3 ; python_full_version >= "3.8.1" and python_version < "4.0"
 ptyprocess==0.7.0 ; python_full_version >= "3.8.1" and python_version < "4.0"
 pycparser==2.22 ; python_full_version >= "3.8.1" and python_version < "4.0" and (sys_platform == "darwin" or sys_platform == "linux") and (sys_platform == "darwin" or platform_python_implementation != "PyPy")
-pyproject-hooks==1.1.0 ; python_full_version >= "3.8.1" and python_version < "4.0"
+pyproject-hooks==1.2.0 ; python_full_version >= "3.8.1" and python_version < "4.0"
 pytest-dotenv==0.5.2 ; python_full_version >= "3.8.1" and python_version < "4.0"
 pytest==8.2.2 ; python_full_version >= "3.8.1" and python_version < "4.0"
 python-dateutil==2.8.2 ; python_full_version >= "3.8.1" and python_version < "4.0"
