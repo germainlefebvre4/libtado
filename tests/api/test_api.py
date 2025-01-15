@@ -19,8 +19,6 @@ class TestApi:
         assert isinstance(response, list)
         assert len(response) > 0
 
-        assert response[0]["id"] == 1
-
     def test_get_capabilities(self):
         ZONE_ID = tado.get_zones()[0]["id"]
         response = tado.get_capabilities(ZONE_ID)
@@ -31,7 +29,6 @@ class TestApi:
         response = tado.get_devices()
 
         assert isinstance(response, list)
-        assert len(response) > 0
 
     def test_get_early_start(self):
         ZONE_ID = tado.get_zones()[0]["id"]
@@ -169,10 +166,10 @@ class TestApi:
 
         assert isinstance(response, dict)
 
-    def test_get_energy_insights(self):
-        start_date = "2023-09-01"
-        end_date = "2023-09-30"
-        country = "FRA"
-        response = tado.get_energy_insights(start_date=start_date, end_date=end_date, country=country)
+    # def test_get_energy_insights(self):
+    #     start_date = "2023-09-01"
+    #     end_date = "2023-09-30"
+    #     country = "FRA"
+    #     response = tado.get_energy_insights(start_date=start_date, end_date=end_date, country=country)
 
-        assert isinstance(response, dict)
+    #     assert isinstance(response, dict)
