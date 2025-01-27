@@ -1,4 +1,32 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "type": "null"
+  "type": "object",
+  "properties": {
+    "type": {
+      "type": "string"
+    },
+    "preheatingLevel": {
+      "type": "string"
+    },
+    "minimumAwayTemperature": {
+      "type": "object",
+      "properties": {
+        "celsius": {
+          "type": "number"
+        },
+        "fahrenheit": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "celsius",
+        "fahrenheit"
+      ]
+    }
+  },
+  "required": [
+    "minimumAwayTemperature",
+    "preheatingLevel",
+    "type"
+  ]
 }

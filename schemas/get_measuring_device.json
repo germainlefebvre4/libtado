@@ -1,4 +1,59 @@
 {
   "$schema": "http://json-schema.org/schema#",
-  "type": "null"
+  "type": "object",
+  "properties": {
+    "deviceType": {
+      "type": "string"
+    },
+    "serialNo": {
+      "type": "string"
+    },
+    "shortSerialNo": {
+      "type": "string"
+    },
+    "currentFwVersion": {
+      "type": "string"
+    },
+    "connectionState": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "boolean"
+        },
+        "timestamp": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "timestamp",
+        "value"
+      ]
+    },
+    "characteristics": {
+      "type": "object",
+      "properties": {
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "capabilities"
+      ]
+    },
+    "batteryState": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "batteryState",
+    "characteristics",
+    "connectionState",
+    "currentFwVersion",
+    "deviceType",
+    "serialNo",
+    "shortSerialNo"
+  ]
 }

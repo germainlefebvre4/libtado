@@ -95,3 +95,17 @@ tox -e py3.11,lint,generate_json_schemas,unittest
 ```
 
 The pull request checking pipeline will run the same commands on several python versions to ensure the compatibility of the library.
+
+## Clean the releases on PyPi
+
+Every commit on feature branches will generate a new release on PyPi Test to ensure everything is working fine on release management.
+
+Only admins can do this part.
+
+Delete the release on PyPi Test:
+
+```bash
+export PYPI_CLEANUP_USERNAME=""
+export PYPI_CLEANUP_PASSWORD=""
+pypi-cleanup --host https://test.pypi.org --username $PYPI_CLEANUP_USERNAME --package libtado
+```

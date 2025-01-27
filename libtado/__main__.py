@@ -521,5 +521,25 @@ def schedule_block_day_type(tado, zone, schedule, day_type):
     click.echo('')
 
 
+@main.command()
+@click.pass_obj
+@click.option('--month-date', '-d', required=True, type=str, help='Month year (i.e. 2022-09)')
+def consumption_details(tado, month_date):
+  """Get the consumption details of your home."""
+  consumption_details = tado.get_consumption_details(month_date)
+
+  click.echo('Consumption for %s' % (month_date))
+  click.echo('')
+
+  click.echo('Summary:')
+  click.echo('  Consumption (%s): %d' % (consumption_details['summary']['unit'], consumption_details['summary']['consumption']))
+  click.echo('  Cost: %.2f' % (consumption_details['summary']['costInCents']/100))
+  click.echo('')
+
+  click.echo('Details:')
+  for cd in consumption_details['graphConsumption']['monthlyAggregation']['requestedMonth']['consumptionPerDate']:
+    click.echo('  %s\tConsumption (%s): %s\t\tCost: %.2f' % (cd['date'], consumption_details['graphConsumption']['unit'], cd['consumption'], cd['costInCents']/100))
+
+
 if __name__ == "__main__":
   main()

@@ -640,78 +640,78 @@ class Tado:
       (dict): The invitation information.
 
     ??? info "Result example"
-      ```json
-      {
-          "token": "44483e1d07qf439&8b786fc0372ec315",
-          "email": "SOME_EMAIL",
-          "firstSent": "2024-03-19T12:54:38.591Z",
-          "lastSent": "2024-03-19T12:54:38.591Z",
-          "inviter": {
-              "name": "SOME_NAME",
-              "email": "SOME_EMAIL",
-              "username": "SOME_MAIL",
-              "enabled": true,
-              "id": "5c22a9b6d5018000088dba4a",
-              "homeId": 123456,
-              "locale": "fr",
-              "type": "WEB_USER"
-          },
-          "home": {
-              "id": 123456,
-              "name": "Domicile",
-              "dateTimeZone": "Europe/Paris",
-              "dateCreated": "2018-12-25T20:58:28.674Z",
-              "temperatureUnit": "CELSIUS",
-              "partner": null,
-              "simpleSmartScheduleEnabled": true,
-              "awayRadiusInMeters": 1999.68,
-              "installationCompleted": true,
-              "incidentDetection": {
-                  "supported": true,
-                  "enabled": true
-              },
-              "generation": "PRE_LINE_X",
-              "zonesCount": 4,
-              "skills": [
-                  "AUTO_ASSIST"
-              ],
-              "christmasModeEnabled": true,
-              "showAutoAssistReminders": true,
-              "contactDetails": {
-                  "name": "SOME_NAME",
-                  "email": "SOME_EMAIL",
-                  "phone": "SOME_PHONE_NUMBER"
-              },
-              "address": {
-                  "addressLine1": "SOME_POSTAL_ADDRESS",
-                  "addressLine2": null,
-                  "zipCode": "SOME_POSTCODE",
-                  "city": "SOME_CITY",
-                  "state": null,
-                  "country": "FRA"
-              },
-              "geolocation": {
-                  "latitude": 12.3456789,
-                  "longitude": 1.23456
-              },
-              "consentGrantSkippable": true,
-              "enabledFeatures": [
-                  "CLIMATE_REPORT_AS_WEBVIEW",
-                  "EIQ_SETTINGS_AS_WEBVIEW",
-                  "ENERGY_IQ_V2_ONBOARDING",
-                  "HIDE_BOILER_REPAIR_SERVICE",
-                  "KEEP_WEBAPP_UPDATED",
-                  "OWD_SETTINGS_AS_WEBVIEW",
-                  "SMART_SCHEDULE_AS_WEBVIEW"
-              ],
-              "isAirComfortEligible": true,
-              "isBalanceAcEligible": false,
-              "isEnergyIqEligible": true,
-              "isHeatSourceInstalled": false,
-              "isBalanceHpEligible": false
-          }
-      }
-      ```
+        ```json
+        {
+            "token": "44483e1d07qf439&8b786fc0372ec315",
+            "email": "SOME_EMAIL",
+            "firstSent": "2024-03-19T12:54:38.591Z",
+            "lastSent": "2024-03-19T12:54:38.591Z",
+            "inviter": {
+                "name": "SOME_NAME",
+                "email": "SOME_EMAIL",
+                "username": "SOME_MAIL",
+                "enabled": true,
+                "id": "5c22a9b6d5018000088dba4a",
+                "homeId": 123456,
+                "locale": "fr",
+                "type": "WEB_USER"
+            },
+            "home": {
+                "id": 123456,
+                "name": "Domicile",
+                "dateTimeZone": "Europe/Paris",
+                "dateCreated": "2018-12-25T20:58:28.674Z",
+                "temperatureUnit": "CELSIUS",
+                "partner": null,
+                "simpleSmartScheduleEnabled": true,
+                "awayRadiusInMeters": 1999.68,
+                "installationCompleted": true,
+                "incidentDetection": {
+                    "supported": true,
+                    "enabled": true
+                },
+                "generation": "PRE_LINE_X",
+                "zonesCount": 4,
+                "skills": [
+                    "AUTO_ASSIST"
+                ],
+                "christmasModeEnabled": true,
+                "showAutoAssistReminders": true,
+                "contactDetails": {
+                    "name": "SOME_NAME",
+                    "email": "SOME_EMAIL",
+                    "phone": "SOME_PHONE_NUMBER"
+                },
+                "address": {
+                    "addressLine1": "SOME_POSTAL_ADDRESS",
+                    "addressLine2": null,
+                    "zipCode": "SOME_POSTCODE",
+                    "city": "SOME_CITY",
+                    "state": null,
+                    "country": "FRA"
+                },
+                "geolocation": {
+                    "latitude": 12.3456789,
+                    "longitude": 1.23456
+                },
+                "consentGrantSkippable": true,
+                "enabledFeatures": [
+                    "CLIMATE_REPORT_AS_WEBVIEW",
+                    "EIQ_SETTINGS_AS_WEBVIEW",
+                    "ENERGY_IQ_V2_ONBOARDING",
+                    "HIDE_BOILER_REPAIR_SERVICE",
+                    "KEEP_WEBAPP_UPDATED",
+                    "OWD_SETTINGS_AS_WEBVIEW",
+                    "SMART_SCHEDULE_AS_WEBVIEW"
+                ],
+                "isAirComfortEligible": true,
+                "isBalanceAcEligible": false,
+                "isEnergyIqEligible": true,
+                "isHeatSourceInstalled": false,
+                "isBalanceHpEligible": false
+            }
+        }
+        ```
     """
     payload = { 'email': email }
     return self._api_call('homes/%i/invitations' % (self.id), data=payload, method='POST')
@@ -2536,6 +2536,187 @@ class Tado:
     """
 
     data = self._api_energy_insights_call('homes/%i/consumptionOverview?month=%s&country=%s&ngsw-bypass=%s' % (self.id, monthYear, country, ngsw_bypass))
+    return data
+
+  def get_consumption_details(self, monthYear, ngsw_bypass=True):
+    """
+    Get energy consumption details of your home by month and year
+
+    Parameters:
+      monthYear (str): Month and year of the range date. e.g. "2022-09".
+      ngsw_bypass (bool): Bypass the ngsw cache.
+
+    Returns:
+      isInPreferredUnit (bool): Is in preferred unit
+      summary (dict): Summary
+      graphConsumption (dict): Graph consumption
+      consumptionComparison (dict): Consumption comparison
+      heatingHotWaterSplit (dict): Heating hotwater split
+      roomBreakdown (dict): Room breakdown
+      heatingInsights (dict): Heating insights
+      showAddData (bool): Show add data
+
+
+    ??? info "Result example"
+        ```json
+        {
+            "isInPreferredUnit": true,
+            "summary": {
+                "costInCents": 12618.34,
+                "costForecastInCents": null,
+                "averageDailyCostInCents": 407.04322580645163,
+                "consumption": 115.449,
+                "consumptionForecast": null,
+                "averageDailyConsumption": 3.7241612903225807,
+                "unit": "m3",
+                "tariff": {
+                    "unit": "kWh",
+                    "unitPriceInCents": 10.36
+                }
+            },
+            "graphConsumption": {
+                "unit": "m3",
+                "monthlyAggregation": {
+                    "endOfMonthForecast": null,
+                    "requestedMonth": {
+                        "startDate": "2024-12-01",
+                        "endDate": "2024-12-31",
+                        "hasDomesticHotWater": false,
+                        "totalConsumption": 115.449,
+                        "totalCostInCents": 12618.34,
+                        "consumptionPerDate": [
+                            {
+                                "date": "2024-12-01",
+                                "consumption": 3.721,
+                                "costInCents": 406.7,
+                                "hotWater": null,
+                                "heating": 3.721,
+                                "hasData": true
+                            },
+                            [...] // 29 more days
+                        ]
+                    },
+                    "monthBefore": {
+                        "startDate": "2024-11-01",
+                        "endDate": "2024-11-30",
+                        "hasDomesticHotWater": false,
+                        "totalConsumption": 82.69,
+                        "totalCostInCents": 9037.85,
+                        "consumptionPerDate": [
+                            {
+                                "date": "2024-11-01",
+                                "consumption": 1.471,
+                                "costInCents": 160.78,
+                                "hotWater": null,
+                                "heating": 1.471,
+                                "hasData": true
+                            },
+                            [...] // 29 more days
+                        ]
+                    },
+                    "yearBefore": {
+                        "startDate": "2023-12-01",
+                        "endDate": "2023-12-31",
+                        "hasDomesticHotWater": false,
+                        "totalConsumption": 105.242,
+                        "totalCostInCents": 11502.74,
+                        "consumptionPerDate": [
+                            {
+                                "date": "2023-12-01",
+                                "consumption": 7.89,
+                                "costInCents": 862.36,
+                                "hotWater": null,
+                                "heating": 7.89,
+                                "hasData": true
+                            },
+                            [...] // 29 more days
+                        ]
+                    }
+                }
+            },
+            "consumptionComparison": {
+                "consumption": {
+                    "comparedToMonthBefore": {
+                        "percentage": 40,
+                        "trend": "INCREASE",
+                        "requestedMonth": "2024-12",
+                        "comparedToMonth": "2024-11"
+                    },
+                    "comparedToYearBefore": {
+                        "percentage": 10,
+                        "trend": "INCREASE",
+                        "requestedMonth": "2024-12",
+                        "comparedToMonth": "2023-12"
+                    }
+                },
+                "cost": {
+                    "comparedToMonthBefore": {
+                        "percentage": 40,
+                        "trend": "INCREASE",
+                        "requestedMonth": "2024-12",
+                        "comparedToMonth": "2024-11"
+                    },
+                    "comparedToYearBefore": {
+                        "percentage": 10,
+                        "trend": "INCREASE",
+                        "requestedMonth": "2024-12",
+                        "comparedToMonth": "2023-12"
+                    }
+                }
+            },
+            "heatingHotWaterSplit": null,
+            "roomBreakdown": {
+                "unit": "m3",
+                "requestedMonth": {
+                    "perRoom": [
+                        {
+                            "id": 1,
+                            "name": "Maison",
+                            "consumption": 45.772999999999996,
+                            "costInCents": 5002.9
+                        },
+                        ...
+                    ],
+                    "startDate": "2024-12-01",
+                    "endDate": "2024-12-31"
+                },
+                "yearBefore": {
+                    "perRoom": [
+                        {
+                            "id": 1,
+                            "name": "Maison",
+                            "consumption": 39.895,
+                            "costInCents": 4360.44
+                        },
+                        ...
+                    ],
+                    "startDate": "2023-12-01",
+                    "endDate": "2023-12-31"
+                }
+            },
+            "heatingInsights": {
+                "heatingHours": {
+                    "diff": 54,
+                    "trend": "INCREASE",
+                    "comparedTo": "2023-12"
+                },
+                "outsideTemperature": {
+                    "diff": 1,
+                    "trend": "DECREASE",
+                    "comparedTo": "2023-12"
+                },
+                "awayHours": {
+                    "diff": 25,
+                    "trend": "DECREASE",
+                    "comparedTo": "2023-12"
+                }
+            },
+            "showAddData": true
+        }
+        ```
+    """
+
+    data = self._api_energy_insights_call('homes/%i/consumptionDetails?month=%s&ngsw-bypass=%s' % (self.id, monthYear, ngsw_bypass))
     return data
 
   def get_energy_settings(self, ngsw_bypass=True):
