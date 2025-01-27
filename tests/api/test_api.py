@@ -18,6 +18,7 @@ class TestApi:
 
         assert isinstance(response, list)
         assert len(response) > 0
+        assert response[0]["id"] == 1
 
     def test_get_capabilities(self):
         ZONE_ID = tado.get_zones()[0]["id"]

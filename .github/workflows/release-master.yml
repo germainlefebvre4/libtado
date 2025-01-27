@@ -41,7 +41,7 @@ jobs:
           dry_run: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Write in summary
         run: |
           echo "## Semantic Release" >> $GITHUB_STEP_SUMMARY
@@ -51,7 +51,7 @@ jobs:
         env:
           NEW_RELEASE_VERSION: ${{ steps.semantic.outputs.new_release_version }}
           NEW_RELEASE_PUBLISHED: ${{ steps.semantic.outputs.new_release_published }}
-          
+
       - name: Write in outputs
         id: version
         run: |

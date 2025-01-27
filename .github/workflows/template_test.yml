@@ -6,8 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # python-version: ["3.8", "3.9", "3.10", "3.11"]
-        python-version: ["3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
         poetry-version: ["main"]
 
     steps:
@@ -23,15 +22,14 @@ jobs:
 
       - name: Install dependencies
         run: |
-          poetry self add poetry-plugin-export
-          poetry export --with=test --without-hashes --format=requirements.txt > requirements.txt
-          python -m pip install -r requirements.txt
+          poetry install --with=test
 
-      - name: Test with pytest
+      - name: Run pytest
         run: |
-          pytest tests/api/test_api.py tests/api/test_tado.py
+          export TADO_PASSWORD=$(echo $TADO_PASSWORD_B64 | base64 -d)
+          poetry run pytest tests/api/test_api.py tests/api/test_tado.py
         env:
           TADO_USERNAME: ${{ secrets.TADO_USERNAME }}
-          TADO_PASSWORD: ${{ secrets.TADO_PASSWORD }}
+          TADO_PASSWORD_B64: "${{ secrets.TADO_PASSWORD_B64 }}"
           TADO_CLIENT_SECRET: ${{ secrets.TADO_CLIENT_SECRET }}
           TADO_BRIDGE_AUTHKEY: ${{ secrets.TADO_BRIDGE_AUTHKEY }}
