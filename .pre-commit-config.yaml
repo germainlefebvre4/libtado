@@ -49,9 +49,3 @@ repos:
         language: system
         types: [python]
         entry: python generate_json_schemas.py
-
-      - id: delete-pypi-test-releases
-        name: Delete PyPI test releases
-        language: system
-        types: [python]
-        entry: poetry run pypi-cleanup --host https://test.pypi.org --username germainlefebvre4 --package libtado
