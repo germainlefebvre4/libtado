@@ -57,7 +57,7 @@ class TestApi:
     def get_state():
         ZONE_ID = tado.get_zones()[0]["id"]
         response = tado.get_state(ZONE_ID)
-        return response 
+        return response
 
     def get_users():
         response = tado.get_users()
