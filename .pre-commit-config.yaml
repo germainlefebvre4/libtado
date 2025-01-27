@@ -41,3 +41,11 @@ repos:
 #     rev: 1.9.0
 #     hooks:
 #       - id: poetry-export
+
+  - repo: local
+    hooks:
+      - id: generate-json-schemas
+        name: Check JSON Schemas
+        language: system
+        types: [python]
+        entry: python generate_json_schemas.py

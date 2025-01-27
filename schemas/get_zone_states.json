@@ -1,0 +1,1340 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "zoneStates": {
+      "type": "object",
+      "properties": {
+        "1": {
+          "type": "object",
+          "properties": {
+            "tadoMode": {
+              "type": "string"
+            },
+            "geolocationOverride": {
+              "type": "boolean"
+            },
+            "geolocationOverrideDisableTime": {
+              "type": "null"
+            },
+            "preparation": {
+              "type": "null"
+            },
+            "setting": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "power": {
+                  "type": "string"
+                },
+                "temperature": {
+                  "type": "object",
+                  "properties": {
+                    "celsius": {
+                      "type": "number"
+                    },
+                    "fahrenheit": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "celsius",
+                    "fahrenheit"
+                  ]
+                }
+              },
+              "required": [
+                "power",
+                "temperature",
+                "type"
+              ]
+            },
+            "overlayType": {
+              "type": "null"
+            },
+            "overlay": {
+              "type": "null"
+            },
+            "openWindow": {
+              "type": "null"
+            },
+            "nextScheduleChange": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "setting": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "power": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "power",
+                    "temperature",
+                    "type"
+                  ]
+                }
+              },
+              "required": [
+                "setting",
+                "start"
+              ]
+            },
+            "nextTimeBlock": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "start"
+              ]
+            },
+            "link": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            },
+            "runningOfflineSchedule": {
+              "type": "boolean"
+            },
+            "activityDataPoints": {
+              "type": "object",
+              "properties": {
+                "heatingPower": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "percentage": {
+                      "type": "number"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "percentage",
+                    "timestamp",
+                    "type"
+                  ]
+                }
+              },
+              "required": [
+                "heatingPower"
+              ]
+            },
+            "sensorDataPoints": {
+              "type": "object",
+              "properties": {
+                "insideTemperature": {
+                  "type": "object",
+                  "properties": {
+                    "celsius": {
+                      "type": "number"
+                    },
+                    "fahrenheit": {
+                      "type": "number"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "precision": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "celsius",
+                    "fahrenheit",
+                    "precision",
+                    "timestamp",
+                    "type"
+                  ]
+                },
+                "humidity": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "percentage": {
+                      "type": "number"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "percentage",
+                    "timestamp",
+                    "type"
+                  ]
+                }
+              },
+              "required": [
+                "humidity",
+                "insideTemperature"
+              ]
+            }
+          },
+          "required": [
+            "activityDataPoints",
+            "geolocationOverride",
+            "geolocationOverrideDisableTime",
+            "link",
+            "nextScheduleChange",
+            "nextTimeBlock",
+            "openWindow",
+            "overlay",
+            "overlayType",
+            "preparation",
+            "runningOfflineSchedule",
+            "sensorDataPoints",
+            "setting",
+            "tadoMode"
+          ]
+        },
+        "6": {
+          "type": "object",
+          "properties": {
+            "tadoMode": {
+              "type": "string"
+            },
+            "geolocationOverride": {
+              "type": "boolean"
+            },
+            "geolocationOverrideDisableTime": {
+              "type": "null"
+            },
+            "preparation": {
+              "type": "null"
+            },
+            "setting": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "power": {
+                  "type": "string"
+                },
+                "temperature": {
+                  "type": "object",
+                  "properties": {
+                    "celsius": {
+                      "type": "number"
+                    },
+                    "fahrenheit": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "celsius",
+                    "fahrenheit"
+                  ]
+                }
+              },
+              "required": [
+                "power",
+                "temperature",
+                "type"
+              ]
+            },
+            "overlayType": {
+              "type": "string"
+            },
+            "overlay": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "setting": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "power": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "power",
+                    "temperature",
+                    "type"
+                  ]
+                },
+                "termination": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "typeSkillBasedApp": {
+                      "type": "string"
+                    },
+                    "durationInSeconds": {
+                      "type": "integer"
+                    },
+                    "expiry": {
+                      "type": "string"
+                    },
+                    "remainingTimeInSeconds": {
+                      "type": "integer"
+                    },
+                    "projectedExpiry": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "durationInSeconds",
+                    "expiry",
+                    "projectedExpiry",
+                    "remainingTimeInSeconds",
+                    "type",
+                    "typeSkillBasedApp"
+                  ]
+                }
+              },
+              "required": [
+                "setting",
+                "termination",
+                "type"
+              ]
+            },
+            "openWindow": {
+              "type": "null"
+            },
+            "nextScheduleChange": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "setting": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "power": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "power",
+                    "temperature",
+                    "type"
+                  ]
+                }
+              },
+              "required": [
+                "setting",
+                "start"
+              ]
+            },
+            "nextTimeBlock": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "start"
+              ]
+            },
+            "link": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            },
+            "runningOfflineSchedule": {
+              "type": "boolean"
+            },
+            "activityDataPoints": {
+              "type": "object",
+              "properties": {
+                "heatingPower": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "percentage": {
+                      "type": "number"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "percentage",
+                    "timestamp",
+                    "type"
+                  ]
+                }
+              },
+              "required": [
+                "heatingPower"
+              ]
+            },
+            "sensorDataPoints": {
+              "type": "object",
+              "properties": {
+                "insideTemperature": {
+                  "type": "object",
+                  "properties": {
+                    "celsius": {
+                      "type": "number"
+                    },
+                    "fahrenheit": {
+                      "type": "number"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "precision": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "celsius",
+                    "fahrenheit",
+                    "precision",
+                    "timestamp",
+                    "type"
+                  ]
+                },
+                "humidity": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "percentage": {
+                      "type": "number"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "percentage",
+                    "timestamp",
+                    "type"
+                  ]
+                }
+              },
+              "required": [
+                "humidity",
+                "insideTemperature"
+              ]
+            }
+          },
+          "required": [
+            "activityDataPoints",
+            "geolocationOverride",
+            "geolocationOverrideDisableTime",
+            "link",
+            "nextScheduleChange",
+            "nextTimeBlock",
+            "openWindow",
+            "overlay",
+            "overlayType",
+            "preparation",
+            "runningOfflineSchedule",
+            "sensorDataPoints",
+            "setting",
+            "tadoMode"
+          ]
+        },
+        "11": {
+          "type": "object",
+          "properties": {
+            "tadoMode": {
+              "type": "string"
+            },
+            "geolocationOverride": {
+              "type": "boolean"
+            },
+            "geolocationOverrideDisableTime": {
+              "type": "null"
+            },
+            "preparation": {
+              "type": "null"
+            },
+            "setting": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "power": {
+                  "type": "string"
+                },
+                "temperature": {
+                  "type": "object",
+                  "properties": {
+                    "celsius": {
+                      "type": "number"
+                    },
+                    "fahrenheit": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "celsius",
+                    "fahrenheit"
+                  ]
+                }
+              },
+              "required": [
+                "power",
+                "temperature",
+                "type"
+              ]
+            },
+            "overlayType": {
+              "type": "null"
+            },
+            "overlay": {
+              "type": "null"
+            },
+            "openWindow": {
+              "type": "null"
+            },
+            "nextScheduleChange": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "setting": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "power": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "power",
+                    "temperature",
+                    "type"
+                  ]
+                }
+              },
+              "required": [
+                "setting",
+                "start"
+              ]
+            },
+            "nextTimeBlock": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "start"
+              ]
+            },
+            "link": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            },
+            "runningOfflineSchedule": {
+              "type": "boolean"
+            },
+            "activityDataPoints": {
+              "type": "object",
+              "properties": {
+                "heatingPower": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "percentage": {
+                      "type": "number"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "percentage",
+                    "timestamp",
+                    "type"
+                  ]
+                }
+              },
+              "required": [
+                "heatingPower"
+              ]
+            },
+            "sensorDataPoints": {
+              "type": "object",
+              "properties": {
+                "insideTemperature": {
+                  "type": "object",
+                  "properties": {
+                    "celsius": {
+                      "type": "number"
+                    },
+                    "fahrenheit": {
+                      "type": "number"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "precision": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "celsius",
+                    "fahrenheit",
+                    "precision",
+                    "timestamp",
+                    "type"
+                  ]
+                },
+                "humidity": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "percentage": {
+                      "type": "number"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "percentage",
+                    "timestamp",
+                    "type"
+                  ]
+                }
+              },
+              "required": [
+                "humidity",
+                "insideTemperature"
+              ]
+            }
+          },
+          "required": [
+            "activityDataPoints",
+            "geolocationOverride",
+            "geolocationOverrideDisableTime",
+            "link",
+            "nextScheduleChange",
+            "nextTimeBlock",
+            "openWindow",
+            "overlay",
+            "overlayType",
+            "preparation",
+            "runningOfflineSchedule",
+            "sensorDataPoints",
+            "setting",
+            "tadoMode"
+          ]
+        },
+        "12": {
+          "type": "object",
+          "properties": {
+            "tadoMode": {
+              "type": "string"
+            },
+            "geolocationOverride": {
+              "type": "boolean"
+            },
+            "geolocationOverrideDisableTime": {
+              "type": "null"
+            },
+            "preparation": {
+              "type": "null"
+            },
+            "setting": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "power": {
+                  "type": "string"
+                },
+                "temperature": {
+                  "type": "object",
+                  "properties": {
+                    "celsius": {
+                      "type": "number"
+                    },
+                    "fahrenheit": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "celsius",
+                    "fahrenheit"
+                  ]
+                }
+              },
+              "required": [
+                "power",
+                "temperature",
+                "type"
+              ]
+            },
+            "overlayType": {
+              "type": "null"
+            },
+            "overlay": {
+              "type": "null"
+            },
+            "openWindow": {
+              "type": "null"
+            },
+            "nextScheduleChange": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "setting": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "power": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "power",
+                    "temperature",
+                    "type"
+                  ]
+                }
+              },
+              "required": [
+                "setting",
+                "start"
+              ]
+            },
+            "nextTimeBlock": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "start"
+              ]
+            },
+            "link": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            },
+            "runningOfflineSchedule": {
+              "type": "boolean"
+            },
+            "activityDataPoints": {
+              "type": "object",
+              "properties": {
+                "heatingPower": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "percentage": {
+                      "type": "number"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "percentage",
+                    "timestamp",
+                    "type"
+                  ]
+                }
+              },
+              "required": [
+                "heatingPower"
+              ]
+            },
+            "sensorDataPoints": {
+              "type": "object",
+              "properties": {
+                "insideTemperature": {
+                  "type": "object",
+                  "properties": {
+                    "celsius": {
+                      "type": "number"
+                    },
+                    "fahrenheit": {
+                      "type": "number"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "precision": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "celsius",
+                    "fahrenheit",
+                    "precision",
+                    "timestamp",
+                    "type"
+                  ]
+                },
+                "humidity": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "percentage": {
+                      "type": "number"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "percentage",
+                    "timestamp",
+                    "type"
+                  ]
+                }
+              },
+              "required": [
+                "humidity",
+                "insideTemperature"
+              ]
+            }
+          },
+          "required": [
+            "activityDataPoints",
+            "geolocationOverride",
+            "geolocationOverrideDisableTime",
+            "link",
+            "nextScheduleChange",
+            "nextTimeBlock",
+            "openWindow",
+            "overlay",
+            "overlayType",
+            "preparation",
+            "runningOfflineSchedule",
+            "sensorDataPoints",
+            "setting",
+            "tadoMode"
+          ]
+        },
+        "13": {
+          "type": "object",
+          "properties": {
+            "tadoMode": {
+              "type": "string"
+            },
+            "geolocationOverride": {
+              "type": "boolean"
+            },
+            "geolocationOverrideDisableTime": {
+              "type": "null"
+            },
+            "preparation": {
+              "type": "null"
+            },
+            "setting": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "power": {
+                  "type": "string"
+                },
+                "temperature": {
+                  "type": "object",
+                  "properties": {
+                    "celsius": {
+                      "type": "number"
+                    },
+                    "fahrenheit": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "celsius",
+                    "fahrenheit"
+                  ]
+                }
+              },
+              "required": [
+                "power",
+                "temperature",
+                "type"
+              ]
+            },
+            "overlayType": {
+              "type": "string"
+            },
+            "overlay": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "setting": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "power": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "power",
+                    "temperature",
+                    "type"
+                  ]
+                },
+                "termination": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "typeSkillBasedApp": {
+                      "type": "string"
+                    },
+                    "durationInSeconds": {
+                      "type": "integer"
+                    },
+                    "expiry": {
+                      "type": "string"
+                    },
+                    "remainingTimeInSeconds": {
+                      "type": "integer"
+                    },
+                    "projectedExpiry": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "durationInSeconds",
+                    "expiry",
+                    "projectedExpiry",
+                    "remainingTimeInSeconds",
+                    "type",
+                    "typeSkillBasedApp"
+                  ]
+                }
+              },
+              "required": [
+                "setting",
+                "termination",
+                "type"
+              ]
+            },
+            "openWindow": {
+              "type": "null"
+            },
+            "nextScheduleChange": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                },
+                "setting": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "power": {
+                      "type": "string"
+                    },
+                    "temperature": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "power",
+                    "temperature",
+                    "type"
+                  ]
+                }
+              },
+              "required": [
+                "setting",
+                "start"
+              ]
+            },
+            "nextTimeBlock": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "start"
+              ]
+            },
+            "link": {
+              "type": "object",
+              "properties": {
+                "state": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "state"
+              ]
+            },
+            "runningOfflineSchedule": {
+              "type": "boolean"
+            },
+            "activityDataPoints": {
+              "type": "object",
+              "properties": {
+                "heatingPower": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "percentage": {
+                      "type": "number"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "percentage",
+                    "timestamp",
+                    "type"
+                  ]
+                }
+              },
+              "required": [
+                "heatingPower"
+              ]
+            },
+            "sensorDataPoints": {
+              "type": "object",
+              "properties": {
+                "insideTemperature": {
+                  "type": "object",
+                  "properties": {
+                    "celsius": {
+                      "type": "number"
+                    },
+                    "fahrenheit": {
+                      "type": "number"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "precision": {
+                      "type": "object",
+                      "properties": {
+                        "celsius": {
+                          "type": "number"
+                        },
+                        "fahrenheit": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "celsius",
+                        "fahrenheit"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "celsius",
+                    "fahrenheit",
+                    "precision",
+                    "timestamp",
+                    "type"
+                  ]
+                },
+                "humidity": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string"
+                    },
+                    "percentage": {
+                      "type": "number"
+                    },
+                    "timestamp": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "percentage",
+                    "timestamp",
+                    "type"
+                  ]
+                }
+              },
+              "required": [
+                "humidity",
+                "insideTemperature"
+              ]
+            }
+          },
+          "required": [
+            "activityDataPoints",
+            "geolocationOverride",
+            "geolocationOverrideDisableTime",
+            "link",
+            "nextScheduleChange",
+            "nextTimeBlock",
+            "openWindow",
+            "overlay",
+            "overlayType",
+            "preparation",
+            "runningOfflineSchedule",
+            "sensorDataPoints",
+            "setting",
+            "tadoMode"
+          ]
+        }
+      },
+      "required": [
+        "1",
+        "11",
+        "12",
+        "13",
+        "6"
+      ]
+    }
+  },
+  "required": [
+    "zoneStates"
+  ]
+}

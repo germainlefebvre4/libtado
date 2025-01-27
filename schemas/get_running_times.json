@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "runningTimes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "startTime": {
+            "type": "string"
+          },
+          "endTime": {
+            "type": "string"
+          },
+          "runningTimeInSeconds": {
+            "type": "integer"
+          },
+          "zones": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer"
+                },
+                "runningTimeInSeconds": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "id",
+                "runningTimeInSeconds"
+              ]
+            }
+          }
+        },
+        "required": [
+          "endTime",
+          "runningTimeInSeconds",
+          "startTime",
+          "zones"
+        ]
+      }
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "startTime": {
+          "type": "string"
+        },
+        "endTime": {
+          "type": "string"
+        },
+        "totalRunningTimeInSeconds": {
+          "type": "integer"
+        },
+        "meanInSecondsPerDay": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "endTime",
+        "meanInSecondsPerDay",
+        "startTime",
+        "totalRunningTimeInSeconds"
+      ]
+    },
+    "lastUpdated": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "lastUpdated",
+    "runningTimes",
+    "summary"
+  ]
+}

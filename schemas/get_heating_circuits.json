@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "number": {
+        "type": "integer"
+      },
+      "driverSerialNo": {
+        "type": "string"
+      },
+      "driverShortSerialNo": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "driverSerialNo",
+      "driverShortSerialNo",
+      "number"
+    ]
+  }
+}
