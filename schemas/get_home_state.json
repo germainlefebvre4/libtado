@@ -2,15 +2,15 @@
   "$schema": "http://json-schema.org/schema#",
   "type": "object",
   "properties": {
-    "id": {
-      "type": "integer"
-    },
-    "type": {
+    "presence": {
       "type": "string"
+    },
+    "presenceLocked": {
+      "type": "boolean"
     }
   },
   "required": [
-    "id",
-    "type"
+    "presence",
+    "presenceLocked"
   ]
 }

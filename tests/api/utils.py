@@ -24,6 +24,10 @@ class TestApi:
         response = tado.get_devices()
         return response
 
+    def get_device_usage():
+        response = tado.get_device_usage()
+        return response
+
     def get_early_start():
         ZONE_ID = tado.get_zones()[0]["id"]
         response = tado.get_early_start(ZONE_ID)
@@ -31,6 +35,10 @@ class TestApi:
 
     def get_home():
         response = tado.get_home()
+        return response
+
+    def get_home_state():
+        response = tado.get_home_state()
         return response
 
     def get_installations():
@@ -119,9 +127,30 @@ class TestApi:
         response = tado.get_energy_settings()
         return response
 
-    def get_energy_insights():
-        start_date = "2023-09-01"
-        end_date = "2023-09-30"
+    # def get_energy_insights():
+    #     previous_month = date.today() + relativedelta(months=-1)
+    #     first_day_previous_month = previous_month.replace(day=1)
+    #     last_day_previous_month = previous_month.replace(day=28)
+    #     start_date = f'{first_day_previous_month.strftime("%Y-%m-%d")}'
+    #     end_date = f'{last_day_previous_month.strftime("%Y-%m-%d")}'
+    #     country = "FRA"
+    #     response = tado.get_energy_insights(start_date=start_date, end_date=end_date, country=country)
+    #     return response
+
+    def get_consumption_overview():
+        # Get current datetime and convert to "YYYY-MM" format
+        monthYear = date.today().strftime("%Y-%m")
         country = "FRA"
-        response = tado.get_energy_insights(start_date=start_date, end_date=end_date, country=country)
+        response = tado.get_consumption_overview(monthYear=monthYear, country=country)
+        return response
+
+    def set_cost_simulation():
+        country = "FRA"
+        payload = {
+            "temperatureDeltaPerZone": [{
+                "zone": 6,
+                "setTemperatureDelta": -1,
+            }]
+        }
+        response = tado.set_cost_simulation(country=country, ngsw_bypass=True, payload=payload)
         return response

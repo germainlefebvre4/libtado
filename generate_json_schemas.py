@@ -15,7 +15,7 @@ def generate_jsonschema_file(filename: str, data: object):
 
 
 tado_methods = inspect.getmembers(utils.TestApi, predicate=inspect.isfunction)
-tado_methods = [method[0] for method in tado_methods if method[0].startswith('get_')]
+tado_methods = [method[0] for method in tado_methods if method[0].startswith('get_') or method[0].startswith('set_')]
 
 for method in tado_methods:
     print(f"Calling {method}")
