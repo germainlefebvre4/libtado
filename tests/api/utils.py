@@ -173,6 +173,11 @@ class TestApi:
         response = tado.get_consumption_overview(monthYear=monthYear, country=country)
         return response
 
+    def get_consumption_details():
+        monthYear = date.today().strftime("%Y-%m")
+        response = tado.get_consumption_details(monthYear=monthYear)
+        return response
+
     def get_energy_settings():
         response = tado.get_energy_settings()
         return response

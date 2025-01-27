@@ -1,0 +1,622 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "isInPreferredUnit": {
+      "type": "boolean"
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "costInCents": {
+          "type": "number"
+        },
+        "costForecastInCents": {
+          "type": "number"
+        },
+        "averageDailyCostInCents": {
+          "type": "number"
+        },
+        "consumption": {
+          "type": "number"
+        },
+        "consumptionForecast": {
+          "type": "number"
+        },
+        "averageDailyConsumption": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "tariff": {
+          "type": "object",
+          "properties": {
+            "unit": {
+              "type": "string"
+            },
+            "unitPriceInCents": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "unit",
+            "unitPriceInCents"
+          ]
+        }
+      },
+      "required": [
+        "averageDailyConsumption",
+        "averageDailyCostInCents",
+        "consumption",
+        "consumptionForecast",
+        "costForecastInCents",
+        "costInCents",
+        "tariff",
+        "unit"
+      ]
+    },
+    "graphConsumption": {
+      "type": "object",
+      "properties": {
+        "unit": {
+          "type": "string"
+        },
+        "monthlyAggregation": {
+          "type": "object",
+          "properties": {
+            "endOfMonthForecast": {
+              "type": "object",
+              "properties": {
+                "startDate": {
+                  "type": "string"
+                },
+                "endDate": {
+                  "type": "string"
+                },
+                "totalConsumption": {
+                  "type": "number"
+                },
+                "totalCostInCents": {
+                  "type": "number"
+                },
+                "hasDomesticHotWater": {
+                  "type": "boolean"
+                },
+                "consumptionPerDate": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "date": {
+                        "type": "string"
+                      },
+                      "consumption": {
+                        "type": "number"
+                      },
+                      "costInCents": {
+                        "type": "number"
+                      },
+                      "hasData": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "consumption",
+                      "costInCents",
+                      "date",
+                      "hasData"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "consumptionPerDate",
+                "endDate",
+                "hasDomesticHotWater",
+                "startDate",
+                "totalConsumption",
+                "totalCostInCents"
+              ]
+            },
+            "requestedMonth": {
+              "type": "object",
+              "properties": {
+                "startDate": {
+                  "type": "string"
+                },
+                "endDate": {
+                  "type": "string"
+                },
+                "hasDomesticHotWater": {
+                  "type": "boolean"
+                },
+                "totalConsumption": {
+                  "type": "number"
+                },
+                "totalCostInCents": {
+                  "type": "number"
+                },
+                "consumptionPerDate": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "date": {
+                        "type": "string"
+                      },
+                      "consumption": {
+                        "type": "number"
+                      },
+                      "costInCents": {
+                        "type": "number"
+                      },
+                      "hotWater": {
+                        "type": "null"
+                      },
+                      "heating": {
+                        "type": "number"
+                      },
+                      "hasData": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "consumption",
+                      "costInCents",
+                      "date",
+                      "hasData",
+                      "heating",
+                      "hotWater"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "consumptionPerDate",
+                "endDate",
+                "hasDomesticHotWater",
+                "startDate",
+                "totalConsumption",
+                "totalCostInCents"
+              ]
+            },
+            "monthBefore": {
+              "type": "object",
+              "properties": {
+                "startDate": {
+                  "type": "string"
+                },
+                "endDate": {
+                  "type": "string"
+                },
+                "hasDomesticHotWater": {
+                  "type": "boolean"
+                },
+                "totalConsumption": {
+                  "type": "number"
+                },
+                "totalCostInCents": {
+                  "type": "number"
+                },
+                "consumptionPerDate": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "date": {
+                        "type": "string"
+                      },
+                      "consumption": {
+                        "type": "number"
+                      },
+                      "costInCents": {
+                        "type": "number"
+                      },
+                      "hotWater": {
+                        "type": "null"
+                      },
+                      "heating": {
+                        "type": "number"
+                      },
+                      "hasData": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "consumption",
+                      "costInCents",
+                      "date",
+                      "hasData",
+                      "heating",
+                      "hotWater"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "consumptionPerDate",
+                "endDate",
+                "hasDomesticHotWater",
+                "startDate",
+                "totalConsumption",
+                "totalCostInCents"
+              ]
+            },
+            "yearBefore": {
+              "type": "object",
+              "properties": {
+                "startDate": {
+                  "type": "string"
+                },
+                "endDate": {
+                  "type": "string"
+                },
+                "hasDomesticHotWater": {
+                  "type": "boolean"
+                },
+                "totalConsumption": {
+                  "type": "number"
+                },
+                "totalCostInCents": {
+                  "type": "number"
+                },
+                "consumptionPerDate": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "date": {
+                        "type": "string"
+                      },
+                      "consumption": {
+                        "type": "number"
+                      },
+                      "costInCents": {
+                        "type": "number"
+                      },
+                      "hotWater": {
+                        "type": "null"
+                      },
+                      "heating": {
+                        "type": "number"
+                      },
+                      "hasData": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "consumption",
+                      "costInCents",
+                      "date",
+                      "hasData",
+                      "heating",
+                      "hotWater"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "consumptionPerDate",
+                "endDate",
+                "hasDomesticHotWater",
+                "startDate",
+                "totalConsumption",
+                "totalCostInCents"
+              ]
+            }
+          },
+          "required": [
+            "endOfMonthForecast",
+            "monthBefore",
+            "requestedMonth",
+            "yearBefore"
+          ]
+        }
+      },
+      "required": [
+        "monthlyAggregation",
+        "unit"
+      ]
+    },
+    "consumptionComparison": {
+      "type": "object",
+      "properties": {
+        "consumption": {
+          "type": "object",
+          "properties": {
+            "comparedToMonthBefore": {
+              "type": "object",
+              "properties": {
+                "percentage": {
+                  "type": "integer"
+                },
+                "trend": {
+                  "type": "string"
+                },
+                "requestedMonth": {
+                  "type": "string"
+                },
+                "comparedToMonth": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "comparedToMonth",
+                "percentage",
+                "requestedMonth",
+                "trend"
+              ]
+            },
+            "comparedToYearBefore": {
+              "type": "object",
+              "properties": {
+                "percentage": {
+                  "type": "integer"
+                },
+                "trend": {
+                  "type": "string"
+                },
+                "requestedMonth": {
+                  "type": "string"
+                },
+                "comparedToMonth": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "comparedToMonth",
+                "percentage",
+                "requestedMonth",
+                "trend"
+              ]
+            }
+          },
+          "required": [
+            "comparedToMonthBefore",
+            "comparedToYearBefore"
+          ]
+        },
+        "cost": {
+          "type": "object",
+          "properties": {
+            "comparedToMonthBefore": {
+              "type": "object",
+              "properties": {
+                "percentage": {
+                  "type": "integer"
+                },
+                "trend": {
+                  "type": "string"
+                },
+                "requestedMonth": {
+                  "type": "string"
+                },
+                "comparedToMonth": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "comparedToMonth",
+                "percentage",
+                "requestedMonth",
+                "trend"
+              ]
+            },
+            "comparedToYearBefore": {
+              "type": "object",
+              "properties": {
+                "percentage": {
+                  "type": "integer"
+                },
+                "trend": {
+                  "type": "string"
+                },
+                "requestedMonth": {
+                  "type": "string"
+                },
+                "comparedToMonth": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "comparedToMonth",
+                "percentage",
+                "requestedMonth",
+                "trend"
+              ]
+            }
+          },
+          "required": [
+            "comparedToMonthBefore",
+            "comparedToYearBefore"
+          ]
+        }
+      },
+      "required": [
+        "consumption",
+        "cost"
+      ]
+    },
+    "heatingHotWaterSplit": {
+      "type": "null"
+    },
+    "roomBreakdown": {
+      "type": "object",
+      "properties": {
+        "unit": {
+          "type": "string"
+        },
+        "requestedMonth": {
+          "type": "object",
+          "properties": {
+            "perRoom": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "consumption": {
+                    "type": "number"
+                  },
+                  "costInCents": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "consumption",
+                  "costInCents",
+                  "id",
+                  "name"
+                ]
+              }
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "endDate": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "endDate",
+            "perRoom",
+            "startDate"
+          ]
+        },
+        "yearBefore": {
+          "type": "object",
+          "properties": {
+            "perRoom": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "consumption": {
+                    "type": "number"
+                  },
+                  "costInCents": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "consumption",
+                  "costInCents",
+                  "id",
+                  "name"
+                ]
+              }
+            },
+            "startDate": {
+              "type": "string"
+            },
+            "endDate": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "endDate",
+            "perRoom",
+            "startDate"
+          ]
+        }
+      },
+      "required": [
+        "requestedMonth",
+        "unit",
+        "yearBefore"
+      ]
+    },
+    "heatingInsights": {
+      "type": "object",
+      "properties": {
+        "heatingHours": {
+          "type": "object",
+          "properties": {
+            "diff": {
+              "type": "integer"
+            },
+            "trend": {
+              "type": "string"
+            },
+            "comparedTo": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "comparedTo",
+            "diff",
+            "trend"
+          ]
+        },
+        "outsideTemperature": {
+          "type": "object",
+          "properties": {
+            "diff": {
+              "type": "integer"
+            },
+            "trend": {
+              "type": "string"
+            },
+            "comparedTo": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "comparedTo",
+            "diff",
+            "trend"
+          ]
+        },
+        "awayHours": {
+          "type": "object",
+          "properties": {
+            "diff": {
+              "type": "integer"
+            },
+            "trend": {
+              "type": "string"
+            },
+            "comparedTo": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "comparedTo",
+            "diff",
+            "trend"
+          ]
+        }
+      },
+      "required": [
+        "awayHours",
+        "heatingHours",
+        "outsideTemperature"
+      ]
+    },
+    "showAddData": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "consumptionComparison",
+    "graphConsumption",
+    "heatingHotWaterSplit",
+    "heatingInsights",
+    "isInPreferredUnit",
+    "roomBreakdown",
+    "showAddData",
+    "summary"
+  ]
+}
