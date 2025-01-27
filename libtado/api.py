@@ -2543,7 +2543,7 @@ class Tado:
     Get energy consumption details of your home by month and year
 
     Parameters:
-      monthYear (str): Month and year of the range date.
+      monthYear (str): Month and year of the range date. e.g. "2022-09".
       ngsw_bypass (bool): Bypass the ngsw cache.
 
     Returns:
@@ -2558,162 +2558,162 @@ class Tado:
 
 
     ??? info "Result example"
-      ```json
-      {
-          "isInPreferredUnit": true,
-          "summary": {
-              "costInCents": 12618.34,
-              "costForecastInCents": null,
-              "averageDailyCostInCents": 407.04322580645163,
-              "consumption": 115.449,
-              "consumptionForecast": null,
-              "averageDailyConsumption": 3.7241612903225807,
-              "unit": "m3",
-              "tariff": {
-                  "unit": "kWh",
-                  "unitPriceInCents": 10.36
-              }
-          },
-          "graphConsumption": {
-              "unit": "m3",
-              "monthlyAggregation": {
-                  "endOfMonthForecast": null,
-                  "requestedMonth": {
-                      "startDate": "2024-12-01",
-                      "endDate": "2024-12-31",
-                      "hasDomesticHotWater": false,
-                      "totalConsumption": 115.449,
-                      "totalCostInCents": 12618.34,
-                      "consumptionPerDate": [
-                          {
-                              "date": "2024-12-01",
-                              "consumption": 3.721,
-                              "costInCents": 406.7,
-                              "hotWater": null,
-                              "heating": 3.721,
-                              "hasData": true
-                          },
-                          [...] // 29 more days
-                      ]
-                  },
-                  "monthBefore": {
-                      "startDate": "2024-11-01",
-                      "endDate": "2024-11-30",
-                      "hasDomesticHotWater": false,
-                      "totalConsumption": 82.69,
-                      "totalCostInCents": 9037.85,
-                      "consumptionPerDate": [
-                          {
-                              "date": "2024-11-01",
-                              "consumption": 1.471,
-                              "costInCents": 160.78,
-                              "hotWater": null,
-                              "heating": 1.471,
-                              "hasData": true
-                          },
-                          [...] // 29 more days
-                      ]
-                  },
-                  "yearBefore": {
-                      "startDate": "2023-12-01",
-                      "endDate": "2023-12-31",
-                      "hasDomesticHotWater": false,
-                      "totalConsumption": 105.242,
-                      "totalCostInCents": 11502.74,
-                      "consumptionPerDate": [
-                          {
-                              "date": "2023-12-01",
-                              "consumption": 7.89,
-                              "costInCents": 862.36,
-                              "hotWater": null,
-                              "heating": 7.89,
-                              "hasData": true
-                          },
-                          [...] // 29 more days
-                      ]
-                  }
-              }
-          },
-          "consumptionComparison": {
-              "consumption": {
-                  "comparedToMonthBefore": {
-                      "percentage": 40,
-                      "trend": "INCREASE",
-                      "requestedMonth": "2024-12",
-                      "comparedToMonth": "2024-11"
-                  },
-                  "comparedToYearBefore": {
-                      "percentage": 10,
-                      "trend": "INCREASE",
-                      "requestedMonth": "2024-12",
-                      "comparedToMonth": "2023-12"
-                  }
-              },
-              "cost": {
-                  "comparedToMonthBefore": {
-                      "percentage": 40,
-                      "trend": "INCREASE",
-                      "requestedMonth": "2024-12",
-                      "comparedToMonth": "2024-11"
-                  },
-                  "comparedToYearBefore": {
-                      "percentage": 10,
-                      "trend": "INCREASE",
-                      "requestedMonth": "2024-12",
-                      "comparedToMonth": "2023-12"
-                  }
-              }
-          },
-          "heatingHotWaterSplit": null,
-          "roomBreakdown": {
-              "unit": "m3",
-              "requestedMonth": {
-                  "perRoom": [
-                      {
-                          "id": 1,
-                          "name": "Maison",
-                          "consumption": 45.772999999999996,
-                          "costInCents": 5002.9
-                      },
-                      ...
-                  ],
-                  "startDate": "2024-12-01",
-                  "endDate": "2024-12-31"
-              },
-              "yearBefore": {
-                  "perRoom": [
-                      {
-                          "id": 1,
-                          "name": "Maison",
-                          "consumption": 39.895,
-                          "costInCents": 4360.44
-                      },
-                      ...
-                  ],
-                  "startDate": "2023-12-01",
-                  "endDate": "2023-12-31"
-              }
-          },
-          "heatingInsights": {
-              "heatingHours": {
-                  "diff": 54,
-                  "trend": "INCREASE",
-                  "comparedTo": "2023-12"
-              },
-              "outsideTemperature": {
-                  "diff": 1,
-                  "trend": "DECREASE",
-                  "comparedTo": "2023-12"
-              },
-              "awayHours": {
-                  "diff": 25,
-                  "trend": "DECREASE",
-                  "comparedTo": "2023-12"
-              }
-          },
-          "showAddData": true
-      }
-      ```
+        ```json
+        {
+            "isInPreferredUnit": true,
+            "summary": {
+                "costInCents": 12618.34,
+                "costForecastInCents": null,
+                "averageDailyCostInCents": 407.04322580645163,
+                "consumption": 115.449,
+                "consumptionForecast": null,
+                "averageDailyConsumption": 3.7241612903225807,
+                "unit": "m3",
+                "tariff": {
+                    "unit": "kWh",
+                    "unitPriceInCents": 10.36
+                }
+            },
+            "graphConsumption": {
+                "unit": "m3",
+                "monthlyAggregation": {
+                    "endOfMonthForecast": null,
+                    "requestedMonth": {
+                        "startDate": "2024-12-01",
+                        "endDate": "2024-12-31",
+                        "hasDomesticHotWater": false,
+                        "totalConsumption": 115.449,
+                        "totalCostInCents": 12618.34,
+                        "consumptionPerDate": [
+                            {
+                                "date": "2024-12-01",
+                                "consumption": 3.721,
+                                "costInCents": 406.7,
+                                "hotWater": null,
+                                "heating": 3.721,
+                                "hasData": true
+                            },
+                            [...] // 29 more days
+                        ]
+                    },
+                    "monthBefore": {
+                        "startDate": "2024-11-01",
+                        "endDate": "2024-11-30",
+                        "hasDomesticHotWater": false,
+                        "totalConsumption": 82.69,
+                        "totalCostInCents": 9037.85,
+                        "consumptionPerDate": [
+                            {
+                                "date": "2024-11-01",
+                                "consumption": 1.471,
+                                "costInCents": 160.78,
+                                "hotWater": null,
+                                "heating": 1.471,
+                                "hasData": true
+                            },
+                            [...] // 29 more days
+                        ]
+                    },
+                    "yearBefore": {
+                        "startDate": "2023-12-01",
+                        "endDate": "2023-12-31",
+                        "hasDomesticHotWater": false,
+                        "totalConsumption": 105.242,
+                        "totalCostInCents": 11502.74,
+                        "consumptionPerDate": [
+                            {
+                                "date": "2023-12-01",
+                                "consumption": 7.89,
+                                "costInCents": 862.36,
+                                "hotWater": null,
+                                "heating": 7.89,
+                                "hasData": true
+                            },
+                            [...] // 29 more days
+                        ]
+                    }
+                }
+            },
+            "consumptionComparison": {
+                "consumption": {
+                    "comparedToMonthBefore": {
+                        "percentage": 40,
+                        "trend": "INCREASE",
+                        "requestedMonth": "2024-12",
+                        "comparedToMonth": "2024-11"
+                    },
+                    "comparedToYearBefore": {
+                        "percentage": 10,
+                        "trend": "INCREASE",
+                        "requestedMonth": "2024-12",
+                        "comparedToMonth": "2023-12"
+                    }
+                },
+                "cost": {
+                    "comparedToMonthBefore": {
+                        "percentage": 40,
+                        "trend": "INCREASE",
+                        "requestedMonth": "2024-12",
+                        "comparedToMonth": "2024-11"
+                    },
+                    "comparedToYearBefore": {
+                        "percentage": 10,
+                        "trend": "INCREASE",
+                        "requestedMonth": "2024-12",
+                        "comparedToMonth": "2023-12"
+                    }
+                }
+            },
+            "heatingHotWaterSplit": null,
+            "roomBreakdown": {
+                "unit": "m3",
+                "requestedMonth": {
+                    "perRoom": [
+                        {
+                            "id": 1,
+                            "name": "Maison",
+                            "consumption": 45.772999999999996,
+                            "costInCents": 5002.9
+                        },
+                        ...
+                    ],
+                    "startDate": "2024-12-01",
+                    "endDate": "2024-12-31"
+                },
+                "yearBefore": {
+                    "perRoom": [
+                        {
+                            "id": 1,
+                            "name": "Maison",
+                            "consumption": 39.895,
+                            "costInCents": 4360.44
+                        },
+                        ...
+                    ],
+                    "startDate": "2023-12-01",
+                    "endDate": "2023-12-31"
+                }
+            },
+            "heatingInsights": {
+                "heatingHours": {
+                    "diff": 54,
+                    "trend": "INCREASE",
+                    "comparedTo": "2023-12"
+                },
+                "outsideTemperature": {
+                    "diff": 1,
+                    "trend": "DECREASE",
+                    "comparedTo": "2023-12"
+                },
+                "awayHours": {
+                    "diff": 25,
+                    "trend": "DECREASE",
+                    "comparedTo": "2023-12"
+                }
+            },
+            "showAddData": true
+        }
+        ```
     """
 
     data = self._api_energy_insights_call('homes/%i/consumptionDetails?month=%s&ngsw-bypass=%s' % (self.id, monthYear, ngsw_bypass))
