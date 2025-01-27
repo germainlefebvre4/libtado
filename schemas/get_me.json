@@ -81,6 +81,12 @@
                   },
                   "energyIqReminder": {
                     "type": "boolean"
+                  },
+                  "tariffHighPriceAlert": {
+                    "type": "boolean"
+                  },
+                  "tariffLowPriceAlert": {
+                    "type": "boolean"
                   }
                 },
                 "required": [
@@ -90,7 +96,9 @@
                   "homeModeReminder",
                   "incidentDetection",
                   "lowBatteryReminder",
-                  "openWindowReminder"
+                  "openWindowReminder",
+                  "tariffHighPriceAlert",
+                  "tariffLowPriceAlert"
                 ]
               }
             },

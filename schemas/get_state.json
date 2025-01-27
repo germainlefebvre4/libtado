@@ -24,7 +24,19 @@
           "type": "string"
         },
         "temperature": {
-          "type": "null"
+          "type": "object",
+          "properties": {
+            "celsius": {
+              "type": "number"
+            },
+            "fahrenheit": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "celsius",
+            "fahrenheit"
+          ]
         }
       },
       "required": [
@@ -34,58 +46,10 @@
       ]
     },
     "overlayType": {
-      "type": "string"
+      "type": "null"
     },
     "overlay": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string"
-        },
-        "setting": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string"
-            },
-            "power": {
-              "type": "string"
-            },
-            "temperature": {
-              "type": "null"
-            }
-          },
-          "required": [
-            "power",
-            "temperature",
-            "type"
-          ]
-        },
-        "termination": {
-          "type": "object",
-          "properties": {
-            "type": {
-              "type": "string"
-            },
-            "typeSkillBasedApp": {
-              "type": "string"
-            },
-            "projectedExpiry": {
-              "type": "null"
-            }
-          },
-          "required": [
-            "projectedExpiry",
-            "type",
-            "typeSkillBasedApp"
-          ]
-        }
-      },
-      "required": [
-        "setting",
-        "termination",
-        "type"
-      ]
+      "type": "null"
     },
     "openWindow": {
       "type": "null"

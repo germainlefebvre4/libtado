@@ -635,10 +635,10 @@ class Tado:
 
     Parameters:
       email (str): The email of the user to invite.
-    
+
     Returns:
       (dict): The invitation information.
-    
+
     ??? info "Result example"
       ```json
       {
@@ -719,10 +719,10 @@ class Tado:
   def delete_invitation(self, token):
     """
     Delete an invitation.
-    
+
     Parameters:
       token (str): The token of the invitation to delete.
-    
+
     Returns:
       (None): None.
     """

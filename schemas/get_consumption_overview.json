@@ -18,10 +18,13 @@
               "type": "string"
             },
             "totalConsumption": {
-              "type": "integer"
+              "type": "number"
             },
             "totalCostInCents": {
-              "type": "integer"
+              "type": "number"
+            },
+            "hasDomesticHotWater": {
+              "type": "boolean"
             },
             "consumptionPerDate": {
               "type": "array",
@@ -32,16 +35,20 @@
                     "type": "string"
                   },
                   "consumption": {
-                    "type": "integer"
+                    "type": "number"
                   },
                   "costInCents": {
-                    "type": "integer"
+                    "type": "number"
+                  },
+                  "hasData": {
+                    "type": "boolean"
                   }
                 },
                 "required": [
                   "consumption",
                   "costInCents",
-                  "date"
+                  "date",
+                  "hasData"
                 ]
               }
             }
@@ -49,6 +56,7 @@
           "required": [
             "consumptionPerDate",
             "endDate",
+            "hasDomesticHotWater",
             "startDate",
             "totalConsumption",
             "totalCostInCents"
@@ -63,11 +71,14 @@
             "endDate": {
               "type": "string"
             },
+            "hasDomesticHotWater": {
+              "type": "boolean"
+            },
             "totalConsumption": {
-              "type": "integer"
+              "type": "number"
             },
             "totalCostInCents": {
-              "type": "integer"
+              "type": "number"
             },
             "consumptionPerDate": {
               "type": "array",
@@ -78,16 +89,28 @@
                     "type": "string"
                   },
                   "consumption": {
-                    "type": "integer"
+                    "type": "number"
                   },
                   "costInCents": {
-                    "type": "integer"
+                    "type": "number"
+                  },
+                  "hotWater": {
+                    "type": "null"
+                  },
+                  "heating": {
+                    "type": "number"
+                  },
+                  "hasData": {
+                    "type": "boolean"
                   }
                 },
                 "required": [
                   "consumption",
                   "costInCents",
-                  "date"
+                  "date",
+                  "hasData",
+                  "heating",
+                  "hotWater"
                 ]
               }
             }
@@ -95,6 +118,7 @@
           "required": [
             "consumptionPerDate",
             "endDate",
+            "hasDomesticHotWater",
             "startDate",
             "totalConsumption",
             "totalCostInCents"
@@ -109,11 +133,14 @@
             "endDate": {
               "type": "string"
             },
+            "hasDomesticHotWater": {
+              "type": "boolean"
+            },
             "totalConsumption": {
-              "type": "integer"
+              "type": "number"
             },
             "totalCostInCents": {
-              "type": "integer"
+              "type": "number"
             },
             "consumptionPerDate": {
               "type": "array",
@@ -124,16 +151,28 @@
                     "type": "string"
                   },
                   "consumption": {
-                    "type": "integer"
+                    "type": "number"
                   },
                   "costInCents": {
-                    "type": "integer"
+                    "type": "number"
+                  },
+                  "hotWater": {
+                    "type": "null"
+                  },
+                  "heating": {
+                    "type": "number"
+                  },
+                  "hasData": {
+                    "type": "boolean"
                   }
                 },
                 "required": [
                   "consumption",
                   "costInCents",
-                  "date"
+                  "date",
+                  "hasData",
+                  "heating",
+                  "hotWater"
                 ]
               }
             }
@@ -141,6 +180,7 @@
           "required": [
             "consumptionPerDate",
             "endDate",
+            "hasDomesticHotWater",
             "startDate",
             "totalConsumption",
             "totalCostInCents"
@@ -155,11 +195,14 @@
             "endDate": {
               "type": "string"
             },
+            "hasDomesticHotWater": {
+              "type": "boolean"
+            },
             "totalConsumption": {
-              "type": "integer"
+              "type": "number"
             },
             "totalCostInCents": {
-              "type": "integer"
+              "type": "number"
             },
             "consumptionPerDate": {
               "type": "array",
@@ -170,16 +213,28 @@
                     "type": "string"
                   },
                   "consumption": {
-                    "type": "integer"
+                    "type": "number"
                   },
                   "costInCents": {
-                    "type": "integer"
+                    "type": "number"
+                  },
+                  "hotWater": {
+                    "type": "null"
+                  },
+                  "heating": {
+                    "type": "number"
+                  },
+                  "hasData": {
+                    "type": "boolean"
                   }
                 },
                 "required": [
                   "consumption",
                   "costInCents",
-                  "date"
+                  "date",
+                  "hasData",
+                  "heating",
+                  "hotWater"
                 ]
               }
             }
@@ -187,6 +242,7 @@
           "required": [
             "consumptionPerDate",
             "endDate",
+            "hasDomesticHotWater",
             "startDate",
             "totalConsumption",
             "totalCostInCents"
@@ -207,7 +263,7 @@
       "type": "object",
       "properties": {
         "totalSavingsInPercent": {
-          "type": "null"
+          "type": "integer"
         },
         "yearMonth": {
           "type": "string"

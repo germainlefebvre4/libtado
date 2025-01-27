@@ -26,8 +26,8 @@ poetry-plugin-dotenv = ">=2.2.3,<2.5"
 pytest = "*"
 pytest-dotenv = "*"
 python-dateutil = "*"
-jsonschema = "*"
-genson = "*"
+#jsonschema = "*"
+#genson = "*"
 
 [tool.poetry.group.docs.dependencies]
 poetry-plugin-dotenv = ">=2.2.3,<2.5"

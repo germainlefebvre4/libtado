@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "presence": {
+      "type": "string"
+    },
+    "presenceLocked": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "presence",
+    "presenceLocked"
+  ]
+}

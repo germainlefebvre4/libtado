@@ -154,7 +154,7 @@
     "isHeatPumpInstalled": {
       "type": "boolean"
     },
-    "isBalanceHpEligible": {
+    "supportsFlowTemperatureOptimization": {
       "type": "boolean"
     }
   },
@@ -174,7 +174,6 @@
     "installationCompleted",
     "isAirComfortEligible",
     "isBalanceAcEligible",
-    "isBalanceHpEligible",
     "isEnergyIqEligible",
     "isHeatPumpInstalled",
     "isHeatSourceInstalled",
@@ -184,6 +183,7 @@
     "showAutoAssistReminders",
     "simpleSmartScheduleEnabled",
     "skills",
+    "supportsFlowTemperatureOptimization",
     "temperatureUnit",
     "zonesCount"
   ]

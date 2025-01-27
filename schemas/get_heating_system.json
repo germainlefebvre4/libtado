@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "type": "object",
+  "properties": {
+    "boiler": {
+      "type": "object",
+      "properties": {
+        "present": {
+          "type": "boolean"
+        },
+        "id": {
+          "type": "integer"
+        },
+        "found": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "found",
+        "id",
+        "present"
+      ]
+    },
+    "underfloorHeating": {
+      "type": "object",
+      "properties": {
+        "present": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "present"
+      ]
+    }
+  },
+  "required": [
+    "boiler",
+    "underfloorHeating"
+  ]
+}
