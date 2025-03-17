@@ -10,23 +10,29 @@ import libtado.api
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
 @click.group(context_settings=CONTEXT_SETTINGS)
-@click.option('--username', '-u', required=True, envvar='TADO_USERNAME', help='Tado username')
-@click.option('--password', '-p', required=True, envvar='TADO_PASSWORD', help='Tado password')
-@click.option('--client-secret', '-c', required=True, envvar='TADO_CLIENT_SECRET', help='Tado client secret')
+@click.option('--refresh-token', '-t', required=True, envvar='TADO_REFRESH_TOKEN', help='A Tado refresh token, retrieved from prior authentication with Tado')
+@click.option('--credentials-file', '-f', required=True, envvar='TADO_CREDENTIALS_FILE', help='Full path to a file in which the Tado credentials will be stored and read from')
 @click.pass_context
-def main(ctx, username, password, client_secret):
+def main(ctx, refresh_token, saved_refresh_token_file):
   """
   Example
   =======
   This script provides a command line client for the Tado API.
 
-  You can use the environment variables TADO_USERNAME, TADO_PASSWORD and
-  TADO_CLIENT_SECRET instead of the command line options.
+  You can use the environment variables TADO_REFRESH_TOKEN and
+  TADO_CREDENTIALS_FILE instead of the command line options.
+
+  The first time you will have to login using a browser. The command
+  will show an URL to perform the login.
+
+  If using the credentials-file option or variable, the login will
+  be stored so you don't have to do this next time.
 
   Call 'tado COMMAND --help' to see available options for subcommands.
   """
 
-  ctx.obj = libtado.api.Tado(username, password, client_secret)
+  ctx.obj = libtado.api.Tado(refresh_token, saved_refresh_token_file)
+  ctx.obj.device_activation()
 
 
 @main.command()

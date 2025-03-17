@@ -32,46 +32,239 @@ License:
 
 """
 
+import enum
 import json
+import os
+import sys
+from datetime import timedelta, datetime
+from pathlib import Path
+from urllib.parse import urlencode
+
 import requests
 import time
 
+class StrEnum(str, enum.Enum):
+  """Backport of Python 3.11's StrEnum"""
+  pass
+
+class DeviceActivationStatus(StrEnum):
+  """Device Activation Status Enum"""
+
+  NOT_STARTED = "NOT_STARTED"
+  PENDING = "PENDING"
+  COMPLETED = "COMPLETED"
+
 class Tado:
-  json_content        = { 'Content-Type': 'application/json'}
-  api                 = 'https://my.tado.com/api/v2'
-  api_acme            = 'https://acme.tado.com/v1'
-  api_minder          = 'https://minder.tado.com/v1'
-  api_energy_insights = 'https://energy-insights.tado.com/api'
-  api_energy_bob      = 'https://energy-bob.tado.com'
-  timeout        = 15
+  json_content             = { 'Content-Type': 'application/json'}
+  access_headers           = None
+  api                      = 'https://my.tado.com/api/v2'
+  api_acme                 = 'https://acme.tado.com/v1'
+  api_minder               = 'https://minder.tado.com/v1'
+  api_energy_insights      = 'https://energy-insights.tado.com/api'
+  api_energy_bob           = 'https://energy-bob.tado.com'
+  client_id_device         = '1bb50063-6b0c-4d11-bd99-387f4a91cc46' # API client ID
+  device_activation_status = DeviceActivationStatus.NOT_STARTED
+  device_code              = None
+  device_verification_check_interval = None
+  device_verification_url  = None
+  device_verification_url_expires_at = None
+  id                       = None
+  refresh_at               = datetime.now() + timedelta(minutes=10)
+  refresh_token            = None
+  timeout                  = 15
+  user_code                = None
 
-  def __init__(self, username, password, secret):
-    self.username = username
-    self.password = password
-    self.secret = secret
-    self._login()
-    self.id = self.get_me()['homes'][0]['id']
+  def __init__(self, saved_refresh_token: str = None, token_file_path: str = None):
+    """
+        Initializes the Tado class.
 
-  def _login(self):
-    """Login and setup the HTTP session."""
-    url='https://auth.tado.com/oauth/token'
-    headers = { 'User-Agent': 'python/libtado' }
-    data = { 'client_id'     : 'tado-web-app',
-             'client_secret' : self.secret,
-             'grant_type'    : 'password',
-             'password'      : self.password,
-             'scope'         : 'home.user',
-             'username'      : self.username }
+        Args:
+            token_file_path (str, optional): Path to a file which will be used to persist
+                                                    the refresh_token token. Defaults to None.
+            saved_refresh_token (str, optional): A previously saved refresh token.
+                                                        Defaults to None.
+        """
+    self.token_file_path = token_file_path
+
+    if (saved_refresh_token or self.load_token()) and self.refresh_auth(
+            refresh_token=saved_refresh_token, force_refresh=True
+    ):
+      self.device_ready()
+    else:
+      self.device_activation_status = self.login_device_flow()
+
+  def get_device_activation_status(self) -> DeviceActivationStatus:
+    return self.device_activation_status
+
+  def get_device_verification_url(self) -> str:
+    return self.device_verification_url
+
+  def set_oauth_token(self, response) -> str:
+    access_token = response['access_token']
+    expires_in = float(response['expires_in'])
+    refresh_token = response['refresh_token']
+
+    self.refresh_token = refresh_token
+    # We subtract 30 seconds from the correct refresh time.
+    # Then we have a 30 seconds timespan to get a new refresh_token
+    self.refresh_at = datetime.now() + timedelta(seconds=expires_in) - timedelta(seconds=30)
+
+    self.access_headers = {
+      'Authorization': f'Bearer {access_token}',
+      'User-Agent': 'python/libtado',
+    }
+    
+    self.save_token()
+      
+    return refresh_token
+
+  def load_token(self) -> bool:
+    """Load the refresh token from a file."""
+
+    if not self.token_file_path or not os.path.exists(self.token_file_path):
+      return False
+
+    with open(self.token_file_path, encoding="utf-8") as f:
+      data = json.load(f)
+      self.refresh_token = data.get("refresh_token")
+
+    return True
+
+
+  def refresh_auth(self, refresh_token: str = None, force_refresh = False) -> bool:
+    """
+    Refresh the OAuth token if it is about to expire or if forced.
+
+        Args:
+            refresh_token (str | None, optional): The refresh token to use for obtaining a new
+                                                  access token.
+            force_refresh (bool, optional): If True, forces a token refresh regardless of
+                                            expiration. Defaults to False.
+
+        Returns:
+            bool: True if the token was successfully refreshed, False if the refresh failed due
+                  to invalid credentials.
+    """
+    if self.refresh_at >= datetime.now() and not force_refresh:
+      return True
+
+    url='https://login.tado.com/oauth2/token'
+    data = {
+      'client_id'     : self.client_id_device,
+      'grant_type'    : 'refresh_token',
+      'refresh_token' : refresh_token or self.refresh_token
+    }
+    response = requests.post(url, data=data, timeout=self.timeout)
+
+    if response.status_code != 200 and force_refresh:
+      return False
+    else:
+      response.raise_for_status()
+
+    self.set_oauth_token(response.json())
+    return True
+
+  def save_token(self):
+    """Save the refresh token to a file."""
+    if not self.token_file_path or not self.refresh_token:
+      return
+
+    token_dir = os.path.dirname(self.token_file_path)
+    if token_dir and not os.path.exists(token_dir):
+      Path(token_dir).mkdir(parents=True, exist_ok=True)
+
+    with open(self.token_file_path, "w", encoding="utf-8") as f:
+      json.dump(
+        {"refresh_token": self.refresh_token},
+        f,
+      )
+
+  def login_device_flow(self) -> DeviceActivationStatus:
+    """Start the login to the API using the device flow"""
+
+    if self.device_activation_status != DeviceActivationStatus.NOT_STARTED:
+      raise Exception("The device has been started already")
+
+    url='https://login.tado.com/oauth2/device_authorize'
+    headers = { 'User-Agent': 'python/libtado', 'Referer': 'https://app.tado.com/' }
+    data = { 'client_id'     : self.client_id_device,
+             'scope'         : 'offline_access' }
     request = requests.post(url, headers=headers, data=data, timeout=self.timeout)
     request.raise_for_status()
     response = request.json()
-    self.access_token = response['access_token']
-    self.token_expiry = time.time() + float(response['expires_in'])
-    self.refresh_token = response['refresh_token']
-    self.access_headers = {
-      'Authorization': 'Bearer ' + response['access_token'],
-      'User-Agent': 'python/libtado',
+
+    user_code = urlencode({'user_code': response['user_code']})
+    visit_url = f"{response['verification_uri']}?{user_code}"
+    self.device_code = response['device_code']
+    self.user_code = response['user_code']
+    self.device_verification_check_interval = response['interval']
+    self.device_verification_url = visit_url
+
+
+    print("Please visit the following URL in your Web browser to log in to your Tado account:", visit_url)
+
+    expires_in_seconds = response["expires_in"]
+    self.device_verification_url_expires_at = datetime.now() + timedelta(seconds=expires_in_seconds)
+
+    print(
+      "Waiting for you to complete logging in. You have until",
+      self.device_verification_url_expires_at.strftime("%Y-%m-%d %H:%M:%S"),
+    )
+
+    return DeviceActivationStatus.PENDING
+
+  def check_device_activation(self) -> bool:
+    if self.device_verification_url_expires_at is not None and datetime.timestamp(datetime.now()) > datetime.timestamp(self.device_verification_url_expires_at):
+      raise Exception("User took too long to enter key")
+
+    # Await the desired interval, before polling the API again
+    time.sleep(self.device_verification_check_interval)
+
+    url='https://login.tado.com/oauth2/token'
+    headers = { 'User-Agent': 'python/libtado', 'Referer': 'https://app.tado.com/' }
+    data={
+      'client_id': self.client_id_device,
+      'device_code': self.device_code,
+      'grant_type': "urn:ietf:params:oauth:grant-type:device_code",
     }
+    request = requests.post(url, headers=headers, data=data, timeout=self.timeout)
+    if request.status_code == 200:
+      self.set_oauth_token(request.json())
+      print("")
+      return True
+
+    # The user has not yet authorized the device, let's continue
+    if request.status_code == 400 and request.json()['error'] == 'authorization_pending':
+      print(".", end="")
+      return False
+
+    if request.status_code == 400 and request.json()['error'] == 'expired_token':
+      print("")
+      print("Unfortunately, you took too long to log in to Tado. Please try running your script again and log in with the new link shown on screen.")
+      print("The program will now exit.")
+      sys.exit(1)
+
+    print("")
+    request.raise_for_status()
+
+  def device_activation(self) -> None:
+    """Activate the device and get the refresh token"""
+
+    if self.device_activation_status == DeviceActivationStatus.NOT_STARTED:
+      raise Exception("The device flow has not yet started")
+
+    while True:
+      if self.check_device_activation():
+        break
+
+    self.device_ready()
+
+  def device_ready(self):
+    """after device refresh code has been obtained"""
+    self.id = self.get_me()['homes'][0]['id']
+    self.user_code = None
+    self.device_verification_url = None
+    self.device_activation_status = DeviceActivationStatus.COMPLETED
 
   def _api_call(self, cmd, data=False, method='GET'):
     """Perform an API call."""
@@ -212,36 +405,6 @@ class Tado:
       return call_put(url, data).json()
     elif method == 'GET':
       return call_get(url).json()
-
-
-  def refresh_auth(self):
-    """
-    Refresh the access token.
-
-    Returns:
-      (dict): A dictionary with the new access token and its expiry time.
-    """
-    if time.time() < self.token_expiry - 30:
-      return
-    url='https://auth.tado.com/oauth/token'
-    data = {
-     'client_id'     : 'tado-web-app',
-     'client_secret' : self.secret,
-     'grant_type'    : 'refresh_token',
-     'refresh_token' : self.refresh_token,
-     'scope'         : 'home.user'
-    }
-    try:
-      request = requests.post(url, data=data, timeout=self.timeout)
-      request.raise_for_status()
-    except:
-      self._login()
-      return
-    response = request.json()
-    self.access_token = response['access_token']
-    self.token_expiry = time.time() + float(response['expires_in'])
-    self.refresh_token = response['refresh_token']
-    self.access_headers['Authorization'] = 'Bearer ' + self.access_token
 
 
   def get_capabilities(self, zone):
