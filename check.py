@@ -4,12 +4,23 @@ from libtado.api import Tado
 from dotenv import load_dotenv
 load_dotenv()
 
+TADO_REFRESH_TOKEN = os.environ["TADO_REFRESH_TOKEN"]
+TADO_CREDENTIALS_FILE = os.environ["TADO_CREDENTIALS_FILE"]
 
-TADO_USERNAME = os.environ["TADO_USERNAME"]
-TADO_PASSWORD = os.environ["TADO_PASSWORD"]
-TADO_CLIENT_SECRET = os.environ["TADO_CLIENT_SECRET"]
+tado = Tado(TADO_REFRESH_TOKEN, TADO_CREDENTIALS_FILE)
 
-tado = Tado(TADO_USERNAME, TADO_PASSWORD, TADO_CLIENT_SECRET)
+status = tado.get_device_activation_status()
+if status == "PENDING":
+    url = tado.get_device_verification_url()
+
+    tado.device_activation()
+
+    status = tado.get_device_activation_status()
+
+if status == "COMPLETED":
+    print("Login successful")
+else:
+    print(f"Login status is {status}")
 
 # print(tado.get_me())
 # print(tado.get_home())

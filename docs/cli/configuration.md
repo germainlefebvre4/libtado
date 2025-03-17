@@ -8,9 +8,9 @@ There is no configuration file. No need.
 
 The following environment variables are supported:
 
-* `TADO_USERNAME` - Tado username
-* `TADO_PASSWORD` - Tado password
-* `TADO_CLIENT_SECRET` - Tado client secret
+* `TADO_CREDENTIALS_FILE` - Path to a file which holds your Tado credentials. Be careful: do not share this file with others.
+* `TADO_REFRESH_TOKEN` - Tado refresh token, from previous login. Valid for one-time use only.
+
 
 Environment variables can be set up in multiples ways:
 

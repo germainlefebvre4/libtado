@@ -13,16 +13,21 @@ Usage: tado [OPTIONS] COMMAND [ARGS]...
 
     This script provides a command line client for the Tado API.
 
-    You can use the environment variables TADO_USERNAME and TADO_PASSWORD
-    instead of the command line options.
+    You can use the environment variables TADO_REFRESH_TOKEN and
+    TADO_CREDENTIALS_FILE instead of the command line options.
+
+    The first time you will have to login using a browser. The command
+    will show an URL to perform the login.
+
+    If using the credentials-file option or variable, the login will
+    be stored so you don't have to do this next time.
 
     Call 'tado COMMAND --help' to see available options for subcommands.
 
 Options:
-    -u, --username TEXT       Tado username  [required]
-    -p, --password TEXT       Tado password  [required]
-    -c, --client-secret TEXT  Tado password  [optional]
-    -h, --help                Show this message and exit.
+    -f, --credentials-file TEXT   Full path to a file in which the Tado credentials will be stored and read from [optional]
+    -t, --refresh-token TEXT      A Tado refresh token, retrieved from prior authentication with Tado [optional]
+    -h, --help                    Show this message and exit.
 
 Commands:
     capabilities        Display the capabilities of a zone.
