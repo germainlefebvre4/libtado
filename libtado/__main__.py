@@ -6,14 +6,16 @@ import time
 from dateutil.parser import parse
 from dateutil import tz
 import libtado.api
+from libtado.cli_utils import MutuallyExclusiveOption
+
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
 @click.group(context_settings=CONTEXT_SETTINGS)
-@click.option('--refresh-token', '-t', required=True, envvar='TADO_REFRESH_TOKEN', help='A Tado refresh token, retrieved from prior authentication with Tado')
-@click.option('--credentials-file', '-f', required=True, envvar='TADO_CREDENTIALS_FILE', help='Full path to a file in which the Tado credentials will be stored and read from')
+@click.option('--refresh-token', '-t', required=False, envvar='TADO_REFRESH_TOKEN', cls=MutuallyExclusiveOption, help='A Tado refresh token, retrieved from prior authentication with Tado', mutually_exclusive=["credentials_file"])
+@click.option('--credentials-file', '-f', required=False, envvar='TADO_CREDENTIALS_FILE', cls=MutuallyExclusiveOption, help='Full path to a file in which the Tado credentials will be stored and read from', mutually_exclusive=["refresh_token"])
 @click.pass_context
-def main(ctx, refresh_token, saved_refresh_token_file):
+def main(ctx, refresh_token, credentials_file):
   """
   Example
   =======
@@ -31,8 +33,10 @@ def main(ctx, refresh_token, saved_refresh_token_file):
   Call 'tado COMMAND --help' to see available options for subcommands.
   """
 
-  ctx.obj = libtado.api.Tado(refresh_token, saved_refresh_token_file)
-  ctx.obj.device_activation()
+  ctx.obj = libtado.api.Tado(refresh_token, credentials_file)
+  status = ctx.obj.get_device_activation_status()
+  if status == "PENDING":
+      ctx.obj.device_activation()
 
 
 @main.command()
