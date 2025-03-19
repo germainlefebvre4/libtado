@@ -1,9 +1,5 @@
 import os
-from datetime import date
-from dateutil.relativedelta import relativedelta
 from libtado.api import Tado
-from tests.api import utils
-import pytest
 
 TADO_REFRESH_TOKEN = os.environ["TADO_REFRESH_TOKEN"]
 TADO_CREDENTIALS_FILE = os.environ["TADO_CREDENTIALS_FILE"]

@@ -1,7 +1,5 @@
-import os
 from datetime import date
 from dateutil.relativedelta import relativedelta
-from libtado.api import Tado
 
 from tests.api.auth import tado
 
