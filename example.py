@@ -10,7 +10,7 @@ if status == "PENDING":
     url = t.get_device_verification_url()
 
     # to auto-open the browser (on a desktop device), un-comment the following line:
-    # webbrowser.open_new_tab(url)
+    webbrowser.open_new_tab(url)
 
     t.device_activation()
 
