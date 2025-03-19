@@ -34,4 +34,5 @@ jobs:
           # TADO_PASSWORD_B64: ${{ secrets.TADO_PASSWORD_B64 }}
           # TADO_CLIENT_SECRET: ${{ secrets.TADO_CLIENT_SECRET }}
           TADO_BRIDGE_AUTHKEY: ${{ secrets.TADO_BRIDGE_AUTHKEY }}
-          TADO_REFRESH_TOKEN: ${{ secrets.TADO_REFRESH_TOKEN }}
+          # TADO_REFRESH_TOKEN: ${{ secrets.TADO_REFRESH_TOKEN }}
+          TADO_CREDENTIALS_FILE: ${{ vars.TADO_CREDENTIALS_FILE }}
