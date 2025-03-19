@@ -5,11 +5,7 @@ from libtado.api import Tado
 from tests.api import utils
 import pytest
 
-TADO_REFRESH_TOKEN = os.environ["TADO_REFRESH_TOKEN"]
-TADO_CREDENTIALS_FILE = os.environ["TADO_CREDENTIALS_FILE"]
-tado = Tado(TADO_REFRESH_TOKEN, TADO_CREDENTIALS_FILE)
-
-tado.device_activation()
+from tests.api.auth import tado
 
 
 class TestApi:

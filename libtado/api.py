@@ -113,9 +113,9 @@ class Tado:
       'Authorization': f'Bearer {access_token}',
       'User-Agent': 'python/libtado',
     }
-    
+
     self.save_token()
-      
+
     return refresh_token
 
   def load_token(self) -> bool:
