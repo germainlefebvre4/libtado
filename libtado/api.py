@@ -121,8 +121,13 @@ class Tado:
   def load_token(self) -> bool:
     """Load the refresh token from a file."""
 
-    if not self.token_file_path or not os.path.exists(self.token_file_path):
+    if not self.token_file_path:
       return False
+    if not os.path.exists(self.token_file_path):
+      f = open(self.token_file_path, "w")
+      f.write(json.dumps({}))
+      f.close()
+
 
     with open(self.token_file_path, encoding="utf-8") as f:
       data = json.load(f)
