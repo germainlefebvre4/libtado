@@ -37,10 +37,10 @@ repos:
       - id: poetry-lock
       - id: poetry-check
 
-#   - repo: https://github.com/python-poetry/poetry-plugin-export
-#     rev: 1.9.0
-#     hooks:
-#       - id: poetry-export
+      # - repo: https://github.com/python-poetry/poetry-plugin-export
+      #   rev: 1.9.0
+      #   hooks:
+      #     - id: poetry-export
 
   - repo: local
     hooks:
