@@ -69,11 +69,11 @@ print(t.get_zones())
 print(t.get_state(1))
 ```
 
-The first time, the script will tell you to login to your Tado account. 
+The first time, the script will tell you to login to your Tado account.
 
 It will show an output like:
 
-```
+```raw
 Please visit the following URL in your Web browser to log in to your Tado account: https://login.tado.com/oauth2/device?user_code=1234567
 Waiting for you to complete logging in. You have until yyyy-MM-dd hh:mm:ss
 .

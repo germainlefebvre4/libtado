@@ -12,7 +12,7 @@ hide:
   }
 </style>
 
-![Image title](./logo.png){: .center width=600 }
+![Libtado Logo](./logo.png){ .center width=400 style="display: block; margin-left: auto; margin-right: auto;" }
 
 **libtado** is a simple Python library that provides methods to control the smart heating devices from the German company [tado GmbH](https://www.tado.com)[^1]. It uses the undocumented REST API of their website.
 
@@ -22,7 +22,7 @@ The source code is hosted on [GitHub](https://github.com/germainlefebvre4/libtad
 
 ## License
 
-> Copyright &copy; 2023 Germain Lefebvre, Max Rosin
+> Copyright &copy; 2025 Germain Lefebvre, Max Rosin
 >
 > This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 >

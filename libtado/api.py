@@ -75,15 +75,6 @@ class Tado:
   user_code                = None
 
   def __init__(self, saved_refresh_token: str = None, token_file_path: str = None):
-    """
-        Initializes the Tado class.
-
-        Args:
-            token_file_path (str, optional): Path to a file which will be used to persist
-                                                    the refresh_token token. Defaults to None.
-            saved_refresh_token (str, optional): A previously saved refresh token.
-                                                        Defaults to None.
-        """
     self.token_file_path = token_file_path
 
     if (saved_refresh_token or self.load_token()) and self.refresh_auth(
@@ -119,8 +110,6 @@ class Tado:
     return refresh_token
 
   def load_token(self) -> bool:
-    """Load the refresh token from a file."""
-
     if not self.token_file_path:
       return False
     if not os.path.exists(self.token_file_path):
@@ -137,19 +126,6 @@ class Tado:
 
 
   def refresh_auth(self, refresh_token: str = None, force_refresh = False) -> bool:
-    """
-    Refresh the OAuth token if it is about to expire or if forced.
-
-        Args:
-            refresh_token (str | None, optional): The refresh token to use for obtaining a new
-                                                  access token.
-            force_refresh (bool, optional): If True, forces a token refresh regardless of
-                                            expiration. Defaults to False.
-
-        Returns:
-            bool: True if the token was successfully refreshed, False if the refresh failed due
-                  to invalid credentials.
-    """
     if self.refresh_at >= datetime.now() and not force_refresh:
       return True
 
@@ -170,7 +146,6 @@ class Tado:
     return True
 
   def save_token(self):
-    """Save the refresh token to a file."""
     if not self.token_file_path or not self.refresh_token:
       return
 
@@ -185,8 +160,6 @@ class Tado:
       )
 
   def login_device_flow(self) -> DeviceActivationStatus:
-    """Start the login to the API using the device flow"""
-
     if self.device_activation_status != DeviceActivationStatus.NOT_STARTED:
       raise Exception("The device has been started already")
 
@@ -253,8 +226,6 @@ class Tado:
     request.raise_for_status()
 
   def device_activation(self) -> None:
-    """Activate the device and get the refresh token"""
-
     if self.device_activation_status == DeviceActivationStatus.NOT_STARTED:
       raise Exception("The device flow has not yet started")
 
@@ -265,7 +236,6 @@ class Tado:
     self.device_ready()
 
   def device_ready(self):
-    """after device refresh code has been obtained"""
     self.id = self.get_me()['homes'][0]['id']
     self.user_code = None
     self.device_verification_url = None
