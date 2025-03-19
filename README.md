@@ -14,6 +14,15 @@ A library to control your Tado Smart Thermostat. This repository contains an act
 
 **The tested version of APIs is Tado v2.**
 
+## ⚠️ Breaking change in v4 ⚠️
+
+Starting the **21st of March 2025**, the Tado authentication workflow will definitely change to OAuth2 device code grant flow.
+
+Here is the link to the official announcement: [Tado Support Article - How do I authenticate to access the REST API?](https://support.tado.com/en/articles/8565472-how-do-i-authenticate-to-access-the-rest-api)
+
+Now, you have to use the `TADO_CREDENTIALS_FILE` or `TADO_REFRESH` variables to authenticate.
+You can find more documentation on how to authenticate in the [**Libtado - CLI Configuration**](https://libtado.readthedocs.io/en/latest/cli/configuration/) documentation.
+
 ## Installation
 
 You can download official library with `pip install libtado`.
