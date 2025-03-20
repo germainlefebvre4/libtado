@@ -263,7 +263,7 @@
       "type": "object",
       "properties": {
         "totalSavingsInPercent": {
-          "type": "integer"
+          "type": "number"
         },
         "yearMonth": {
           "type": "string"

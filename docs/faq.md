@@ -1,28 +1,18 @@
 # FAQ
 
-## How to retrieve the client secret
+## Why variables `TADO_USERNAME` and `TADO_PASSWORD` are not working anymore?
 
-### Option #1: Do nothing
+Starting the 21st of March 2025, the Tado authentication workflow will definitely change to OAuth2 device code grant flow.
 
-The library wil automatically retrieve the client secret on following the steps at *Options #2*.
+!!! info
 
-### Option #2: From the application `env.js`
+    Here is the link to the official announcement: [Tado Support Article - How do I authenticate to access the REST API?](https://support.tado.com/en/articles/8565472-how-do-i-authenticate-to-access-the-rest-api)
 
-Retrieve the `CLIENT_SECRET` before running the script otherwise you will get a `401 Unauthorized Access`. The latest `CLIENT_SECRET` can be found at \[<https://my.tado.com/webapp/env.js>\](<https://my.tado.com/webapp/env.js>). It will look something like this:
+The direction that Tado is taking is to enforce security and privacy by using OAuth2. This is a good thing, as it will prevent the need to store your username and password in plain text in your environment variables.
+But the consequences of that change are that library handles differently the authentication process.
 
-### Option #3: From the developer mode
+!!! warning
 
-An alternative way to get your `CLIENT_SECRET` is to enable the Developper Mode when logging in and catch the Headers. You will find the form data like this:
+    Now, you have to use the `TADO_CREDENTIALS_FILE` or `TADO_REFRESH` variables to authenticate.
 
-```json
-{
-    client_id: tado-web-app
-    client_secret: fndskjnjzkefjNFRNkfKJRNFKRENkjnrek
-    grant_type: password
-    password: MyBeautifulPassword
-    scope: home.user
-    username: email@example.com
-}
-```
-
-Then you just have to get the value in the attribute `client_secret`. You will need it to connect to your account through Tado APIs. The `client_secret` never dies so you can base your script on it.
+You can find more documentation on how to authenticate in the [**CLI Configuration**](./cli/configuration.md) section.

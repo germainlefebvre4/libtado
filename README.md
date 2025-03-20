@@ -14,6 +14,15 @@ A library to control your Tado Smart Thermostat. This repository contains an act
 
 **The tested version of APIs is Tado v2.**
 
+## ⚠️ Breaking change in v4 ⚠️
+
+Starting the **21st of March 2025**, the Tado authentication workflow will definitely change to OAuth2 device code grant flow.
+
+Here is the link to the official announcement: [Tado Support Article - How do I authenticate to access the REST API?](https://support.tado.com/en/articles/8565472-how-do-i-authenticate-to-access-the-rest-api)
+
+Now, you have to use the `TADO_CREDENTIALS_FILE` or `TADO_REFRESH` variables to authenticate.
+You can find more documentation on how to authenticate in the [**Libtado - CLI Configuration**](https://libtado.readthedocs.io/en/latest/cli/configuration/) documentation.
+
 ## Installation
 
 You can download official library with `pip install libtado`.
@@ -26,52 +35,64 @@ git clone https://github.com/germainlefebvre4/libtado.git
 
 Please check out [https://libtado.readthedocs.io](https://libtado.readthedocs.io) for more documentation.
 
-## Preparation
-
-Retrieve the `CLIENT_SECRET` before running the script otherwise you will get a `401 Unauthorized Access`.
-
-The latest `CLIENT_SECRET` can be found at [https://my.tado.com/webapp/env.js](https://my.tado.com/webapp/env.js).  It will look something like this:
-
-```js
-var TD = {
-    config: {
-        version: 'v588',
-        oauth: {
-          clientSecret: 'wZaRN7rpjn3FoNyF5IFuxg9uMzYJcvOoQ8QWiIqS3hfk6gLhVlG57j5YNoZL2Rtc'
-        }
-    }
-};
-```
-
-An alternative way to get your `CLIENT_SECRET` is to enable the Developper Mode when logging in and catch the Headers. You will find the form data like this :
-
-```yaml
-client_id: tado-web-app
-client_secret: fndskjnjzkefjNFRNkfKJRNFKRENkjnrek
-grant_type: password
-password: MyBeautifulPassword
-scope: home.user
-username: email@example.com
-```
-
-Then you just have to get the value in the attribute `client_secret`. You will need it to connect to your account through Tado APIs. The `client_secret` never dies so you can base your script on it.
-
 ## Usage
 
 Download the repository. You can work inside it. Beware that the examples assume that they can access the file `./libtado/api.py`.
 
-Now you can call it in your Pyhton script!
+Define a location and filename that will hold the credentials (refresh token) of your Tado login.
+
+It is recommended to use a directory that only your application has access to, as the credentials file
+holds sensitive information!
+
+Now you can call it in your Python script!
 
 ```python
 import libtado.api
+import webbrowser   # only needed for direct web browser access
 
-t = api.Tado('my@email.com', 'myPassword', 'client_secret')
+# TODO check
+t = api.Tado(token_file='/tmp/.libtado_refresh_token.json')
+# OR: t = api.Tado(saved_refresh_token='my_refresh_token')
+
+status = t.get_device_activation_status()
+
+if status == "PENDING":
+    url = t.get_device_verification_url()
+
+    # to auto-open the browser (on a desktop device), un-comment the following line:
+    # webbrowser.open_new_tab(url)
+
+    t.device_activation()
+
+    status = t.get_device_activation_status()
+
+if status == "COMPLETED":
+    print("Login successful")
+else:
+    print(f"Login status is {status}")
+
 
 print(t.get_me())
 print(t.get_home())
 print(t.get_zones())
 print(t.get_state(1))
 ```
+
+The first time, the script will tell you to login to your Tado account.
+
+It will show an output like:
+
+```raw
+Please visit the following URL in your Web browser to log in to your Tado account: https://login.tado.com/oauth2/device?user_code=1234567
+Waiting for you to complete logging in. You have until yyyy-MM-dd hh:mm:ss
+.
+```
+
+Complete your login before the time indicated.
+
+Afterwards, the script should print the information from your Tado home.
+
+If using the `token_file`, the next time you should not have to sign in.
 
 ## Examples
 

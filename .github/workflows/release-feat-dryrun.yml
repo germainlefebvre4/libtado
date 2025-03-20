@@ -96,11 +96,11 @@ jobs:
           poetry publish -r test-pypi
         if: needs.release.outputs.new_release_published == 'true'
 
-      # - name: Clean PyPi release
-      #   if: always()
-      #   run: |
-      #     poetry add pypi-cleanup
-      #     poetry run pypi-cleanup --host https://test.pypi.org --username $PYPI_CLEANUP_USERNAME --package libtado --do-it
-      #   env:
-      #     PYPI_CLEANUP_USERNAME: ${{ secrets.PYPI_TEST_USERNAME }}
-      #     PYPI_CLEANUP_PASSWORD: ${{ secrets.PYPI_TEST_TOKEN }}
+        # - name: Clean PyPi release
+        #   if: always()
+        #   run: |
+        #     poetry add pypi-cleanup
+        #     poetry run pypi-cleanup --host https://test.pypi.org --username $PYPI_CLEANUP_USERNAME --package libtado --do-it
+        #   env:
+        #     PYPI_CLEANUP_USERNAME: ${{ secrets.PYPI_TEST_USERNAME }}
+        #     PYPI_CLEANUP_PASSWORD: ${{ secrets.PYPI_TEST_TOKEN }}

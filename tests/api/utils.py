@@ -1,13 +1,7 @@
-import os
 from datetime import date
 from dateutil.relativedelta import relativedelta
-from libtado.api import Tado
 
-TADO_USERNAME = os.getenv("TADO_USERNAME", None)
-TADO_PASSWORD = os.getenv("TADO_PASSWORD", None)
-TADO_CLIENT_SECRET = os.getenv("TADO_CLIENT_SECRET", None)
-
-tado = Tado(TADO_USERNAME, TADO_PASSWORD, TADO_CLIENT_SECRET)
+from tests.api.auth import tado
 
 
 class TestApi:
