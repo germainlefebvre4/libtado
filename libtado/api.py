@@ -36,7 +36,7 @@ import enum
 import json
 import os
 import sys
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, timezone
 from pathlib import Path
 from urllib.parse import urlencode
 
@@ -69,7 +69,7 @@ class Tado:
   device_verification_url  = None
   device_verification_url_expires_at = None
   id                       = None
-  refresh_at               = datetime.now() + timedelta(minutes=10)
+  refresh_at               = datetime.now(timezone.utc) + timedelta(minutes=10)
   refresh_token            = None
   timeout                  = 15
   user_code                = None
@@ -98,7 +98,7 @@ class Tado:
     self.refresh_token = refresh_token
     # We subtract 30 seconds from the correct refresh time.
     # Then we have a 30 seconds timespan to get a new refresh_token
-    self.refresh_at = datetime.now() + timedelta(seconds=expires_in) - timedelta(seconds=30)
+    self.refresh_at = datetime.now(timezone.utc) + timedelta(seconds=expires_in) - timedelta(seconds=30)
 
     self.access_headers = {
       'Authorization': f'Bearer {access_token}',
@@ -126,7 +126,7 @@ class Tado:
 
 
   def refresh_auth(self, refresh_token: str = None, force_refresh = False) -> bool:
-    if self.refresh_at >= datetime.now() and not force_refresh:
+    if self.refresh_at >= datetime.now(timezone.utc) and not force_refresh:
       return True
 
     url='https://login.tado.com/oauth2/token'
@@ -182,17 +182,19 @@ class Tado:
     print("Please visit the following URL in your Web browser to log in to your Tado account:", visit_url)
 
     expires_in_seconds = response["expires_in"]
-    self.device_verification_url_expires_at = datetime.now() + timedelta(seconds=expires_in_seconds)
+    self.device_verification_url_expires_at = datetime.now(timezone.utc) + timedelta(seconds=expires_in_seconds)
+    # print the expiry time in the user's local timezone.
+    device_verification_url_expires_at_local_tz = datetime.now() + timedelta(seconds=expires_in_seconds)
 
     print(
       "Waiting for you to complete logging in. You have until",
-      self.device_verification_url_expires_at.strftime("%Y-%m-%d %H:%M:%S"),
+      device_verification_url_expires_at_local_tz.strftime("%Y-%m-%d %H:%M:%S"),
     )
 
     return DeviceActivationStatus.PENDING
 
   def check_device_activation(self) -> bool:
-    if self.device_verification_url_expires_at is not None and datetime.timestamp(datetime.now()) > datetime.timestamp(self.device_verification_url_expires_at):
+    if self.device_verification_url_expires_at is not None and datetime.timestamp(datetime.now(timezone.utc)) > datetime.timestamp(self.device_verification_url_expires_at):
       raise Exception("User took too long to enter key")
 
     # Await the desired interval, before polling the API again
