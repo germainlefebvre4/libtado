@@ -1107,23 +1107,6 @@ class Tado:
     return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks' % (self.id, zone, schedule))
 
 
-  def set_schedule_blocks(self, zone, schedule, blocks):
-    """
-    Sets the blocks for the current schedule on a zone
-
-    Parameters:
-      zone (int): The zone ID.
-      schedule (int): The schedule ID.
-      blocks (list): The new blocks.
-
-    Returns:
-      (list): The new configuration.
-    """
-
-    payload = blocks
-    return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks' % (self.id, zone, schedule), payload, method='PUT')
-
-
   def get_schedule_block_by_day_type(self, zone, schedule, day_type):
     """
     Gets the blocks for the current schedule on a zone
@@ -1161,22 +1144,68 @@ class Tado:
     return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type))
 
 
-  def set_schedule_block_by_day_type(self, zone, schedule, day_type, blocks):
+  def set_schedule_blocks(self, zone, schedule, blocks):
     """
     Sets the block for the current schedule on a zone
 
     Parameters:
       zone (int): The zone ID.
       schedule (int): The schedule ID.
-      day_type (str): The day_type to fetch. e.g. MONDAY_TO_FRIDAY, "MONDAY", "TUESDAY" etc
       blocks (list): The new blocks.
 
     Returns:
       (list): The new configuration.
     """
 
-    payload = blocks
-    return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type), payload, method='PUT')
+    possible_day_types = {
+      "0": [
+        "MONDAY_TO_SUNDAY"
+      ],
+      "1": [
+        "MONDAY_TO_FRIDAY",
+        "SATURDAY",
+        "SUNDAY"
+      ],
+      "2": [
+        "MONDAY",
+        "TUESDAY",
+        "WEDNESDAY",
+        "THURSDAY",
+        "FRIDAY",
+        "SATURDAY",
+        "SUNDAY"
+      ]
+    }
+    
+    blocks_grouped = {}
+    for block in blocks:
+      day_type = block['dayType']
+      if day_type not in blocks_grouped:
+          blocks_grouped[day_type] = []
+      blocks_grouped[day_type].append(block)
+
+    blocks_by_day = []
+    for day_type in possible_day_types[schedule]:
+      if day_type in blocks_grouped:
+        blocks_by_day.append({
+            'dayType': day_type,
+            'blocks_for_day': blocks_grouped[day_type]
+        })
+    
+    httpresponses = []
+    
+    for day in blocks_by_day:
+      day_type = day['dayType']
+      payload = day['blocks_for_day']
+
+      if not payload:
+        continue
+
+      print("day_type:")
+      print(day_type)
+      httpresponses.append(self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type), payload, method='PUT'))
+  
+    return httpresponses
 
 
   def get_state(self, zone):
