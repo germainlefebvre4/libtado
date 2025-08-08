@@ -1175,8 +1175,35 @@ class Tado:
       (list): The new configuration.
     """
 
-    payload = blocks
-    return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type), payload, method='PUT')
+    blocks_grouped = {}
+    for block in blocks:
+      day_type = block['dayType']
+      if day_type not in blocks_grouped:
+          blocks_grouped[day_type] = []
+      blocks_grouped[day_type].append(block)
+
+    blocks_by_day = []
+    for day_type in ['MONDAY_TO_FRIDAY', 'SATURDAY', 'SUNDAY']:
+      if day_type in blocks_grouped:
+        blocks_by_day.append({
+            'dayType': day_type,
+            'blocks_for_day': blocks_grouped[day_type]
+        })
+    
+    httpresponses = []
+    
+    for day in blocks_by_day:
+      day_type = day['dayType']
+      payload = day['blocks_for_day']
+
+      if not payload:
+        continue
+
+      print("day_type:")
+      print(day_type)
+      httpresponses.append(self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type), payload, method='PUT'))
+  
+    return httpresponses
 
 
   def get_state(self, zone):
