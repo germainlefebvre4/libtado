@@ -1219,7 +1219,7 @@ class Tado:
         print(message)
       return httpresponses
     else:
-      print("Operation failed: 'schedule' must have value 1, 2 or 3.")
+      print("Operation failed: 'schedule' must have value 0, 1 or 2.")
 
 
   def get_state(self, zone):
