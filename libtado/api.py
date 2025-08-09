@@ -1142,6 +1142,11 @@ class Tado:
     """
 
     return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type))
+  
+  
+  def set_schedule_block_by_day_type(self, zone, schedule, day_type, blocks):
+    print("This method has been depreciated. Use 'set_schedule_blocks()' instead.")
+    return self.set_schedule_blocks(zone, schedule, blocks)
 
 
   def set_schedule_blocks(self, zone, schedule, blocks):
@@ -1157,55 +1162,64 @@ class Tado:
       (list): The new configuration.
     """
 
-    possible_day_types = {
-      "0": [
-        "MONDAY_TO_SUNDAY"
-      ],
-      "1": [
-        "MONDAY_TO_FRIDAY",
-        "SATURDAY",
-        "SUNDAY"
-      ],
-      "2": [
-        "MONDAY",
-        "TUESDAY",
-        "WEDNESDAY",
-        "THURSDAY",
-        "FRIDAY",
-        "SATURDAY",
-        "SUNDAY"
+    if (schedule == 0 or schedule == 1 or schedule == 2):
+      possible_day_types = [
+        [
+          "MONDAY_TO_SUNDAY"
+        ],
+        [
+          "MONDAY_TO_FRIDAY",
+          "SATURDAY",
+          "SUNDAY"
+        ],
+        [
+          "MONDAY",
+          "TUESDAY",
+          "WEDNESDAY",
+          "THURSDAY",
+          "FRIDAY",
+          "SATURDAY",
+          "SUNDAY"
+        ]
       ]
-    }
-    
-    blocks_grouped = {}
-    for block in blocks:
-      day_type = block['dayType']
-      if day_type not in blocks_grouped:
-          blocks_grouped[day_type] = []
-      blocks_grouped[day_type].append(block)
+      
+      blocks_grouped = {}
+      for block in blocks:
+        day_type = block['dayType']
+        if day_type not in blocks_grouped:
+            blocks_grouped[day_type] = []
+        blocks_grouped[day_type].append(block)
 
-    blocks_by_day = []
-    for day_type in possible_day_types[schedule]:
-      if day_type in blocks_grouped:
-        blocks_by_day.append({
-            'dayType': day_type,
-            'blocks_for_day': blocks_grouped[day_type]
-        })
-    
-    httpresponses = []
-    
-    for day in blocks_by_day:
-      day_type = day['dayType']
-      payload = day['blocks_for_day']
+      inapplicable_day_types = []
+      blocks_by_day = []
+      for day_type in possible_day_types[schedule]:
+          if day_type in blocks_grouped:
+              blocks_by_day.append({
+                  'dayType': day_type,
+                  'blocks_for_day': blocks_grouped[day_type]
+              })
+      used_day_types = {b['dayType'] for b in blocks_by_day}
+      for day_type in blocks_grouped:
+          if day_type not in used_day_types:
+              inapplicable_day_types.append(day_type)
+      
+      httpresponses = []
+      for day in blocks_by_day:
+        day_type = day['dayType']
+        payload = day['blocks_for_day']
+        if not payload:
+          continue
 
-      if not payload:
-        continue
-
-      print("day_type:")
-      print(day_type)
-      httpresponses.append(self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type), payload, method='PUT'))
-  
-    return httpresponses
+        print("day_type:")
+        print(day_type)
+        httpresponses.append(self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type), payload, method='PUT'))
+    
+      if (len(inapplicable_day_types) > 0):
+        message = f"Not every 'day_type' was compatible with schedule {schedule}. The following 'day_type's were not set: {', '.join(inapplicable_day_types)}."
+        print(message)
+      return httpresponses
+    else:
+      print("Operation failed: 'schedule' must have value 1, 2 or 3.")
 
 
   def get_state(self, zone):
