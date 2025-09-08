@@ -1293,8 +1293,6 @@ class Tado:
         if not payload:
           continue
 
-        print("day_type:")
-        print(day_type)
         httpresponses.append(self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type), payload, method='PUT'))
     
       if (len(inapplicable_day_types) > 0):
