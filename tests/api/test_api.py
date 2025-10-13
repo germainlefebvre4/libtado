@@ -7,6 +7,14 @@ from tests.api.auth import tado
 
 
 class TestApi:
+    def test_get_ratelimit_info(self):
+        rate_limit_info = tado.get_rate_limit_info()
+
+        assert rate_limit_info.granted_calls >= 0
+        assert rate_limit_info.remaining_calls is not None
+        assert rate_limit_info.granted_calls_period_in_seconds == 86400
+        assert rate_limit_info.ratelimit_resets_at_utc is None
+
     def test_get_zones(self):
         response = utils.TestApi.get_zones()
 
