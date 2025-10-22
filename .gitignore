@@ -97,3 +97,7 @@ output/
 
 # VSCode
 .vscode/
+
+# Intellij
+.idea/
+*.iml

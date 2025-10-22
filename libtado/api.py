@@ -43,6 +43,71 @@ from urllib.parse import urlencode
 import requests
 import time
 
+class RateLimitInfo:
+
+  def __init__(self, ratelimit_policy_header: str = None, ratelimit_header: str = None):
+    """
+    Determines the current status of Tado API rate limit based on 2 HTTP headers (ratelimit and ratelimit-policy).
+    Granted_calls indicates how many calls are granted in the given priod (`granted_calls_period_in_seconds`)
+    Remaining_calls indicates how many calls are left, which is reset back to granted_calls at `ratelimit_resets_at_utc`
+    If the time at which the rate limit is reset is not given, `ratelimit_resets_at_utc` will be None.
+    :param ratelimit_header Value of the 'ratelimit' HTTP header.
+    :param ratelimit_policy_header Value of the 'ratelimit-policy' HTTP header.
+    """
+    self.granted_calls = None
+    self.granted_calls_period_in_seconds = None
+    self.remaining_calls = None
+    self.ratelimit_resets_at_utc = None
+
+    if not ratelimit_policy_header or not ratelimit_header:
+      return
+
+    # Parse key/value pairs from headers
+
+    # example ratelimit-policy header value: "perday";q=20000;w=86400
+    policy_data = self._parse_header(ratelimit_policy_header)
+
+    # example ratelimit header value (according to tado): "perday";r=0;t=123
+    # example ratelimit header value (self-observed): "perday";r=15153
+    limit_data = self._parse_header(ratelimit_header)
+
+    # Extract data
+    granted_calls = int(policy_data.get("q", -1))
+    self.granted_calls = granted_calls if granted_calls > -1 else None
+    granted_calls_period_in_seconds = int(policy_data.get("w", -1))
+    self.granted_calls_period_in_seconds = granted_calls_period_in_seconds if granted_calls_period_in_seconds > -1 else None
+    remaining_calls = int(limit_data.get("r", -1))
+    self.remaining_calls = remaining_calls if remaining_calls > -1 else None
+
+    reset_in_seconds = int(limit_data.get("t", -1))
+    # If limit_data includes 't': Compute reset time (current time + 't', seconds until reset)
+    if reset_in_seconds > -1:
+      self.ratelimit_resets_at_utc = datetime.now(timezone.utc) + timedelta(seconds=reset_in_seconds)
+    else:
+      # Reset time is not given.
+      self.ratelimit_resets_at_utc = None
+
+  def _parse_header(self, header_value: str) -> dict:
+    """
+    Parses a HTTP header string like '"perday";q=20000;w=86400'
+    into {'policy': 'perday', 'q': '20000', 'w': '86400'}
+    :param header_value string value of the HTTP header
+    """
+    parts = [p.strip() for p in header_value.split(";") if p.strip()]
+    data = {}
+
+    # The first part is usually the policy name (quoted)
+    if parts:
+      data["policy"] = parts[0].strip('"')
+
+    # Remaining parts are key=value
+    for part in parts[1:]:
+      if "=" in part:
+        k, v = part.split("=", 1)
+        data[k.strip()] = v.strip()
+    return data
+
+
 class StrEnum(str, enum.Enum):
   """Backport of Python 3.11's StrEnum"""
   pass
@@ -69,6 +134,7 @@ class Tado:
   device_verification_url  = None
   device_verification_url_expires_at = None
   id                       = None
+  ratelimit_info           = RateLimitInfo()
   refresh_at               = datetime.now(timezone.utc) + timedelta(minutes=10)
   refresh_token            = None
   timeout                  = 15
@@ -248,18 +314,22 @@ class Tado:
     def call_delete(url):
       r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
     def call_put(url, data):
       r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
     def call_get(url):
       r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
     def call_post(url, data):
       r = requests.post(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
 
     self.refresh_auth()
@@ -284,14 +354,17 @@ class Tado:
     def call_delete(url):
       r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
     def call_put(url, data):
       r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
     def call_get(url):
       r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
 
     self.refresh_auth()
@@ -308,14 +381,17 @@ class Tado:
     def call_delete(url):
       r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
     def call_put(url, data):
       r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
     def call_get(url):
       r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
 
     self.refresh_auth()
@@ -333,18 +409,22 @@ class Tado:
     def call_delete(url):
       r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
     def call_put(url, data):
       r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
     def call_get(url):
       r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
     def call_post(url, data):
       r = requests.post(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
 
     self.refresh_auth()
@@ -364,14 +444,17 @@ class Tado:
     def call_delete(url):
       r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
     def call_put(url, data):
       r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
     def call_get(url):
       r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
       r.raise_for_status()
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
       return r
 
     self.refresh_auth()
@@ -3085,3 +3168,38 @@ class Tado:
         ```
     """
     return self._api_call('homes/%i/zoneOrder?ngsw-bypass=%s' % (self.id, ngsw_bypass), data=payload, method='PUT')
+
+  def _update_rate_limit_info(self, r: requests.Response, previous_info: RateLimitInfo) -> RateLimitInfo:
+    """
+    Constructs current statistics about Tado API rate limit.
+    :param r: Response from Tado API
+    :param previous_info: Prevoius rate limit info, used in case the response did not include the correct headers.
+    :return: tado rate limit info
+    """
+    if not r or not r.headers:
+      if previous_info:
+        # keep previous state if this response did not include any headers at all.
+        return previous_info
+      else:
+        # value will be unknown.
+        return RateLimitInfo()
+
+    ratelimit_policy_header = r.headers.get('ratelimit-policy')
+    ratelimit_header = r.headers.get('ratelimit')
+
+    if not ratelimit_header or not ratelimit_policy_header:
+      if previous_info:
+        # keep previous state if this response did not include the required ratelimit headers.
+        return previous_info
+      else:
+        # value will be unknown.
+        return RateLimitInfo()
+
+    return RateLimitInfo(ratelimit_policy_header, ratelimit_header)
+
+  def get_rate_limit_info(self) -> RateLimitInfo:
+    """
+    Returns Your account's usage limit and remaining API calls for the Tado API.
+    :return: Object containing how many API calls are allowed to the Tado API, and how many are left in current window.
+    """
+    return self.ratelimit_info
