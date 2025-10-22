@@ -1,6 +1,6 @@
 from datetime import datetime, timezone, timedelta
 
-from api import RateLimitInfo
+from libtado.api import RateLimitInfo
 
 class TestRateLimitInfo:
     def test_no_headers(self):
