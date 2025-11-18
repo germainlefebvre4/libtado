@@ -1108,7 +1108,7 @@ class Tado:
     """
 
     payload = { 'id': schedule }
-    return self._api_call('homes/%i/zones/%i/schedule/activeTimeTable' % (self.id, zone), payload, method='PUT')
+    return self._api_call('homes/%i/zones/%i/schedule/activeTimetable' % (self.id, zone), payload, method='PUT')
 
   def get_schedule_blocks(self, zone, schedule):
     """
