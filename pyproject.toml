@@ -40,6 +40,9 @@ mkdocs-click = "*"
 poetry-plugin-dotenv = ">=2.2.3,<2.5"
 ruff = "*"
 
+[tool.poetry.group.generate.dependencies]
+genson = "*"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
