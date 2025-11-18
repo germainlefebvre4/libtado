@@ -1108,7 +1108,7 @@ class Tado:
     """
 
     payload = { 'id': schedule }
-    return self._api_call('homes/%i/zones/%i/schedule/activeTimeTable' % (self.id, zone), payload, method='PUT')
+    return self._api_call('homes/%i/zones/%i/schedule/activeTimetable' % (self.id, zone), payload, method='PUT')
 
   def get_schedule_blocks(self, zone, schedule):
     """
@@ -1189,10 +1189,9 @@ class Tado:
 
     return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks' % (self.id, zone, schedule))
 
-
   def set_schedule_blocks(self, zone, schedule, blocks):
     """
-    Sets the blocks for the current schedule on a zone
+    Sets the block for the current schedule on a zone
 
     Parameters:
       zone (int): The zone ID.
@@ -1203,8 +1202,63 @@ class Tado:
       (list): The new configuration.
     """
 
-    payload = blocks
-    return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks' % (self.id, zone, schedule), payload, method='PUT')
+    if (schedule in [0, 1, 2]):
+      possible_day_types = [
+          [
+              "MONDAY_TO_SUNDAY"
+          ],
+          [
+              "MONDAY_TO_FRIDAY",
+              "SATURDAY",
+              "SUNDAY"
+          ],
+          [
+              "MONDAY",
+              "TUESDAY",
+              "WEDNESDAY",
+              "THURSDAY",
+              "FRIDAY",
+              "SATURDAY",
+              "SUNDAY"
+          ]
+      ]
+
+      blocks_grouped = {}
+      for block in blocks:
+          day_type = block['dayType']
+          if day_type not in blocks_grouped:
+              blocks_grouped[day_type] = []
+          blocks_grouped[day_type].append(block)
+
+      inapplicable_day_types = []
+      blocks_by_day = []
+      for day_type in possible_day_types[schedule]:
+          if day_type in blocks_grouped:
+              blocks_by_day.append({
+                  'dayType': day_type,
+                  'blocks_for_day': blocks_grouped[day_type]
+              })
+      used_day_types = {b['dayType'] for b in blocks_by_day}
+      for day_type in blocks_grouped:
+          if day_type not in used_day_types:
+              inapplicable_day_types.append(day_type)
+
+      httpresponses = []
+      for day in blocks_by_day:
+          day_type = day['dayType']
+          payload = day['blocks_for_day']
+          if not payload:
+              continue
+
+          httpresponses.append(self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' %
+                                (self.id, zone, schedule, day_type), payload, method='PUT'))
+
+      if (len(inapplicable_day_types) > 0):
+          message = f"Not every 'day_type' was compatible with schedule {schedule}. The following 'day_type's were not set: {', '.join(inapplicable_day_types)}."
+          print(message)
+      return httpresponses
+    else:
+      print("Operation failed: 'schedule' must have value 0, 1 or 2.")
 
 
   def get_schedule_block_by_day_type(self, zone, schedule, day_type):
@@ -1243,24 +1297,9 @@ class Tado:
 
     return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type))
 
-
   def set_schedule_block_by_day_type(self, zone, schedule, day_type, blocks):
-    """
-    Sets the block for the current schedule on a zone
-
-    Parameters:
-      zone (int): The zone ID.
-      schedule (int): The schedule ID.
-      day_type (str): The day_type to fetch. e.g. MONDAY_TO_FRIDAY, "MONDAY", "TUESDAY" etc
-      blocks (list): The new blocks.
-
-    Returns:
-      (list): The new configuration.
-    """
-
-    payload = blocks
-    return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type), payload, method='PUT')
-
+    print("This method has been depreciated. Use 'set_schedule_blocks()' instead.")
+    return self.set_schedule_blocks(zone, schedule, blocks)
 
   def get_state(self, zone):
     """

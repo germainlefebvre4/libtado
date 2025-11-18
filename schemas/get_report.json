@@ -254,7 +254,6 @@
                   }
                 },
                 "required": [
-                  "setting",
                   "stripeType"
                 ]
               }

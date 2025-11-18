@@ -42,10 +42,10 @@ repos:
       #   hooks:
       #     - id: poetry-export
 
-  - repo: local
-    hooks:
-      - id: generate-json-schemas
-        name: Check JSON Schemas
-        language: system
-        types: [python]
-        entry: python generate_json_schemas.py
+      # - repo: local
+      #   hooks:
+      #     - id: generate-json-schemas
+      #       name: Check JSON Schemas
+      #       language: system
+      #       types: [python]
+      #       entry: /bin/bash -c "poetry install --with generate; poetry run python generate_json_schemas.py"

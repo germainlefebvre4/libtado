@@ -58,6 +58,9 @@
               "onDemandLogRetrievalEnabled": {
                 "type": "boolean"
               },
+              "smartRemindersInAppEnabled": {
+                "type": "boolean"
+              },
               "pushNotifications": {
                 "type": "object",
                 "properties": {
@@ -87,6 +90,9 @@
                   },
                   "tariffLowPriceAlert": {
                     "type": "boolean"
+                  },
+                  "smartReminders": {
+                    "type": "boolean"
                   }
                 },
                 "required": [
@@ -97,6 +103,7 @@
                   "incidentDetection",
                   "lowBatteryReminder",
                   "openWindowReminder",
+                  "smartReminders",
                   "tariffHighPriceAlert",
                   "tariffLowPriceAlert"
                 ]
@@ -106,6 +113,7 @@
               "geoTrackingEnabled",
               "onDemandLogRetrievalEnabled",
               "pushNotifications",
+              "smartRemindersInAppEnabled",
               "specialOffersEnabled"
             ]
           },

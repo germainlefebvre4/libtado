@@ -42,4 +42,3 @@ class TestRateLimitInfo:
         assert info_exhausted.granted_calls_period_in_seconds == 86400
         assert info_exhausted.remaining_calls == 0
         assert info_exhausted.ratelimit_resets_at_utc.strftime("%m/%d/%Y, %H:%M") == (datetime.now(timezone.utc) + timedelta(seconds=240)).strftime("%m/%d/%Y, %H:%M")
-
