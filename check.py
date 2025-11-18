@@ -1,5 +1,5 @@
-import os
 from libtado.api import Tado
+import webbrowser
 
 from dotenv import load_dotenv
 load_dotenv()
