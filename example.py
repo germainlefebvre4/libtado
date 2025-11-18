@@ -1,27 +1,23 @@
 from libtado.api import Tado
-import webbrowser   # only needed for direct web browser access
+import webbrowser
 
-t = Tado(token_file_path='/tmp/.libtado-refresh-token')
+tado = Tado(token_file_path='/tmp/.libtado-refresh-token')
 # OR: t = Tado(saved_refresh_token='my-refresh-token')
 
-status = t.get_device_activation_status()
+status = tado.get_device_activation_status()
 
 if status == "PENDING":
-    url = t.get_device_verification_url()
-
-    # to auto-open the browser (on a desktop device), un-comment the following line:
+    url = tado.get_device_verification_url()
     webbrowser.open_new_tab(url)
-
-    t.device_activation()
-
-    status = t.get_device_activation_status()
+    tado.device_activation()
+    status = tado.get_device_activation_status()
 
 if status == "COMPLETED":
     print("Login successful")
 else:
     print(f"Login status is {status}")
 
-print(t.get_me())
-print(t.get_home())
-print(t.get_zones())
-print(t.get_state(1))
+print(tado.get_me())
+print(tado.get_home())
+print(tado.get_zones())
+print(tado.get_state(1))

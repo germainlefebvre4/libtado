@@ -1189,64 +1189,6 @@ class Tado:
 
     return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks' % (self.id, zone, schedule))
 
-
-  def set_schedule_blocks(self, zone, schedule, blocks):
-    """
-    Sets the blocks for the current schedule on a zone
-
-    Parameters:
-      zone (int): The zone ID.
-      schedule (int): The schedule ID.
-      blocks (list): The new blocks.
-
-    Returns:
-      (list): The new configuration.
-    """
-
-    payload = blocks
-    return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks' % (self.id, zone, schedule), payload, method='PUT')
-
-
-  def get_schedule_block_by_day_type(self, zone, schedule, day_type):
-    """
-    Gets the blocks for the current schedule on a zone
-
-    Parameters:
-      zone (int): The zone ID.
-      schedule (int): The schedule ID to fetch.
-      day_type (str): The day_type to fetch. e.g. MONDAY_TO_FRIDAY, "MONDAY", "TUESDAY" etc
-
-    Returns:
-      (list): The blocks for the requested day type schedule.
-
-    ??? info "Result example"
-        ```json
-        [
-          {
-            "dayType": "MONDAY_TO_FRIDAY",
-            "start": "00:00",
-            "end": "06:30",
-            "geolocationOverride": false,
-            "setting": {
-              "type": "HEATING",
-              "power": "ON",
-              "temperature": {
-                "celsius": 21.2,
-                "fahrenheit": 70.16
-              }
-            }
-          },
-          [...]
-        ]
-        ```
-    """
-
-    return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type))
-
-  def set_schedule_block_by_day_type(self, zone, schedule, day_type, blocks):
-    print("This method has been depreciated. Use 'set_schedule_blocks()' instead.")
-    return self.set_schedule_blocks(zone, schedule, blocks)
-
   def set_schedule_blocks(self, zone, schedule, blocks):
     """
     Sets the block for the current schedule on a zone
@@ -1317,6 +1259,47 @@ class Tado:
       return httpresponses
     else:
       print("Operation failed: 'schedule' must have value 0, 1 or 2.")
+
+
+  def get_schedule_block_by_day_type(self, zone, schedule, day_type):
+    """
+    Gets the blocks for the current schedule on a zone
+
+    Parameters:
+      zone (int): The zone ID.
+      schedule (int): The schedule ID to fetch.
+      day_type (str): The day_type to fetch. e.g. MONDAY_TO_FRIDAY, "MONDAY", "TUESDAY" etc
+
+    Returns:
+      (list): The blocks for the requested day type schedule.
+
+    ??? info "Result example"
+        ```json
+        [
+          {
+            "dayType": "MONDAY_TO_FRIDAY",
+            "start": "00:00",
+            "end": "06:30",
+            "geolocationOverride": false,
+            "setting": {
+              "type": "HEATING",
+              "power": "ON",
+              "temperature": {
+                "celsius": 21.2,
+                "fahrenheit": 70.16
+              }
+            }
+          },
+          [...]
+        ]
+        ```
+    """
+
+    return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type))
+
+  def set_schedule_block_by_day_type(self, zone, schedule, day_type, blocks):
+    print("This method has been depreciated. Use 'set_schedule_blocks()' instead.")
+    return self.set_schedule_blocks(zone, schedule, blocks)
 
   def get_state(self, zone):
     """

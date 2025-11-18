@@ -4,17 +4,13 @@ from libtado.api import Tado
 from dotenv import load_dotenv
 load_dotenv()
 
-TADO_REFRESH_TOKEN = os.environ["TADO_REFRESH_TOKEN"]
-TADO_CREDENTIALS_FILE = os.environ["TADO_CREDENTIALS_FILE"]
-
-tado = Tado(TADO_REFRESH_TOKEN, TADO_CREDENTIALS_FILE)
+tado = Tado(token_file_path='/tmp/.libtado-refresh-token')
 
 status = tado.get_device_activation_status()
 if status == "PENDING":
     url = tado.get_device_verification_url()
-
+    webbrowser.open_new_tab(url)
     tado.device_activation()
-
     status = tado.get_device_activation_status()
 
 if status == "COMPLETED":
@@ -43,4 +39,7 @@ else:
 # print(tado.set_zone_order([{"id":1},{"id":6},{"id":11},{"id":12}]))
 # print(tado.set_invitation("germain@libtado.fr"))
 # print(tado.delete_invitation("aa21a793520c4b9eb4559bc5fb560291"))
-print(tado.get_consumption_details("2025-01"))
+# print(tado.get_consumption_details("2025-01"))
+print(tado.get_schedule_blocks(1, 1))
+# print(tado.get_schedule_block_by_day_type(1, 1, "MONDAY_TO_FRIDAY"))
+# print(tado.set_schedule_blocks(1, 1, schedule_blocks))
