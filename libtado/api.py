@@ -313,23 +313,35 @@ class Tado:
     """Perform an API call."""
     def call_delete(url):
       r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
-      r.raise_for_status()
       self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
+      try:
+        r.raise_for_status()
+      except requests.exceptions.HTTPError as errh:
+        self.handle_httperror_general(r, errh)
       return r
     def call_put(url, data):
       r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
-      r.raise_for_status()
       self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
+      try:
+        r.raise_for_status()
+      except requests.exceptions.HTTPError as errh:
+        self.handle_httperror_general(r, errh)
       return r
     def call_get(url):
       r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
-      r.raise_for_status()
       self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
+      try:
+        r.raise_for_status()
+      except requests.exceptions.HTTPError as errh:
+        self.handle_httperror_general(r, errh)
       return r
     def call_post(url, data):
       r = requests.post(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
-      r.raise_for_status()
       self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
+      try:
+        r.raise_for_status()
+      except requests.exceptions.HTTPError as errh:
+        self.handle_httperror_general(r, errh)
       return r
 
     self.refresh_auth()
@@ -3215,7 +3227,7 @@ class Tado:
     :param previous_info: Prevoius rate limit info, used in case the response did not include the correct headers.
     :return: tado rate limit info
     """
-    if not r or not r.headers:
+    if ((not r) and (r.status_code != 429)) or not r.headers:
       if previous_info:
         # keep previous state if this response did not include any headers at all.
         return previous_info
@@ -3242,3 +3254,22 @@ class Tado:
     :return: Object containing how many API calls are allowed to the Tado API, and how many are left in current window.
     """
     return self.ratelimit_info
+  
+  def print_rate_limit_info(self) -> RateLimitInfo: 
+    # total granted calls in each ratelimit window (e.g. 20.000 for auto-assist, or eventually 100 if not subscribed)
+    print('total calls:', self.ratelimit_info.granted_calls)
+    print('remaining calls:', self.ratelimit_info.remaining_calls)  # remaining calls within the current ratelimit window
+    # duration in seconds of the ratelimit window (always 86.400, 1 day)
+    print('rate limit window (in seconds):', self.ratelimit_info.granted_calls_period_in_seconds)
+    # UTC timestamp at which the ratelimit window resets (in my observation, mostly not provided and thus None)
+    print('rate limit resets at (UTC):', self.ratelimit_info.ratelimit_resets_at_utc)
+    
+  def handle_httperror_general(self, r, errh):
+    if (r.status_code == 429):
+      self.handle_httperror_429()
+    sys.exit(errh.args[0])
+  
+  def handle_httperror_429(self):
+    print("Unfortunately, tado sent back a 429 response code. That means you've propably reached tado's API limit. Until the limit resets, the only thing you can do, is check the API rate limit info:")
+    self.print_rate_limit_info()
+    print("------------------------------------------------------------")
