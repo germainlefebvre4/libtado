@@ -44,6 +44,11 @@ class TestApi:
 
         assert isinstance(response, dict)
 
+    def test_get_home_id(self):
+        response = tado.get_home_id()
+
+        assert isinstance(response, int)
+
     def get_installations(self):
         response = tado.get_home()
 

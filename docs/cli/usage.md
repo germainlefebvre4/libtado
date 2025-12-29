@@ -27,6 +27,7 @@ Usage: tado [OPTIONS] COMMAND [ARGS]...
 Options:
     -f, --credentials-file TEXT   Full path to a file in which the Tado credentials will be stored and read from [optional]
     -t, --refresh-token TEXT      A Tado refresh token, retrieved from prior authentication with Tado [optional]
+    -i, --home-id TEXT            Your Tado Home ID, retrieved from prior use of 'Tado home' [optional]
     -h, --help                    Show this message and exit.
 
 Commands:
