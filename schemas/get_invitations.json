@@ -64,6 +64,28 @@
           "name": {
             "type": "string"
           },
+          "adminUser": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "email",
+              "id",
+              "name"
+            ]
+          },
+          "adminUserId": {
+            "type": "string"
+          },
           "dateTimeZone": {
             "type": "string"
           },
@@ -198,9 +220,6 @@
           "isAirComfortEligible": {
             "type": "boolean"
           },
-          "isBalanceAcEligible": {
-            "type": "boolean"
-          },
           "isEnergyIqEligible": {
             "type": "boolean"
           },
@@ -216,6 +235,8 @@
         },
         "required": [
           "address",
+          "adminUser",
+          "adminUserId",
           "awayRadiusInMeters",
           "christmasModeEnabled",
           "consentGrantSkippable",
@@ -229,7 +250,6 @@
           "incidentDetection",
           "installationCompleted",
           "isAirComfortEligible",
-          "isBalanceAcEligible",
           "isEnergyIqEligible",
           "isHeatPumpInstalled",
           "isHeatSourceInstalled",

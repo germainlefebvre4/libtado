@@ -113,11 +113,38 @@
                   "hotWater"
                 ]
               }
+            },
+            "forecastedConsumptionPerDate": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "date": {
+                    "type": "string"
+                  },
+                  "consumption": {
+                    "type": "number"
+                  },
+                  "costInCents": {
+                    "type": "number"
+                  },
+                  "hasData": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "consumption",
+                  "costInCents",
+                  "date",
+                  "hasData"
+                ]
+              }
             }
           },
           "required": [
             "consumptionPerDate",
             "endDate",
+            "forecastedConsumptionPerDate",
             "hasDomesticHotWater",
             "startDate",
             "totalConsumption",
@@ -275,7 +302,22 @@
       ]
     },
     "ecogaz": {
-      "type": "array"
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "date",
+          "status"
+        ]
+      }
     }
   },
   "required": [
