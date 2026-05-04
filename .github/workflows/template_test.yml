@@ -7,28 +7,24 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.13"]
-        # python-version: ["3.8", "3.9", "3.10", "3.11"]
-        poetry-version: ["main"]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Set up Python version ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Setup poetry version ${{ matrix.poetry-version }}
-        uses: abatilo/actions-poetry@v4
-        with:
-          poetry-version: ${{ matrix.poetry-version }}
+      - name: Install uv and set the Python version
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b
 
       - name: Install dependencies
         run: |
-          poetry install --with=test
+          uv sync --locked --all-extras --dev
 
       - name: Run pytest
         run: |
           export TADO_PASSWORD=$(echo $TADO_PASSWORD_B64 | base64 -d)
-          poetry run pytest tests/api/test_api.py tests/api/test_tado.py
+          uv run pytest tests/api/api_test.py tests/api/tado_test.py
         env:
           # TADO_USERNAME: ${{ secrets.TADO_USERNAME }}
           # TADO_PASSWORD_B64: ${{ secrets.TADO_PASSWORD_B64 }}
