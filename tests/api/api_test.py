@@ -1,9 +1,9 @@
 from datetime import date
 from dateutil.relativedelta import relativedelta
-from tests.api import utils
+from tests.api import utils_test as utils
 import pytest
 
-from tests.api.auth import tado
+from tests.api.auth_test import tado
 
 
 class TestApi:
