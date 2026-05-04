@@ -1,6 +1,10 @@
+[project]
+name = "libtado"
+version = "4.1.1"
+
 [tool.poetry]
 name = "libtado"
-version = "3.7.13"
+version = "4.1.1"
 description = "A library (and a command line client) to control your Tado Smart Thermostat."
 authors = ["Germain Lefebvre <germain.lefebvre4@gmail.com>"]
 license = "GNU GPL v3.0"
@@ -16,28 +20,26 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = ">=3.8.1,<4.0"
+python = ">=3.13,<4.0"
 click = "*"
 requests = "*"
 python-dateutil = "*"
 
 [tool.poetry.group.test.dependencies]
-poetry-plugin-dotenv = ">=2.2.3,<2.5"
+poetry-plugin-dotenv = "*"
 pytest = "*"
 pytest-dotenv = "*"
 python-dateutil = "*"
-#jsonschema = "*"
-#genson = "*"
 
 [tool.poetry.group.docs.dependencies]
-poetry-plugin-dotenv = ">=2.2.3,<2.5"
+poetry-plugin-dotenv = "*"
 mkdocs = "*"
 mkdocs-material = "*"
 mkdocstrings = {extras = ["python"], version = "*"}
 mkdocs-click = "*"
 
 [tool.poetry.group.lint.dependencies]
-poetry-plugin-dotenv = ">=2.2.3,<2.5"
+poetry-plugin-dotenv = "*"
 ruff = "*"
 
 [tool.poetry.group.generate.dependencies]
@@ -49,3 +51,34 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 tado = "libtado.__main__:main"
+
+
+[tool.uv]
+default-groups = ["dev"]
+
+[[tool.uv.index]]
+name = "testpypi"
+url = "https://test.pypi.org/simple/"
+publish-url = "https://test.pypi.org/legacy/"
+explicit = true
+
+[dependency-groups]
+dev = [
+    {include-group = "lint"},
+    {include-group = "test"},
+]
+test = [
+    "pytest",
+    "pytest-dotenv",
+    "python-dateutil"
+]
+docs = [
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocstrings[python]",
+    "mkdocs-click"
+]
+lint = [
+    "ruff"
+]
+generate = ["genson"]
