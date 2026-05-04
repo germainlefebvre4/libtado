@@ -9,38 +9,28 @@ git clone https://github.com/germainlefebvre4/libtado.git
 
 ## Requirements
 
-The library development requires at least python `3.8`. Prefer developping with the version `3.11` minimum.
+The library development requires at least python `3.11`. Prefer developping with the version `3.13` minimum.
 
 This library is tested with following python versions:
 
-- `3.8`
-- `3.9`
-- `3.10`
 - `3.11`
+- `3.12`
+- `3.13`
 
 ## Setup
 
-Update your system and install a python version (at least the minimum required) and install the python virtualenv tool `poetry`.
+Update your system and install a python version (at least the minimum required) and install the python virtualenv tool `uv`. Official documentation: [astral/uv](https://docs.astral.sh/uv/).
 
 ```bash
-sudo apt update
-sudo apt install python3.11 python3.11-pip
-sudo pip install poetry
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-Initialize your python virtual environment with the python version referenced in the `.python-version` file.
+Using `uv` will automatically create a virtual environment for you and install the dependencies of the project in it. You can also use `poetry` if you prefer, but `uv` is recommended for its simplicity and speed.
+
+Install the dependencies of the project with `uv`:
 
 ```bash
-pyenv local
-# output: 3.11
-pyenv shell $(pyenv local)
-poetry env use $(pyenv local)
-```
-
-Initialize your `poetry` setup and install all the development and test libraries.
-
-```bash
-poetry install --with test
+uv sync
 ```
 
 ## Improve the library
@@ -62,18 +52,18 @@ The tests are written in the following files:
 - Library API in `./tests/api/test_api.py`
 - Library CLI in `./tests/cli/test_cli.py`
 
-Run the tests inside `poetry`.
+Run the tests inside `uv`.
 
 ```bash
-poetry run pytest -sv tests/
+uv run pytest -sv tests/
 ```
 
-### Generate the JSON Scheams
+### Generate the JSON Schemas
 
 The JSON schemas are generated from the Tado API. You can generate them with the following command:
 
 ```bash
-poetry run python generate_json_schemas.py
+uv run python generate_json_schemas.py
 ```
 
 ## Improve the documentation
@@ -81,7 +71,7 @@ poetry run python generate_json_schemas.py
 The documentation is written in markdown and can be found in the `docs/` folder. It is built with `mkdocs` and `mkdocs-material`.
 
 ```bash
-poetry run mkdocs serve
+uv run mkdocs serve
 ```
 
 ## Validation gate
