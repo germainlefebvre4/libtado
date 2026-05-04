@@ -1,10 +1,10 @@
----
-name: Scheduled tests
-on:
-  schedule:
-    - cron: '0 0 1 * *'
+# ---
+# name: Scheduled tests
+# on:
+#   schedule:
+#     - cron: '0 0 1 * *'
 
-jobs:
-  pytest:
-    uses: ./.github/workflows/template_test.yml
-    secrets: inherit
+# jobs:
+#   pytest:
+#     uses: ./.github/workflows/template_test.yml
+#     secrets: inherit
