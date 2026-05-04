@@ -109,6 +109,7 @@ It shows you how to use the library and expose some structured responses. A more
 | `3.10`         | `3.7.0` > `latest`   |
 | `3.11`         | `3.7.0` > `latest`   |
 | `3.12`         | `3.7.0` > `latest`   |
+| `3.13`         | `4.2.0` > `latest`   |
 
 ## Contributing
 
