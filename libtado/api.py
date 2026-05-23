@@ -7,7 +7,13 @@ your smart thermostats.
 
 Example:
   import libtado.api
-  t = tado.api('Username', 'Password', 'ClientSecret')
+  t = tado.api(token_file_path='/path/to/my/tado-credentials.json')
+  auth_status = t.get_device_activation_status()
+
+  if auth_status == "PENDING":
+    print('Copy and paste the following URL in your web browser to log in: ', t.get_device_verification_url())
+    t.device_activation()
+
   print(t.get_me())
 
 Disclaimer:
@@ -140,8 +146,9 @@ class Tado:
   timeout                  = 15
   user_code                = None
 
-  def __init__(self, saved_refresh_token: str = None, token_file_path: str = None):
+  def __init__(self, saved_refresh_token: str = None, token_file_path: str = None, home_id: int = None):
     self.token_file_path = token_file_path
+    self.id = home_id
 
     if (saved_refresh_token or self.load_token()) and self.refresh_auth(
             refresh_token=saved_refresh_token, force_refresh=True
@@ -304,7 +311,8 @@ class Tado:
     self.device_ready()
 
   def device_ready(self):
-    self.id = self.get_me()['homes'][0]['id']
+    if self.id is None:
+      self.id = self.get_home_id()
     self.user_code = None
     self.device_verification_url = None
     self.device_activation_status = DeviceActivationStatus.COMPLETED
@@ -1028,6 +1036,21 @@ class Tado:
     """
     data = self._api_call('homes/%i/mobileDevices' % self.id)
     return data
+
+  def get_home_id(self):
+    """
+    Gets the ID of your Tado Home. You can optionally set this as the `home_id` parameter when constructing a new
+    instance of `libtado.api.Tado` to reduce API calls.
+
+    Returns:
+      (int): The ID of the home of the current user.
+
+    ??? info "Result example"
+        ```text
+        1234567
+        ```
+    """
+    return self.get_me()['homes'][0]['id']
 
   def get_schedule_timetables(self, zone):
     """

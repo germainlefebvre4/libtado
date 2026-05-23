@@ -14,6 +14,7 @@ The following environment variables are supported:
 
 * `TADO_CREDENTIALS_FILE` - Path to a file which holds your Tado credentials. Be careful: do not share this file with others.
 * `TADO_REFRESH_TOKEN` - Tado refresh token, from previous login. Valid for one-time use only.
+* `TADO_HOME_ID` - Tado Home ID. If not supplied, will be automatically retrieved via the API.
 
 !!! note
 
