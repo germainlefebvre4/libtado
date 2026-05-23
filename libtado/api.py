@@ -3238,7 +3238,24 @@ class Tado:
 
   def get_rate_limit_info(self) -> RateLimitInfo:
     """
-    Returns Your account's usage limit and remaining API calls for the Tado API.
-    :return: Object containing how many API calls are allowed to the Tado API, and how many are left in current window.
+    Get your account's usage limit and remaining API calls for the Tado API.
+
+    As of September 2025, Tado has started introducing
+    [rate limits](https://help.tado.com/en/articles/12165739-limitation-for-rest-api-usage) on their REST API.
+
+    The REST API is a component which libtado uses to retrieve data from, and to control your Tado system.
+
+    The rate limit determines how often you can request data from Tado's servers.
+    If you have fully reached the API limit, libtado will show an error for every operation: 429 Too Many Requests.
+
+    If this happens, you'll have to wait until the Rate Limit has been reset. This can take up to **24 hours**.
+
+    The limit will be higher, but not unlimited, if you have the Auto Assist / AI Assist subscription.
+
+    Returns:
+      granted_calls (int): How many API calls can make within a period.
+      granted_calls_period_in_seconds (int): The duration of the period (in seconds) in which your API usage is measured.
+      remaining_calls (int): How many API calls you have left in the current period.
+      ratelimit_resets_at_utc (datetime): Optionally: When the period for remaining API calls ends (and the rate limit will be reset).
     """
     return self.ratelimit_info
