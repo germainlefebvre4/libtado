@@ -119,3 +119,4 @@ You want to report a bug? [Create an issue](https://github.com/germainlefebvre4/
 You want to request a feature? [Create an issue](https://github.com/germainlefebvre4/libtado/issues/new/choose)
 
 You want to contribute to the library? Read the [Contributing](https://libtado.readthedocs.io/en/latest/contributing/) page.
+
