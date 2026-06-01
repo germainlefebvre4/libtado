@@ -109,6 +109,7 @@ It shows you how to use the library and expose some structured responses. A more
 | `3.10`         | `3.7.0` > `latest`   |
 | `3.11`         | `3.7.0` > `latest`   |
 | `3.12`         | `3.7.0` > `latest`   |
+| `3.13`         | `3.7.0` > `latest`   |
 
 ## Contributing
 
@@ -119,4 +120,3 @@ You want to report a bug? [Create an issue](https://github.com/germainlefebvre4/
 You want to request a feature? [Create an issue](https://github.com/germainlefebvre4/libtado/issues/new/choose)
 
 You want to contribute to the library? Read the [Contributing](https://libtado.readthedocs.io/en/latest/contributing/) page.
-
