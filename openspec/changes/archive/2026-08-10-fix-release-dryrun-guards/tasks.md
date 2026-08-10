@@ -9,5 +9,5 @@
 
 ## 3. Verify
 
-- [ ] 3.1 Push a `chore/*` branch with only non-releasable commits (e.g. `chore:`/`ci:`) and confirm the `deploy` job's `Install uv` and `Update package version` steps are skipped (job succeeds without reaching `uv version`).
-- [ ] 3.2 Confirm `release-master.yml` is unaffected (not touched by this change).
+- [x] 3.1 Push a `chore/*` branch with only non-releasable commits (e.g. `chore:`/`ci:`) and confirm the `deploy` job's `Install uv` and `Update package version` steps are skipped (job succeeds without reaching `uv version`).
+- [x] 3.2 Confirm `release-master.yml` is unaffected (not touched by this change).
