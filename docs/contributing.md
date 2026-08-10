@@ -17,13 +17,15 @@ This library is tested with following python versions:
 - `3.12`
 - `3.13`
 
+The default/recommended dev environment uses python `3.13`.
+
 ## Setup
 
 Update your system and install a python version (at least the minimum required) and install [`uv`](https://docs.astral.sh/uv/).
 
 ```bash
 sudo apt update
-sudo apt install python3.11 python3.11-pip
+sudo apt install python3.13 python3.13-pip
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 

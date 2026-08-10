@@ -69,7 +69,7 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v6
         with:
-          python-version: '3.11'
+          python-version: '3.13'
         if: needs.release.outputs.new_release_published == 'true'
 
       - name: Update package version
