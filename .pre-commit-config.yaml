@@ -31,16 +31,10 @@ repos:
     hooks:
       - id: markdownlint-cli2
 
-  - repo: https://github.com/python-poetry/poetry
-    rev: 2.0.1
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.12.3
     hooks:
-      - id: poetry-lock
-      - id: poetry-check
-
-      # - repo: https://github.com/python-poetry/poetry-plugin-export
-      #   rev: 1.9.0
-      #   hooks:
-      #     - id: poetry-export
+      - id: uv-lock
 
       # - repo: local
       #   hooks:
@@ -48,4 +42,4 @@ repos:
       #       name: Check JSON Schemas
       #       language: system
       #       types: [python]
-      #       entry: /bin/bash -c "poetry install --with generate; poetry run python generate_json_schemas.py"
+      #       entry: /bin/bash -c "uv sync --group generate; uv run python generate_json_schemas.py"

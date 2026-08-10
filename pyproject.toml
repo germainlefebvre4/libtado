@@ -1,13 +1,18 @@
-[tool.poetry]
+[project]
 name = "libtado"
 version = "3.7.13"
 description = "A library (and a command line client) to control your Tado Smart Thermostat."
-authors = ["Germain Lefebvre <germain.lefebvre4@gmail.com>"]
-license = "GNU GPL v3.0"
+authors = [
+    { name = "Germain Lefebvre", email = "germain.lefebvre4@gmail.com" },
+]
+license = "GPL-3.0-or-later"
 readme = "README.md"
-repository = "https://github.com/germainlefebvre4/libtado"
-homepage = "https://libtado.readthedocs.io/"
-documentation = "https://libtado.readthedocs.io/"
+requires-python = ">=3.11"
+dependencies = [
+    "click",
+    "requests",
+    "python-dateutil",
+]
 
 classifiers = [
     "Programming Language :: Python :: 3",
@@ -15,37 +20,33 @@ classifiers = [
     "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.8.1,<4.0"
-click = "*"
-requests = "*"
-python-dateutil = "*"
+[project.urls]
+Repository = "https://github.com/germainlefebvre4/libtado"
+Homepage = "https://libtado.readthedocs.io/"
+Documentation = "https://libtado.readthedocs.io/"
 
-[tool.poetry.group.test.dependencies]
-poetry-plugin-dotenv = ">=2.2.3,<2.5"
-pytest = "*"
-pytest-dotenv = "*"
-python-dateutil = "*"
-#jsonschema = "*"
-#genson = "*"
+[project.scripts]
+tado = "libtado.__main__:main"
 
-[tool.poetry.group.docs.dependencies]
-poetry-plugin-dotenv = ">=2.2.3,<2.5"
-mkdocs = "*"
-mkdocs-material = "*"
-mkdocstrings = {extras = ["python"], version = "*"}
-mkdocs-click = "*"
-
-[tool.poetry.group.lint.dependencies]
-poetry-plugin-dotenv = ">=2.2.3,<2.5"
-ruff = "*"
-
-[tool.poetry.group.generate.dependencies]
-genson = "*"
+[dependency-groups]
+test = [
+    "pytest",
+    "pytest-dotenv",
+    "python-dateutil",
+]
+docs = [
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocstrings[python]",
+    "mkdocs-click",
+]
+lint = [
+    "ruff",
+]
+generate = [
+    "genson",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.scripts]
-tado = "libtado.__main__:main"
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -1,10 +1,10 @@
 # Installation
 
-You can download the official library on Pypi using `pip` or `poetry`.
+You can download the official library on Pypi using `pip` or `uv`.
 
 ```bash
 pip install libtado
-# poetry add libtado
+# uv add libtado
 ```
 
 It cannot be easier ;)

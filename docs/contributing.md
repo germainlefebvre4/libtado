@@ -9,38 +9,28 @@ git clone https://github.com/germainlefebvre4/libtado.git
 
 ## Requirements
 
-The library development requires at least python `3.8`. Prefer developping with the version `3.11` minimum.
+The library development requires at least python `3.11`.
 
 This library is tested with following python versions:
 
-- `3.8`
-- `3.9`
-- `3.10`
 - `3.11`
+- `3.12`
+- `3.13`
 
 ## Setup
 
-Update your system and install a python version (at least the minimum required) and install the python virtualenv tool `poetry`.
+Update your system and install a python version (at least the minimum required) and install [`uv`](https://docs.astral.sh/uv/).
 
 ```bash
 sudo apt update
 sudo apt install python3.11 python3.11-pip
-sudo pip install poetry
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-Initialize your python virtual environment with the python version referenced in the `.python-version` file.
+Initialize your `uv` setup and install all the development and test libraries.
 
 ```bash
-pyenv local
-# output: 3.11
-pyenv shell $(pyenv local)
-poetry env use $(pyenv local)
-```
-
-Initialize your `poetry` setup and install all the development and test libraries.
-
-```bash
-poetry install --with test
+uv sync --group test
 ```
 
 ## Improve the library
@@ -62,10 +52,10 @@ The tests are written in the following files:
 - Library API in `./tests/api/test_api.py`
 - Library CLI in `./tests/cli/test_cli.py`
 
-Run the tests inside `poetry`.
+Run the tests with `uv`.
 
 ```bash
-poetry run pytest -sv tests/
+uv run pytest -sv tests/
 ```
 
 ### Generate the JSON Scheams
@@ -73,7 +63,7 @@ poetry run pytest -sv tests/
 The JSON schemas are generated from the Tado API. You can generate them with the following command:
 
 ```bash
-poetry run python generate_json_schemas.py
+uv run python generate_json_schemas.py
 ```
 
 ## Improve the documentation
@@ -81,17 +71,17 @@ poetry run python generate_json_schemas.py
 The documentation is written in markdown and can be found in the `docs/` folder. It is built with `mkdocs` and `mkdocs-material`.
 
 ```bash
-poetry run mkdocs serve
+uv run mkdocs serve
 ```
 
 ## Validation gate
 
-Before validating your pull request, please run the following `tox` commands:
-
-> *You can use your python version*: here `3.11`
+Before validating your pull request, please run the following commands:
 
 ```bash
-tox -e py3.11,lint,generate_json_schemas,unittest
+uv run ruff check .
+uv run pytest -sv tests/
+uv run python generate_json_schemas.py
 ```
 
 The pull request checking pipeline will run the same commands on several python versions to ensure the compatibility of the library.
