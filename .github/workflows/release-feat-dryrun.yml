@@ -72,6 +72,7 @@ jobs:
         uses: astral-sh/setup-uv@v6
         with:
           python-version: '3.11'
+        if: needs.release.outputs.new_release_published == 'true'
 
       - name: Update package version
         id: update_version
@@ -82,6 +83,7 @@ jobs:
           echo "bump_version: $bump_version" >> $GITHUB_STEP_SUMMARY
           echo $bump_version
           uv version $bump_version
+        if: needs.release.outputs.new_release_published == 'true'
 
       - name: Build and publish
         env:
