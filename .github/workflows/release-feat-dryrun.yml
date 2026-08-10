@@ -8,6 +8,7 @@ on:
       - feat/*
       - fix/*
       - ci/*
+      - chore/*
 
 jobs:
   release:
