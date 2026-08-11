@@ -33,6 +33,7 @@ test = [
     "pytest",
     "pytest-dotenv",
     "python-dateutil",
+    "responses",
 ]
 docs = [
     "mkdocs",

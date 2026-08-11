@@ -1,13 +1,13 @@
 from datetime import date
 from dateutil.relativedelta import relativedelta
-from tests.api import utils
 import pytest
 
-from tests.api.auth import tado
+
+pytestmark = pytest.mark.live
 
 
 class TestApi:
-    def test_get_ratelimit_info(self):
+    def test_get_ratelimit_info(self, tado):
         rate_limit_info = tado.get_rate_limit_info()
 
         assert rate_limit_info.granted_calls >= 0
@@ -15,73 +15,73 @@ class TestApi:
         assert rate_limit_info.granted_calls_period_in_seconds == 86400
         assert rate_limit_info.ratelimit_resets_at_utc is None
 
-    def test_get_zones(self):
-        response = utils.TestApi.get_zones()
+    def test_get_zones(self, tado):
+        response = tado.get_zones()
 
         assert isinstance(response, list)
         assert len(response) > 0
         assert response[0]["id"] == 1
 
-    def test_get_capabilities(self):
+    def test_get_capabilities(self, tado):
         ZONE_ID = tado.get_zones()[0]["id"]
         response = tado.get_capabilities(ZONE_ID)
 
         assert isinstance(response, dict)
 
-    def test_get_devices(self):
+    def test_get_devices(self, tado):
         response = tado.get_devices()
 
         assert isinstance(response, list)
 
-    def test_get_early_start(self):
+    def test_get_early_start(self, tado):
         ZONE_ID = tado.get_zones()[0]["id"]
         response = tado.get_early_start(ZONE_ID)
 
         assert isinstance(response, dict)
 
-    def test_get_home(self):
+    def test_get_home(self, tado):
         response = tado.get_home()
 
         assert isinstance(response, dict)
 
-    def get_installations(self):
+    def get_installations(self, tado):
         response = tado.get_home()
 
         assert isinstance(response, list)
 
-    def test_get_invitations(self):
+    def test_get_invitations(self, tado):
         response = tado.get_invitations()
 
         assert isinstance(response, list)
 
-    def test_get_me(self):
+    def test_get_me(self, tado):
         response = tado.get_me()
 
         assert isinstance(response, dict)
 
-    def test_get_mobile_devices(self):
+    def test_get_mobile_devices(self, tado):
         response = tado.get_mobile_devices()
 
         assert isinstance(response, list)
 
-    def test_get_schedule(self):
+    def test_get_schedule(self, tado):
         ZONE_ID = tado.get_zones()[0]["id"]
         response = tado.get_schedule(ZONE_ID)
 
         assert isinstance(response, dict)
 
-    def test_get_state(self):
+    def test_get_state(self, tado):
         ZONE_ID = tado.get_zones()[0]["id"]
         response = tado.get_state(ZONE_ID)
 
         assert isinstance(response, dict)
 
-    def test_get_users(self):
+    def test_get_users(self, tado):
         response = tado.get_users()
 
         assert isinstance(response, list)
 
-    def test_get_weather(self):
+    def test_get_weather(self, tado):
         response = tado.get_weather()
 
         assert isinstance(response, dict)
@@ -103,26 +103,26 @@ class TestApi:
 
     #     assert isinstance(response, dict)
 
-    def test_get_report(self):
+    def test_get_report(self, tado):
         ZONE_ID = tado.get_zones()[0]["id"]
         yesterday  = str(date.today() + relativedelta(days=-1))
         response = tado.get_report(ZONE_ID, yesterday)
 
         assert isinstance(response, dict)
 
-    def test_get_air_comfort(self):
+    def test_get_air_comfort(self, tado):
         response = tado.get_air_comfort()
 
         assert isinstance(response, dict)
 
-    def test_get_air_comfort_geoloc(self):
+    def test_get_air_comfort_geoloc(self, tado):
         GEO_LATITUDE = 50.6312013
         GEO_LONGITUDE = 2.9070787
         response = tado.get_air_comfort_geoloc(GEO_LATITUDE, GEO_LONGITUDE)
 
         assert isinstance(response, dict)
 
-    def test_set_cost_simulation(self):
+    def test_set_cost_simulation(self, tado):
         monthYear = date.today().strftime("%Y-%m") # 2023-09
         country = "FRA"
         response = tado.get_consumption_overview(monthYear=monthYear, country=country)
@@ -156,7 +156,7 @@ class TestApi:
 
         assert isinstance(response, dict)
 
-    def test_get_consumption_overview(self):
+    def test_get_consumption_overview(self, tado):
         # Get current datetime and convert to "YYYY-MM" format
         monthYear = date.today().strftime("%Y-%m") # 2023-09
         country = "FRA"
@@ -164,7 +164,7 @@ class TestApi:
 
         assert isinstance(response, dict)
 
-    def test_get_energy_settings(self):
+    def test_get_energy_settings(self, tado):
         response = tado.get_energy_settings()
 
         assert isinstance(response, dict)

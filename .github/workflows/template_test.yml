@@ -21,12 +21,4 @@ jobs:
 
       - name: Run pytest
         run: |
-          export TADO_PASSWORD=$(echo $TADO_PASSWORD_B64 | base64 -d)
-          uv run pytest tests/api/test_api.py tests/api/test_tado.py
-        env:
-          # TADO_USERNAME: ${{ secrets.TADO_USERNAME }}
-          # TADO_PASSWORD_B64: ${{ secrets.TADO_PASSWORD_B64 }}
-          # TADO_CLIENT_SECRET: ${{ secrets.TADO_CLIENT_SECRET }}
-          TADO_BRIDGE_AUTHKEY: ${{ secrets.TADO_BRIDGE_AUTHKEY }}
-          # TADO_REFRESH_TOKEN: ${{ secrets.TADO_REFRESH_TOKEN }}
-          TADO_CREDENTIALS_FILE: ${{ vars.TADO_CREDENTIALS_FILE }}
+          uv run pytest
