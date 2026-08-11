@@ -1,9 +1,12 @@
 from datetime import date
 from dateutil.relativedelta import relativedelta
-from tests.api import utils
+from tests.api.live import utils
 import pytest
 
-from tests.api.auth import tado
+from tests.api.live.auth import tado
+
+
+pytestmark = pytest.mark.live
 
 
 class TestApi:

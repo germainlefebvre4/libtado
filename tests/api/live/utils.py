@@ -1,7 +1,7 @@
 from datetime import date
 from dateutil.relativedelta import relativedelta
 
-from tests.api.auth import tado
+from tests.api.live.auth import tado
 
 
 class TestApi:
