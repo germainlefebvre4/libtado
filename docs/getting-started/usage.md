@@ -32,4 +32,6 @@ else:
     print(f"Login status is {status}")
 ```
 
+See the [Authentication reference](../api/authentication.md) for details on the device-code login flow and token persistence.
+
 Check out [all available API methods](../api/usage.md) to learn what you can to with libtado.
