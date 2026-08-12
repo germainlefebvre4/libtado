@@ -9,10 +9,10 @@ tado --credentials-file /path/to/a/secure/folder/tado-credentials.json whoami
 To use the library in your own code you can start with this:
 
 ``` python
-import libtado.api
+from libtado.api import Tado
 import webbrowser   # only needed for direct web browser access
 
-t = tado.api(token_file_path='/path/to/a/secure/folder/tado-credentials.json')
+t = Tado(token_file_path='/path/to/a/secure/folder/tado-credentials.json')
 
 status = t.get_device_activation_status()
 
@@ -32,4 +32,4 @@ else:
     print(f"Login status is {status}")
 ```
 
-Check out `all available API methods <api>` to learn what you can to with libtado.
+Check out [all available API methods](../api/usage.md) to learn what you can to with libtado.

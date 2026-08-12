@@ -43,7 +43,6 @@ nav:
   - "Getting started":
       - Installation: getting-started/installation.md
       - Usage: getting-started/usage.md
-      - References: getting-started/references.md
   - "Command line":
       - Usage: cli/usage.md
       - Configuration: cli/configuration.md
