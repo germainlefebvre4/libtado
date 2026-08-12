@@ -9,6 +9,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: chartboost/ruff-action@v1
+      - name: Ruff docstring coverage (non-blocking)
+        continue-on-error: true
+        uses: chartboost/ruff-action@v1
+        with:
+          args: check --select D100,D101,D102,D103,D104,D105,D106,D107
 
   lint-mkdocs:
     name: Lint mkdocs files

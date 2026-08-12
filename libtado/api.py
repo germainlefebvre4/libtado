@@ -44,6 +44,7 @@ import requests
 import time
 
 class RateLimitInfo:
+  """Tracks the Tado API rate limit status parsed from the `ratelimit` and `ratelimit-policy` response headers: how many calls are granted per period, how many remain, and when the limit resets."""
 
   def __init__(self, ratelimit_policy_header: str = None, ratelimit_header: str = None):
     """
@@ -120,6 +121,14 @@ class DeviceActivationStatus(StrEnum):
   COMPLETED = "COMPLETED"
 
 class Tado:
+  """
+  Binds to the Tado API v2.
+
+  Handles OAuth2 device-code authentication (see `login_device_flow()` and
+  `device_activation()`) and exposes methods to read and control your Tado
+  home, zones, schedules and energy data.
+  """
+
   json_content             = { 'Content-Type': 'application/json'}
   access_headers           = None
   api                      = 'https://my.tado.com/api/v2'
@@ -141,6 +150,20 @@ class Tado:
   user_code                = None
 
   def __init__(self, saved_refresh_token: str = None, token_file_path: str = None):
+    """
+    Create a Tado API client and establish authentication.
+
+    If `saved_refresh_token` is given, or a refresh token can be loaded from
+    `token_file_path`, it is used to refresh the access token via
+    `refresh_auth()`. If that succeeds, the client finalizes setup with
+    `device_ready()`. Otherwise, the OAuth2 device-code login flow is
+    started via `login_device_flow()`; the caller must then complete it
+    (e.g. by calling `device_activation()`).
+
+    Parameters:
+      saved_refresh_token (str): A previously obtained refresh token to resume a session with, bypassing the device-code login flow.
+      token_file_path (str): Path to a JSON file used to persist and load the refresh token across runs.
+    """
     self.token_file_path = token_file_path
 
     if (saved_refresh_token or self.load_token()) and self.refresh_auth(
@@ -151,12 +174,36 @@ class Tado:
       self.device_activation_status = self.login_device_flow()
 
   def get_device_activation_status(self) -> DeviceActivationStatus:
+    """
+    Get the current status of the OAuth2 device-code activation flow.
+
+    Returns:
+      (DeviceActivationStatus): `NOT_STARTED` before `login_device_flow()` has been called, `PENDING` while waiting for the user to complete login, or `COMPLETED` once `device_ready()` has finished.
+    """
     return self.device_activation_status
 
   def get_device_verification_url(self) -> str:
+    """
+    Get the URL the user must visit to complete the device-code login flow.
+
+    Returns:
+      (str): The verification URL with the user code appended as a query parameter, or `None` if `login_device_flow()` has not been called yet or the device has already been activated.
+    """
     return self.device_verification_url
 
   def set_oauth_token(self, response) -> str:
+    """
+    Store an OAuth2 token response and derive the access headers.
+
+    Sets `self.refresh_token`, `self.refresh_at` and `self.access_headers`
+    from `response`, and persists the refresh token via `save_token()`.
+
+    Parameters:
+      response (dict): The parsed JSON body of an OAuth2 token response, containing `access_token`, `expires_in` and `refresh_token`.
+
+    Returns:
+      (str): The refresh token from `response`.
+    """
     access_token = response['access_token']
     expires_in = float(response['expires_in'])
     refresh_token = response['refresh_token']
@@ -176,6 +223,16 @@ class Tado:
     return refresh_token
 
   def load_token(self) -> bool:
+    """
+    Load a previously saved refresh token from `token_file_path`.
+
+    Creates an empty token file at `token_file_path` if it does not exist
+    yet. Sets `self.refresh_token` to the value stored in the file, or
+    `None` if none was saved.
+
+    Returns:
+      (bool): `True` if `token_file_path` is set, `False` if no `token_file_path` was configured.
+    """
     if not self.token_file_path:
       return False
     if not os.path.exists(self.token_file_path):
@@ -192,6 +249,22 @@ class Tado:
 
 
   def refresh_auth(self, refresh_token: str = None, force_refresh = False) -> bool:
+    """
+    Ensure the client holds a valid access token, refreshing it if needed.
+
+    Returns immediately without contacting the API if the current access
+    token has not yet expired and `force_refresh` is `False`. Otherwise,
+    requests a new access token using `refresh_token` (or
+    `self.refresh_token` if not given) and, on success, stores it via
+    `set_oauth_token()`.
+
+    Parameters:
+      refresh_token (str): The refresh token to use. Defaults to `self.refresh_token`.
+      force_refresh (bool): If `True`, refresh even if the current access token has not expired yet, and return `False` instead of raising if the refresh request fails.
+
+    Returns:
+      (bool): `True` if the client now holds a valid access token, `False` if `force_refresh` was `True` and the refresh request failed.
+    """
     if self.refresh_at >= datetime.now(timezone.utc) and not force_refresh:
       return True
 
@@ -212,6 +285,12 @@ class Tado:
     return True
 
   def save_token(self):
+    """
+    Persist the current refresh token to `token_file_path`.
+
+    Does nothing if `token_file_path` or `self.refresh_token` is not set.
+    Creates the parent directory of `token_file_path` if it does not exist.
+    """
     if not self.token_file_path or not self.refresh_token:
       return
 
@@ -226,6 +305,20 @@ class Tado:
       )
 
   def login_device_flow(self) -> DeviceActivationStatus:
+    """
+    Start the OAuth2 device-code login flow.
+
+    Requests a device code from the Tado API, stores it on
+    `self.device_code`, `self.user_code`, `self.device_verification_url`
+    and `self.device_verification_check_interval`, and prints the URL the
+    user must visit to log in.
+
+    Raises:
+      Exception: If the device flow has already been started (`self.device_activation_status` is not `NOT_STARTED`).
+
+    Returns:
+      (DeviceActivationStatus): `PENDING`, indicating the user still needs to complete login in their browser.
+    """
     if self.device_activation_status != DeviceActivationStatus.NOT_STARTED:
       raise Exception("The device has been started already")
 
@@ -260,6 +353,19 @@ class Tado:
     return DeviceActivationStatus.PENDING
 
   def check_device_activation(self) -> bool:
+    """
+    Poll the Tado API once to check whether the device-code login has been completed.
+
+    Waits `self.device_verification_check_interval` seconds before
+    polling. On success, stores the resulting access token via
+    `set_oauth_token()`.
+
+    Raises:
+      Exception: If the verification URL has expired before the user completed login.
+
+    Returns:
+      (bool): `True` if login has been completed and an access token was obtained, `False` if the user has not yet authorized the device (call again to keep polling).
+    """
     if self.device_verification_url_expires_at is not None and datetime.timestamp(datetime.now(timezone.utc)) > datetime.timestamp(self.device_verification_url_expires_at):
       raise Exception("User took too long to enter key")
 
@@ -294,6 +400,15 @@ class Tado:
     request.raise_for_status()
 
   def device_activation(self) -> None:
+    """
+    Block until the OAuth2 device-code login flow completes.
+
+    Repeatedly calls `check_device_activation()` until it returns `True`,
+    then finalizes the session with `device_ready()`.
+
+    Raises:
+      Exception: If `login_device_flow()` has not been called yet (`self.device_activation_status` is `NOT_STARTED`).
+    """
     if self.device_activation_status == DeviceActivationStatus.NOT_STARTED:
       raise Exception("The device flow has not yet started")
 
@@ -304,6 +419,13 @@ class Tado:
     self.device_ready()
 
   def device_ready(self):
+    """
+    Finalize the client after a successful login.
+
+    Sets `self.id` to the ID of the first home returned by `get_me()`,
+    clears `self.user_code` and `self.device_verification_url`, and sets
+    `self.device_activation_status` to `COMPLETED`.
+    """
     self.id = self.get_me()['homes'][0]['id']
     self.user_code = None
     self.device_verification_url = None
@@ -1298,6 +1420,7 @@ class Tado:
     return self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' % (self.id, zone, schedule, day_type))
 
   def set_schedule_block_by_day_type(self, zone, schedule, day_type, blocks):
+    """Deprecated: use `set_schedule_blocks()` instead."""
     print("This method has been depreciated. Use 'set_schedule_blocks()' instead.")
     return self.set_schedule_blocks(zone, schedule, blocks)
 

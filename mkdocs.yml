@@ -49,6 +49,7 @@ nav:
       - "CLI Reference": cli/reference.md
   - API:
       - Usage: api/usage.md
+      - Authentication: api/authentication.md
   - API Reference: api/reference.md
   - Contributing: contributing.md
   - FAQ: faq.md

@@ -39,6 +39,14 @@ Add `[tool.ruff.lint] select = [... existing defaults ..., "D100", "D101", "D102
 *Alternative considered*: select the full `D` rule set or set `convention = "google"`. Rejected - the existing docstrings' house style (2-space indent, custom `Parameters:`/`Returns:` headers, embedded JSON admonitions) doesn't conform to pydocstyle's stricter formatting/convention rules, so enabling those would immediately report on ~100+ pre-existing, intentionally-styled docstrings - noise that defeats the "coverage signal" purpose and that "check but don't block" was meant to avoid, not paper over.
 *Alternative considered*: `interrogate`. Rejected per earlier decision - no new dev dependency, reuse the ruff step already wired into CI.
 
+## Implementation Deviation (discovered during apply)
+
+Decision 5's premise ("no project-level `[tool.ruff]` config in `pyproject.toml`") missed that the repo already has a root-level **`.ruff.toml`** (`select = ["E", "F", "B"]`). Ruff treats `.ruff.toml` and `pyproject.toml`'s `[tool.ruff]` as mutually exclusive per directory - only one is read, so the originally-planned `pyproject.toml` edit (task 3.1) would have been silently inert.
+
+Editing `.ruff.toml` instead was also tried and rejected: `.ruff.toml`'s `select` is read by the *existing blocking* `ruff` CI step too (`chartboost/ruff-action@v1`, no args), so adding `D100`-`D107` there made that step fail with 129 new errors across `tests/`, `libtado/cli_utils.py`, and `libtado/__main__.py` - breaking the build, the opposite of the "non-blocking signal" goal.
+
+**Resolution**: skip the config-file `select` edit entirely (neither `pyproject.toml` nor `.ruff.toml` is touched). The new CI step passes `--select D100,D101,D102,D103,D104,D105,D106,D107` explicitly on the `ruff check` command line, which overrides whichever config file is discovered - so it gets the D1xx signal on its own, `continue-on-error: true`, with no change to the existing blocking step's behavior. Task 3.1 in `tasks.md` is marked skipped with this rationale instead of completed.
+
 ## Risks / Trade-offs
 
 - **Explicit `members:` lists are a manual maintenance point** → a future new method that nobody adds to either list simply doesn't render anywhere (silent, same failure mode this change is fixing). Mitigation: the new ruff `D1xx` step flags missing docstrings on the method itself, which is the more common miss; there's no automated check for "docstring present but forgot to add to a page's `members:` list" - accepted as a manual review cost, small given the API surface changes rarely.
