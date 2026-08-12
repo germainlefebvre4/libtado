@@ -46,7 +46,7 @@ The library is served through 2 sections:
 
 ### Write and run some tests
 
-Unit tests are important for the developement team because it adds strenghtness and confidence to the code.
+Unit tests are important for the development team because it adds strength and confidence to the code.
 
 The tests are written in the following files:
 

@@ -3,9 +3,9 @@
 Usage:
 
 ``` { .python .select .copy }
-import libtado.api
+from libtado.api import Tado
 
-api = tado.api(token_file_path='/path/to/a/secure/folder/tado-credentials.json')
+api = Tado(token_file_path='/path/to/a/secure/folder/tado-credentials.json')
 ```
 
 For API Reference see [API Reference](../api/reference.md)

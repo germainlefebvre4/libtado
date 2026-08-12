@@ -6,8 +6,8 @@ This module provides bindings to the API of https://www.tado.com/ to control
 your smart thermostats.
 
 Example:
-  import libtado.api
-  t = tado.api('Username', 'Password', 'ClientSecret')
+  from libtado.api import Tado
+  t = Tado(token_file_path='/path/to/a/secure/folder/tado-credentials.json')
   print(t.get_me())
 
 Disclaimer:
