@@ -17,7 +17,7 @@ jobs:
       new_release_version: ${{ steps.version.outputs.new_release_version }}
       new_release_published: ${{ steps.version.outputs.new_release_published }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Semantic Release Config
         run: |
@@ -67,7 +67,7 @@ jobs:
     needs: release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install uv
         uses: astral-sh/setup-uv@v6
         with:
