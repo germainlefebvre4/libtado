@@ -576,3 +576,41 @@ class TestApiEnergyBobCall:
 
         with pytest.raises(requests.exceptions.HTTPError):
             tado_unauthenticated.get_energy_savings("2024-01", "FRA")
+
+
+class TestGetBoilerState:
+    BRIDGE_SERIAL = "IB0123456789"
+    AUTH_KEY = "ABCDEF1234"
+
+    def _devices_url(self):
+        return api_url(f"homes/{HOME_ID}/devices")
+
+    def _boiler_url(self):
+        return api_url(
+            f"homeByBridge/{self.BRIDGE_SERIAL}/boilerWiringInstallationState"
+            f"?authKey={self.AUTH_KEY}"
+        )
+
+    def test_get_boiler_state_success(self, tado_unauthenticated, mocked_responses):
+        devices = [
+            {"deviceType": "GW03", "serialNo": "GW0000"},
+            {"deviceType": "IB01", "serialNo": self.BRIDGE_SERIAL},
+        ]
+        state = {
+            "state": "INSTALLATION_COMPLETED",
+            "deviceWiredToBoiler": {"type": "BR02", "thermInterfaceType": "OPENTHERM"},
+            "hotWaterZonePresent": False,
+            "boiler": {"outputTemperature": {"celsius": 50.01}},
+        }
+        mocked_responses.add(responses.GET, self._devices_url(), json=devices, status=200)
+        mocked_responses.add(responses.GET, self._boiler_url(), json=state, status=200)
+
+        result = tado_unauthenticated.get_boiler_state(self.AUTH_KEY)
+
+        assert result == state
+
+    def test_get_boiler_state_no_bridge_returns_none(self, tado_unauthenticated, mocked_responses):
+        devices = [{"deviceType": "GW03", "serialNo": "GW0000"}]
+        mocked_responses.add(responses.GET, self._devices_url(), json=devices, status=200)
+
+        assert tado_unauthenticated.get_boiler_state(self.AUTH_KEY) is None
