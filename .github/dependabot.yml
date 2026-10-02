@@ -7,3 +7,30 @@ updates:
       interval: daily
       time: "04:00"
     open-pull-requests-limit: 10
+    groups:
+      uv-minor-patch:
+        update-types:
+          - minor
+          - patch
+  - package-ecosystem: pre-commit
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "04:00"
+    open-pull-requests-limit: 10
+    groups:
+      pre-commit-minor-patch:
+        update-types:
+          - minor
+          - patch
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: daily
+      time: "04:00"
+    open-pull-requests-limit: 10
+    groups:
+      github-actions-minor-patch:
+        update-types:
+          - minor
+          - patch
