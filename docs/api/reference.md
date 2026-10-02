@@ -60,3 +60,4 @@ hide:
         - get_energy_insights
         - set_heating_system_boiler
         - set_zone_order
+        - get_rate_limit_info

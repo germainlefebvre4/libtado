@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 
-.PHONY: help install-test test test-live test-all lint
+.PHONY: help install-test test test-live test-all lint docs
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-15s\033[0m %s\n", $$1, $$2}'
@@ -19,3 +19,6 @@ test-all: install-test ## Run the full test suite, mocked and live
 
 lint: ## Run ruff
 	uv run --group lint ruff check .
+
+docs: ## Serve the documentation locally (http://127.0.0.1:8000)
+	uv run --group docs mkdocs serve

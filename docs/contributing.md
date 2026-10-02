@@ -73,7 +73,7 @@ uv run python generate_json_schemas.py
 The documentation is written in markdown and can be found in the `docs/` folder. It is built with `mkdocs` and `mkdocs-material`.
 
 ```bash
-uv run mkdocs serve
+make docs
 ```
 
 ## Validation gate
