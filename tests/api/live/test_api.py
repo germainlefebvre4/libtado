@@ -62,13 +62,13 @@ class TestApi:
 
         assert isinstance(response, dict)
 
-    def test_get_home_id(self):
+    def test_get_home_id(self, tado):
         response = tado.get_home_id()
 
         assert isinstance(response, int)
 
-    def get_installations(self):
-        response = tado.get_home()
+    def test_get_installations(self, tado):
+        response = tado.get_installations()
 
         assert isinstance(response, list)
 

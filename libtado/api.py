@@ -596,7 +596,6 @@ class Tado:
     elif method == 'GET':
       return call_get(url).json()
 
-
   def get_boiler_state(self, authKey):
     """
     Parameters:
@@ -636,9 +635,9 @@ class Tado:
         ```
     """
     devices = self.get_devices()
-    bridge_serial = [x for x in devices if x['deviceType'] == 'IB01'][0]['serialNo']
+    bridge_serial = next((x['serialNo'] for x in devices if x['deviceType'] == 'IB01'), None)
     if not bridge_serial:
-        return None
+      return None
     data = self._api_call('homeByBridge/%s/boilerWiringInstallationState?authKey=%s' % (bridge_serial, authKey))
     return data
 

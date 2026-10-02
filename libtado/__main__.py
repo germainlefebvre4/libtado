@@ -53,7 +53,10 @@ def capabilities(tado, zone):
 @click.pass_obj
 def ch_flow_temp(tado, authkey):
   """Display the current CH flow temperature (where applicable)."""
-  temp = tado.get_boiler_state(authkey)['boiler']['outputTemperature']
+  state = tado.get_boiler_state(authkey)
+  if state is None:
+    raise click.ClickException('No boiler state available (no bridge found).')
+  temp = state['boiler']['outputTemperature']
   click.echo('Temperature: %s (%s)' % (temp['celsius'], temp['timestamp'],))
 
 

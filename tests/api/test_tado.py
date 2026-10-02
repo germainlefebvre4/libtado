@@ -608,3 +608,9 @@ class TestGetBoilerState:
         result = tado_unauthenticated.get_boiler_state(self.AUTH_KEY)
 
         assert result == state
+
+    def test_get_boiler_state_no_bridge_returns_none(self, tado_unauthenticated, mocked_responses):
+        devices = [{"deviceType": "GW03", "serialNo": "GW0000"}]
+        mocked_responses.add(responses.GET, self._devices_url(), json=devices, status=200)
+
+        assert tado_unauthenticated.get_boiler_state(self.AUTH_KEY) is None
