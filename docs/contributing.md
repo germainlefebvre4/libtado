@@ -16,6 +16,7 @@ This library is tested with following python versions:
 - `3.11`
 - `3.12`
 - `3.13`
+- `3.14`
 
 The default/recommended dev environment uses python `3.13`.
 
