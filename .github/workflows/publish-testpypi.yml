@@ -1,0 +1,33 @@
+---
+name: Publish to TestPyPI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          python-version: '3.13'
+
+      - name: Update package version
+        run: |
+          base_version=$(jq -r '."."' .release-please-manifest.json)
+          bump_version="${base_version}.dev${{ github.run_id }}"
+          echo "bump_version: $bump_version" >> $GITHUB_STEP_SUMMARY
+          echo $bump_version
+          uv version $bump_version
+
+      - name: Build and publish
+        env:
+          UV_PUBLISH_TOKEN: ${{ secrets.PYPI_TEST_TOKEN }}
+        run: |
+          uv build
+          uv publish \
+            --publish-url https://test.pypi.org/legacy/ \
+            --check-url https://test.pypi.org/simple/
