@@ -101,3 +101,6 @@ output/
 # Intellij
 .idea/
 *.iml
+
+# Graphify
+/graphify-out/
