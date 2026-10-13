@@ -5,7 +5,7 @@ import pytest
 import requests
 import responses
 
-from libtado.api import DeviceActivationStatus, Tado
+from libtado.api import DeviceActivationStatus, Tado, TadoAuthError
 
 TOKEN_URL = "https://login.tado.com/oauth2/token"
 DEVICE_AUTHORIZE_URL = "https://login.tado.com/oauth2/device_authorize"
@@ -104,7 +104,7 @@ class TestLoginDeviceFlow:
     def test_raises_when_already_started(self, tado_unauthenticated, mocked_responses):
         tado_unauthenticated.device_activation_status = DeviceActivationStatus.PENDING
 
-        with pytest.raises(Exception, match="started already"):
+        with pytest.raises(TadoAuthError, match="started already"):
             tado_unauthenticated.login_device_flow()
 
 
@@ -130,11 +130,11 @@ class TestCheckDeviceActivation:
 
         assert tado.check_device_activation() is False
 
-    def test_expired_token_exits(self, tado_unauthenticated, mocked_responses):
+    def test_expired_token_raises_auth_error(self, tado_unauthenticated, mocked_responses):
         tado = self._prepare(tado_unauthenticated)
         mocked_responses.add(responses.POST, TOKEN_URL, json={"error": "expired_token"}, status=400)
 
-        with pytest.raises(SystemExit):
+        with pytest.raises(TadoAuthError):
             tado.check_device_activation()
 
     def test_generic_http_error_raises(self, tado_unauthenticated, mocked_responses):
@@ -149,7 +149,7 @@ class TestDeviceActivation:
     def test_raises_when_not_started(self, tado_unauthenticated):
         tado_unauthenticated.device_activation_status = DeviceActivationStatus.NOT_STARTED
 
-        with pytest.raises(Exception, match="not yet started"):
+        with pytest.raises(TadoAuthError, match="not yet started"):
             tado_unauthenticated.device_activation()
 
     def test_polls_until_activated(self, tado_unauthenticated, mocked_responses):
