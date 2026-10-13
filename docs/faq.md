@@ -31,3 +31,32 @@ This can take up to **24 hours**.
 The limit will be higher, but not unlimited, if you have the Auto Assist / AI Assist subscription.
 
 You can use the function [`get_rate_limit_info`](./api/reference.md#libtado.api.Tado.get_rate_limit_info) to see how many API calls you still have left.
+
+### How does libtado handle rate limiting?
+
+Tado documents a quota of 100 calls per day for standard accounts and 20,000
+per day with Auto-/AI-Assist. When the API answers with HTTP 429:
+
+- if the server advertises a short wait (the `t=` value of the `ratelimit`
+  header, or `Retry-After`), libtado sleeps and resends the request, up to
+  `max_retries` times (default `2`) and only if the wait is at most
+  `max_retry_wait` seconds (default `30`);
+- otherwise (typically an exhausted daily quota) it raises
+  `TadoRateLimitError` immediately; its `retry_after` attribute holds the
+  advertised wait in seconds, or `None`.
+
+Both options are constructor arguments; `max_retries=0` disables retrying:
+
+``` python
+from libtado.api import Tado, TadoRateLimitError
+
+api = Tado(token_file_path="tado-credentials.json", max_retries=1, max_retry_wait=10)
+try:
+    api.get_zones()
+except TadoRateLimitError as e:
+    print(f"Rate limited, retry in {e.retry_after} seconds")
+```
+
+`TadoRateLimitError` is a `TadoHTTPError`, which is also a
+`requests.exceptions.HTTPError`, so existing handlers keep working. Only HTTP
+429 is retried; other errors are reported as is.

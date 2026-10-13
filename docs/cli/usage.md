@@ -43,3 +43,11 @@ Commands:
     zone                Get the current state of a zone.
     zones               Get configuration information about all zones.
 ```
+
+## Login and errors
+
+When no valid token is available, the CLI prints the login URL and the time
+until which it is valid, then waits for you to log in.
+
+API errors are shown as a single line with exit status 1 (no stack trace),
+e.g. `Error: Tado API rate limit reached. Retry in about 3600 seconds.`

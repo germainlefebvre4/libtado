@@ -169,10 +169,10 @@ class TestApiCallMutations:
         body = json.loads(mocked_responses.calls[0].request.body)
         assert body == blocks
 
-    def test_set_schedule_blocks_invalid_schedule(self, tado_unauthenticated, mocked_responses, capsys):
-        result = tado_unauthenticated.set_schedule_blocks(10, 99, [])
+    def test_set_schedule_blocks_invalid_schedule(self, tado_unauthenticated, mocked_responses):
+        with pytest.raises(ValueError):
+            tado_unauthenticated.set_schedule_blocks(10, 99, [])
 
-        assert result is None
         assert len(mocked_responses.calls) == 0
 
     def test_set_schedule_block_by_day_type_delegates(self, tado_unauthenticated, mocked_responses):
@@ -185,7 +185,8 @@ class TestApiCallMutations:
             status=200,
         )
 
-        result = tado_unauthenticated.set_schedule_block_by_day_type(10, 0, "MONDAY_TO_SUNDAY", blocks)
+        with pytest.warns(DeprecationWarning):
+            result = tado_unauthenticated.set_schedule_block_by_day_type(10, 0, "MONDAY_TO_SUNDAY", blocks)
 
         assert result == [response_payload]
 

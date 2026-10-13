@@ -40,14 +40,68 @@ License:
 
 import enum
 import json
+import logging
 import os
-import sys
+import re
+import time
+import warnings
 from datetime import timedelta, datetime, timezone
+from email.utils import parsedate_to_datetime
 from pathlib import Path
 from urllib.parse import urlencode
 
 import requests
-import time
+
+from libtado.exceptions import (  # noqa: F401  (re-exported)
+  TadoAuthError,
+  TadoError,
+  TadoHTTPError,
+  TadoRateLimitError,
+  error_from_response,
+)
+
+logger = logging.getLogger("libtado")
+
+
+def _parse_retry_wait(headers) -> float:
+  """
+  Extract how long the server asks us to wait after an HTTP 429.
+
+  The `t=` (seconds until reset) of the `ratelimit` header is used first, as
+  documented by Tado; `Retry-After` (integer seconds or HTTP-date) is the
+  fallback.
+
+  :param headers: Response headers (case-insensitive mapping).
+  :return: Seconds to wait, or `None` if neither header gives a usable value.
+  """
+  ratelimit = headers.get('ratelimit')
+  if ratelimit:
+    match = re.search(r';\s*t\s*=\s*(\d+)', ratelimit)
+    if match:
+      return float(match.group(1))
+
+  retry_after = headers.get('Retry-After')
+  if retry_after:
+    retry_after = retry_after.strip()
+    if retry_after.isdigit():
+      return float(retry_after)
+    try:
+      date = parsedate_to_datetime(retry_after)
+    except (TypeError, ValueError):
+      return None
+    if date.tzinfo is None:
+      date = date.replace(tzinfo=timezone.utc)
+    return max(0.0, (date - datetime.now(timezone.utc)).total_seconds())
+  return None
+
+
+def _raise_for_status(response: requests.Response) -> None:
+  """Raise `TadoHTTPError` (`TadoRateLimitError` for 429) if `response` is not a success."""
+  retry_after = _parse_retry_wait(response.headers) if response.status_code == 429 else None
+  error = error_from_response(response, retry_after=retry_after)
+  if error is not None:
+    raise error
+
 
 class RateLimitInfo:
   """Tracks the Tado API rate limit status parsed from the `ratelimit` and `ratelimit-policy` response headers: how many calls are granted per period, how many remain, and when the limit resets."""
@@ -154,8 +208,11 @@ class Tado:
   refresh_token            = None
   timeout                  = 15
   user_code                = None
+  max_retries              = 2
+  max_retry_wait           = 30
+  _http_session            = None
 
-  def __init__(self, saved_refresh_token: str = None, token_file_path: str = None, home_id: int = None):
+  def __init__(self, saved_refresh_token: str = None, token_file_path: str = None, home_id: int = None, *, max_retries: int = 2, max_retry_wait: float = 30):
     """
     Create a Tado API client and establish authentication.
 
@@ -169,9 +226,14 @@ class Tado:
     Parameters:
       saved_refresh_token (str): A previously obtained refresh token to resume a session with, bypassing the device-code login flow.
       token_file_path (str): Path to a JSON file used to persist and load the refresh token across runs.
+      home_id (int): ID of the home to use; saves an API call to `/me` when given.
+      max_retries (int): How many times a request answered with HTTP 429 is resent. `0` disables retrying.
+      max_retry_wait (float): Longest wait (seconds) the client accepts to sleep before a retry. If the server asks for more, `TadoRateLimitError` is raised immediately.
     """
     self.token_file_path = token_file_path
     self.id = home_id
+    self.max_retries = max_retries
+    self.max_retry_wait = max_retry_wait
 
     if (saved_refresh_token or self.load_token()) and self.refresh_auth(
             refresh_token=saved_refresh_token, force_refresh=True
@@ -281,12 +343,12 @@ class Tado:
       'grant_type'    : 'refresh_token',
       'refresh_token' : refresh_token or self.refresh_token
     }
-    response = requests.post(url, data=data, timeout=self.timeout)
+    response = self._get_session().post(url, data=data, timeout=self.timeout)
 
     if response.status_code != 200 and force_refresh:
       return False
     else:
-      response.raise_for_status()
+      _raise_for_status(response)
 
     self.set_oauth_token(response.json())
     return True
@@ -317,24 +379,25 @@ class Tado:
 
     Requests a device code from the Tado API, stores it on
     `self.device_code`, `self.user_code`, `self.device_verification_url`
-    and `self.device_verification_check_interval`, and prints the URL the
-    user must visit to log in.
+    and `self.device_verification_check_interval`, and logs (INFO, `libtado`
+    logger) the URL the user must visit to log in. The URL is also available
+    from `get_device_verification_url()`.
 
     Raises:
-      Exception: If the device flow has already been started (`self.device_activation_status` is not `NOT_STARTED`).
+      TadoAuthError: If the device flow has already been started (`self.device_activation_status` is not `NOT_STARTED`).
 
     Returns:
       (DeviceActivationStatus): `PENDING`, indicating the user still needs to complete login in their browser.
     """
     if self.device_activation_status != DeviceActivationStatus.NOT_STARTED:
-      raise Exception("The device has been started already")
+      raise TadoAuthError("The device has been started already")
 
     url='https://login.tado.com/oauth2/device_authorize'
     headers = { 'User-Agent': 'python/libtado', 'Referer': 'https://app.tado.com/' }
     data = { 'client_id'     : self.client_id_device,
              'scope'         : 'offline_access' }
-    request = requests.post(url, headers=headers, data=data, timeout=self.timeout)
-    request.raise_for_status()
+    request = self._get_session().post(url, headers=headers, data=data, timeout=self.timeout)
+    _raise_for_status(request)
     response = request.json()
 
     user_code = urlencode({'user_code': response['user_code']})
@@ -345,15 +408,15 @@ class Tado:
     self.device_verification_url = visit_url
 
 
-    print("Please visit the following URL in your Web browser to log in to your Tado account:", visit_url)
+    logger.info("Please visit the following URL in your Web browser to log in to your Tado account: %s", visit_url)
 
     expires_in_seconds = response["expires_in"]
     self.device_verification_url_expires_at = datetime.now(timezone.utc) + timedelta(seconds=expires_in_seconds)
     # print the expiry time in the user's local timezone.
     device_verification_url_expires_at_local_tz = datetime.now() + timedelta(seconds=expires_in_seconds)
 
-    print(
-      "Waiting for you to complete logging in. You have until",
+    logger.info(
+      "Waiting for you to complete logging in. You have until %s",
       device_verification_url_expires_at_local_tz.strftime("%Y-%m-%d %H:%M:%S"),
     )
 
@@ -368,13 +431,13 @@ class Tado:
     `set_oauth_token()`.
 
     Raises:
-      Exception: If the verification URL has expired before the user completed login.
+      TadoAuthError: If the verification URL or device code has expired before the user completed login.
 
     Returns:
       (bool): `True` if login has been completed and an access token was obtained, `False` if the user has not yet authorized the device (call again to keep polling).
     """
     if self.device_verification_url_expires_at is not None and datetime.timestamp(datetime.now(timezone.utc)) > datetime.timestamp(self.device_verification_url_expires_at):
-      raise Exception("User took too long to enter key")
+      raise TadoAuthError("User took too long to enter key")
 
     # Await the desired interval, before polling the API again
     time.sleep(self.device_verification_check_interval)
@@ -386,25 +449,20 @@ class Tado:
       'device_code': self.device_code,
       'grant_type': "urn:ietf:params:oauth:grant-type:device_code",
     }
-    request = requests.post(url, headers=headers, data=data, timeout=self.timeout)
+    request = self._get_session().post(url, headers=headers, data=data, timeout=self.timeout)
     if request.status_code == 200:
       self.set_oauth_token(request.json())
-      print("")
+      logger.info("Login to Tado completed.")
       return True
 
     # The user has not yet authorized the device, let's continue
     if request.status_code == 400 and request.json()['error'] == 'authorization_pending':
-      print(".", end="")
       return False
 
     if request.status_code == 400 and request.json()['error'] == 'expired_token':
-      print("")
-      print("Unfortunately, you took too long to log in to Tado. Please try running your script again and log in with the new link shown on screen.")
-      print("The program will now exit.")
-      sys.exit(1)
+      raise TadoAuthError("Unfortunately, you took too long to log in to Tado. Please try again and log in with the new link.")
 
-    print("")
-    request.raise_for_status()
+    _raise_for_status(request)
 
   def device_activation(self) -> None:
     """
@@ -414,10 +472,10 @@ class Tado:
     then finalizes the session with `device_ready()`.
 
     Raises:
-      Exception: If `login_device_flow()` has not been called yet (`self.device_activation_status` is `NOT_STARTED`).
+      TadoAuthError: If `login_device_flow()` has not been called yet (`self.device_activation_status` is `NOT_STARTED`).
     """
     if self.device_activation_status == DeviceActivationStatus.NOT_STARTED:
-      raise Exception("The device flow has not yet started")
+      raise TadoAuthError("The device flow has not yet started")
 
     while True:
       if self.check_device_activation():
@@ -439,162 +497,73 @@ class Tado:
     self.device_verification_url = None
     self.device_activation_status = DeviceActivationStatus.COMPLETED
 
+  def _get_session(self) -> requests.Session:
+    """Return this instance's HTTP session, creating it on first use."""
+    if self._http_session is None:
+      self._http_session = requests.Session()
+    return self._http_session
+
+  def _request(self, base_url, cmd, data=None, method='GET'):
+    """
+    Send one request to a Tado host and decode the response.
+
+    Refreshes the access token if needed, records the rate-limit headers of
+    every response, retries HTTP 429 when the advertised wait is short (see
+    `max_retries` / `max_retry_wait`), and maps failures to `TadoHTTPError`.
+
+    Returns:
+      The decoded JSON body, or `None` for an HTTP 204 / empty body, or when a PUT/POST is given no data.
+    """
+    self.refresh_auth()
+    url = '%s/%s' % (base_url, cmd)
+    headers = dict(self.access_headers)
+    body = None
+    if method in ('PUT', 'POST'):
+      if not data:
+        logger.warning("%s %s called without data: nothing was sent.", method, url)
+        return None
+      headers.update(self.json_content)
+      body = json.dumps(data)
+
+    retries = 0
+    while True:
+      r = self._get_session().request(method, url, headers=headers, data=body, timeout=self.timeout)
+      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
+
+      if r.status_code == 429:
+        wait = _parse_retry_wait(r.headers)
+        if wait is not None and wait <= self.max_retry_wait and retries < self.max_retries:
+          retries += 1
+          logger.warning("Tado API rate limit hit on %s %s; retrying in %.0f s (%d/%d).",
+                         method, url, wait, retries, self.max_retries)
+          time.sleep(wait)
+          continue
+        raise error_from_response(r, retry_after=wait)
+
+      _raise_for_status(r)
+      if r.status_code == 204 or not r.content:
+        return None
+      return r.json()
+
   def _api_call(self, cmd, data=False, method='GET'):
     """Perform an API call."""
-    def call_delete(url):
-      r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-    def call_put(url, data):
-      r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-    def call_get(url):
-      r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-    def call_post(url, data):
-      r = requests.post(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-
-    self.refresh_auth()
-    url = '%s/%s' % (self.api, cmd)
-    if method == 'DELETE':
-      res = call_delete(url)
-      if res.status_code == 204:
-        return None
-      return res.json()
-    elif method == 'PUT' and data:
-      res = call_put(url, data)
-      if res.status_code == 204:
-        return None
-      return res.json()
-    elif method == 'GET':
-      return call_get(url).json()
-    elif method == 'POST':
-      return call_post(url, data).json()
+    return self._request(self.api, cmd, data, method)
 
   def _api_acme_call(self, cmd, data=False, method='GET'):
     """Perform an API call."""
-    def call_delete(url):
-      r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-    def call_put(url, data):
-      r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-    def call_get(url):
-      r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-
-    self.refresh_auth()
-    url = '%s/%s' % (self.api_acme, cmd)
-    if method == 'DELETE':
-      return call_delete(url)
-    elif method == 'PUT' and data:
-      return call_put(url, data).json()
-    elif method == 'GET':
-      return call_get(url).json()
+    return self._request(self.api_acme, cmd, data, method)
 
   def _api_minder_call(self, cmd, data=False, method='GET'):
     """Perform an API call."""
-    def call_delete(url):
-      r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-    def call_put(url, data):
-      r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-    def call_get(url):
-      r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-
-    self.refresh_auth()
-    url = '%s/%s' % (self.api_minder, cmd)
-    if method == 'DELETE':
-      return call_delete(url)
-    elif method == 'PUT' and data:
-      return call_put(url, data).json()
-    elif method == 'GET':
-      return call_get(url).json()
-
+    return self._request(self.api_minder, cmd, data, method)
 
   def _api_energy_insights_call(self, cmd, data=False, method='GET'):
     """Perform an API call."""
-    def call_delete(url):
-      r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-    def call_put(url, data):
-      r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-    def call_get(url):
-      r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-    def call_post(url, data):
-      r = requests.post(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-
-    self.refresh_auth()
-    url = '%s/%s' % (self.api_energy_insights, cmd)
-    if method == 'DELETE':
-      return call_delete(url)
-    elif method == 'PUT' and data:
-      return call_put(url, data).json()
-    elif method == 'GET':
-      return call_get(url).json()
-    elif method == 'POST' and data:
-      return call_post(url, data).json()
-
+    return self._request(self.api_energy_insights, cmd, data, method)
 
   def _api_energy_bob_call(self, cmd, data=False, method='GET'):
     """Perform an API call."""
-    def call_delete(url):
-      r = requests.delete(url, headers=self.access_headers, timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-    def call_put(url, data):
-      r = requests.put(url, headers={**self.access_headers, **self.json_content}, data=json.dumps(data), timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-    def call_get(url):
-      r = requests.get(url, headers=self.access_headers, timeout=self.timeout)
-      r.raise_for_status()
-      self.ratelimit_info = self._update_rate_limit_info(r, self.ratelimit_info)
-      return r
-
-    self.refresh_auth()
-    url = '%s/%s' % (self.api_energy_bob, cmd)
-    if method == 'DELETE':
-      return call_delete(url)
-    elif method == 'PUT' and data:
-      return call_put(url, data).json()
-    elif method == 'GET':
-      return call_get(url).json()
+    return self._request(self.api_energy_bob, cmd, data, method)
 
   def get_boiler_state(self, authKey):
     """
@@ -1389,65 +1358,68 @@ class Tado:
 
     Returns:
       (list): The new configuration.
+
+    Raises:
+      ValueError: If `schedule` is not 0, 1 or 2.
     """
 
-    if (schedule in [0, 1, 2]):
-      possible_day_types = [
-          [
-              "MONDAY_TO_SUNDAY"
-          ],
-          [
-              "MONDAY_TO_FRIDAY",
-              "SATURDAY",
-              "SUNDAY"
-          ],
-          [
-              "MONDAY",
-              "TUESDAY",
-              "WEDNESDAY",
-              "THURSDAY",
-              "FRIDAY",
-              "SATURDAY",
-              "SUNDAY"
-          ]
-      ]
+    if schedule not in [0, 1, 2]:
+      raise ValueError("'schedule' must have value 0, 1 or 2.")
 
-      blocks_grouped = {}
-      for block in blocks:
-          day_type = block['dayType']
-          if day_type not in blocks_grouped:
-              blocks_grouped[day_type] = []
-          blocks_grouped[day_type].append(block)
+    possible_day_types = [
+        [
+            "MONDAY_TO_SUNDAY"
+        ],
+        [
+            "MONDAY_TO_FRIDAY",
+            "SATURDAY",
+            "SUNDAY"
+        ],
+        [
+            "MONDAY",
+            "TUESDAY",
+            "WEDNESDAY",
+            "THURSDAY",
+            "FRIDAY",
+            "SATURDAY",
+            "SUNDAY"
+        ]
+    ]
 
-      inapplicable_day_types = []
-      blocks_by_day = []
-      for day_type in possible_day_types[schedule]:
-          if day_type in blocks_grouped:
-              blocks_by_day.append({
-                  'dayType': day_type,
-                  'blocks_for_day': blocks_grouped[day_type]
-              })
-      used_day_types = {b['dayType'] for b in blocks_by_day}
-      for day_type in blocks_grouped:
-          if day_type not in used_day_types:
-              inapplicable_day_types.append(day_type)
+    blocks_grouped = {}
+    for block in blocks:
+        day_type = block['dayType']
+        if day_type not in blocks_grouped:
+            blocks_grouped[day_type] = []
+        blocks_grouped[day_type].append(block)
 
-      httpresponses = []
-      for day in blocks_by_day:
-          day_type = day['dayType']
-          payload = day['blocks_for_day']
-          if not payload:
-              continue
+    inapplicable_day_types = []
+    blocks_by_day = []
+    for day_type in possible_day_types[schedule]:
+        if day_type in blocks_grouped:
+            blocks_by_day.append({
+                'dayType': day_type,
+                'blocks_for_day': blocks_grouped[day_type]
+            })
+    used_day_types = {b['dayType'] for b in blocks_by_day}
+    for day_type in blocks_grouped:
+        if day_type not in used_day_types:
+            inapplicable_day_types.append(day_type)
 
-          httpresponses.append(self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' %
-                                (self.id, zone, schedule, day_type), payload, method='PUT'))
+    httpresponses = []
+    for day in blocks_by_day:
+        day_type = day['dayType']
+        payload = day['blocks_for_day']
+        if not payload:
+            continue
 
-      if (len(inapplicable_day_types) > 0):
-          message = f"Not every 'day_type' was compatible with schedule {schedule}. The following 'day_type's were not set: {', '.join(inapplicable_day_types)}."
-          print(message)
-      return httpresponses
-    else:
-      print("Operation failed: 'schedule' must have value 0, 1 or 2.")
+        httpresponses.append(self._api_call('homes/%i/zones/%i/schedule/timetables/%i/blocks/%s' %
+                              (self.id, zone, schedule, day_type), payload, method='PUT'))
+
+    if (len(inapplicable_day_types) > 0):
+        message = f"Not every 'day_type' was compatible with schedule {schedule}. The following 'day_type's were not set: {', '.join(inapplicable_day_types)}."
+        logger.warning(message)
+    return httpresponses
 
 
   def get_schedule_block_by_day_type(self, zone, schedule, day_type):
@@ -1488,7 +1460,7 @@ class Tado:
 
   def set_schedule_block_by_day_type(self, zone, schedule, day_type, blocks):
     """Deprecated: use `set_schedule_blocks()` instead."""
-    print("This method has been depreciated. Use 'set_schedule_blocks()' instead.")
+    warnings.warn("set_schedule_block_by_day_type() is deprecated. Use 'set_schedule_blocks()' instead.", DeprecationWarning, stacklevel=2)
     return self.set_schedule_blocks(zone, schedule, blocks)
 
   def get_state(self, zone):
@@ -3405,7 +3377,7 @@ class Tado:
     :param previous_info: Prevoius rate limit info, used in case the response did not include the correct headers.
     :return: tado rate limit info
     """
-    if not r or not r.headers:
+    if r is None or not r.headers:
       if previous_info:
         # keep previous state if this response did not include any headers at all.
         return previous_info
