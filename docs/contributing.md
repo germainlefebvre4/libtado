@@ -88,9 +88,24 @@ uv run python generate_json_schemas.py
 
 The pull request checking pipeline will run the same commands on several python versions to ensure the compatibility of the library.
 
-## Clean the releases on PyPi
+## Release process
 
-Every commit on feature branches will generate a new release on PyPi Test to ensure everything is working fine on release management.
+Releases are managed by [Release Please](https://github.com/googleapis/release-please).
+
+Pull requests are squash-merged, so the **pull request title becomes the commit message on `master`**.
+It must follow the Conventional Commits format (`feat: …`, `fix: …`, `perf: …`, `chore: …`, etc.), which is checked by the `PR title` workflow.
+Only `feat`, `fix`, `perf` and breaking changes (`!` or `BREAKING CHANGE`) trigger a release.
+
+On every push to `master`, Release Please opens or updates a release pull request that bumps the version in `pyproject.toml` and `uv.lock` and updates `CHANGELOG.md`.
+Merging that pull request creates the `X.Y.Z` tag and the GitHub Release, then publishes the package on PyPI.
+
+## Test the publication on PyPi Test
+
+Publication on PyPi Test is manual.
+Run the `Publish to TestPyPI` workflow (`workflow_dispatch`) from any branch.
+The published version is `<last release>.dev<run_id>`, for example `4.3.0.dev1234567890`.
+
+## Clean the releases on PyPi
 
 Only admins can do this part.
 
