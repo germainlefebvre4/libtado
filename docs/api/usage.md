@@ -18,7 +18,7 @@ are handled. See the [FAQ](../faq.md) for details.
 All errors raised by libtado derive from `libtado.exceptions.TadoError`
 (also importable from `libtado.api`):
 
-```
+```raw
 TadoError
  +-- TadoAuthError       device login flow problems (started twice, code expired, ...)
  +-- TadoHTTPError       non-success HTTP status; has .status_code and .response
