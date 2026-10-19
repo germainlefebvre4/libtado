@@ -5,13 +5,29 @@ import datetime
 import time
 from dateutil.parser import parse
 from dateutil import tz
+import requests
 import libtado.api
 from libtado.cli_utils import MutuallyExclusiveOption
+from libtado.exceptions import TadoError, TadoRateLimitError
 
 
 CONTEXT_SETTINGS = dict(help_option_names=['-h', '--help'])
 
-@click.group(context_settings=CONTEXT_SETTINGS)
+
+class TadoGroup(click.Group):
+  """Click group that turns library errors into one-line CLI errors (exit code 1)."""
+
+  def invoke(self, ctx):
+    try:
+      return super().invoke(ctx)
+    except TadoRateLimitError as e:
+      wait = ' Retry in about %d seconds.' % e.retry_after if e.retry_after is not None else ''
+      raise click.ClickException('Tado API rate limit reached.%s' % wait) from e
+    except (TadoError, requests.RequestException) as e:
+      raise click.ClickException(str(e) or e.__class__.__name__) from e
+
+
+@click.group(cls=TadoGroup, context_settings=CONTEXT_SETTINGS)
 @click.option('--refresh-token', '-t', required=False, envvar='TADO_REFRESH_TOKEN', cls=MutuallyExclusiveOption, help='A Tado refresh token, retrieved from prior authentication with Tado', mutually_exclusive=["credentials_file"])
 @click.option('--credentials-file', '-f', required=False, envvar='TADO_CREDENTIALS_FILE', cls=MutuallyExclusiveOption, help='Full path to a file in which the Tado credentials will be stored and read from', mutually_exclusive=["refresh_token"])
 @click.option('--home-id', '-i', required=False, envvar='TADO_HOME_ID', help='The ID of your Tado Home, which you can retrieve using the \'tado home\' command. (optional)')
@@ -37,6 +53,10 @@ def main(ctx, refresh_token, credentials_file, home_id):
   ctx.obj = libtado.api.Tado(refresh_token, credentials_file, home_id_parsed)
   status = ctx.obj.get_device_activation_status()
   if status == "PENDING":
+      expires_at = ctx.obj.device_verification_url_expires_at
+      click.echo('Please visit the following URL in your Web browser to log in to your Tado account: %s' % ctx.obj.get_device_verification_url())
+      if expires_at is not None:
+          click.echo('Waiting for you to complete logging in. You have until %s' % expires_at.astimezone().strftime('%Y-%m-%d %H:%M:%S'))
       ctx.obj.device_activation()
 
 

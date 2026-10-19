@@ -3,10 +3,12 @@
 config:
   line-length: false
   no-inline-html: false
-  no-multiple-blanks: false
 
 fix: false
 
 globs:
   - "*.md"
   - "docs/*.md"
+
+ignores:
+  - "CHANGELOG.md"

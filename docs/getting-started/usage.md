@@ -38,13 +38,13 @@ Check out [all available API methods](../api/usage.md) to learn what you can to 
 
 ## Optional: Saving on API requests by specifying your Home ID
 
-Each Tado account has a Home, which by itself has a unique ID. 
+Each Tado account has a Home, which by itself has a unique ID.
 This number is needed to retrieve any details from your heating system.
 It should never change, unless moving and setting up a new system on your account.
 
-By default, libtado makes a request to the `/me` API to retrieve it. 
-Up until September 2025, this was the preferred method, as the API had unlimited use, 
-and this made it very easy to get started. 
+By default, libtado makes a request to the `/me` API to retrieve it.
+Up until September 2025, this was the preferred method, as the API had unlimited use,
+and this made it very easy to get started.
 But with the strict rate limits which Tado now has introduced, this can lead to unnecessary API calls.
 
 If creating `tado.api()` objects often, such as in the CLI or commandline scripts,
