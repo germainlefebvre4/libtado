@@ -47,15 +47,15 @@ per day with Auto-/AI-Assist. When the API answers with HTTP 429:
 
 Both options are constructor arguments; `max_retries=0` disables retrying:
 
-``` python
-from libtado.api import Tado, TadoRateLimitError
+    ```python
+    from libtado.api import Tado, TadoRateLimitError
 
-api = Tado(token_file_path="tado-credentials.json", max_retries=1, max_retry_wait=10)
-try:
-    api.get_zones()
-except TadoRateLimitError as e:
-    print(f"Rate limited, retry in {e.retry_after} seconds")
-```
+    api = Tado(token_file_path="tado-credentials.json", max_retries=1, max_retry_wait=10)
+    try:
+        api.get_zones()
+    except TadoRateLimitError as e:
+        print(f"Rate limited, retry in {e.retry_after} seconds")
+    ```
 
 `TadoRateLimitError` is a `TadoHTTPError`, which is also a
 `requests.exceptions.HTTPError`, so existing handlers keep working. Only HTTP
